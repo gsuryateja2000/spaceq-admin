@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SpaceQ Admin Portal</title>
+    <!-- Tailwind CSS from CDN for styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- React and ReactDOM from CDNs -->
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <!-- Babel for JSX compilation in the browser -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <style>
+        /* Custom styles for dark theme and layout */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #1a202c; /* Dark background */
+            color: #e2e8f0; /* Light text color */
+        }
+        .modal-overlay {
+            background-color: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(8px);
+        }
+        .room-layout {
+            display: grid;
+            grid-template-columns: repeat(10, 1fr);
+            gap: 0.5rem;
+        }
+        .seat {
+            width: 2.5rem;
+            height: 2.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 0.5rem;
+            transition: all 0.2s ease-in-out;
+            color: white;
+            font-weight: 600;
+            font-size: 0.75rem;
+            cursor: pointer;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        // Helper function to convert base64 to an ArrayBuffer
+        function base64ToArrayBuffer(base64) {
+            const binaryString = atob(base64);
+            const len = binaryString.length;
+            const bytes = new Uint8Array(len);
+            for (let i = 0; i < len; i++) {
+                bytes[i] = binaryString.charCodeAt(i);
+            }
+            return bytes.buffer;
+        }
+
+        // Helper function to convert PCM audio data to a WAV blob
+        function pcmToWav(pcm16, sampleRate) {
+            const dataLength = pcm16.length * 2; // 16-bit PCM
+            const buffer = new ArrayBuffer(44 + dataLength);
+            const view = new DataView(buffer);
+
+            // WAV header creation
+            let offset = 0;
+            const writeString = (str) => {
+                for (let i = 0; i < str.length; i++) {
+                    view.setUint8(offset + i, str.charCodeAt(i));
+                }
+                offset += str.length;
+            };
+            const writeUint32 = (val) => {
+                view.setUint32(offset, val, true);
+                offset += 4;
+            };
+            const writeUint16 = (val) => {
+                view.setUint16(offset, val, true);
+                offset += 2;
+            };
+
+            writeString('RIFF');
+            writeUint32(36 + dataLength);
+            writeString('WAVE');
+            writeString('fmt ');
+            writeUint32(16);
+            writeUint16(1); // AudioFormat: 1 for PCM
+            writeUint16(1); // NumChannels: 1
+            writeUint32(sampleRate);
+            writeUint32(sampleRate * 2); // ByteRate
+            writeUint16(2); // BlockAlign
+            writeUint16(16); // BitsPerSample
+            writeString('data');
+            writeUint32(dataLength);
+
+            // Write PCM data
+            for (let i = 0; i < pcm16.length; i++) {
+                view.setInt16(offset, pcm16[i], true);
+                offset += 2;
+            }
+
+            return new Blob([view], { type: 'audio/wav' });
+        }
+
+        // Main React component for the admin portal
+        const App = () => {
+            // Function to generate the initial seat layout for both rooms
+            const generateSeats = (roomName) => {
+                const seatLayout = [];
+                let rows = [];
+                let seatsPerRow = 0;
+
+                if (roomName === 'Room1') {
+                    rows = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'];
+                    seatsPerRow = 10;
+                } else if (roomName === 'Room2') {
+                    rows = ['A', 'B', 'C', 'D'];
+                    seatsPerRow = 10;
+                }
+
+                for (let row of rows) {
+                    for (let i = 1; i <= seatsPerRow; i++) {
+                        const seatId = `${roomName}-${row}${i}`;
+                        seatLayout.push({
+                            id: seatId,
+                            room: roomName,
+                            row: row,
+                            status: 'available', // 'available' or 'booked'
+                            bookedBy: null, // Stores { name, mobile, subscription, startDate, endDate, batch }
+                        });
+                    }
+                }
+                return seatLayout;
+            };
+
+            // Calculates the end date based on a subscription type
+            const calculateEndDate = (startDate, type) => {
+                const date = new Date(startDate);
+                switch (type) {
+                    case 'Monthly': date.setMonth(date.getMonth() + 1); break;
+                    case 'Quarterly': date.setMonth(date.getMonth() + 3); break;
+                    case 'Half-Yearly': date.setMonth(date.getMonth() + 6); break;
+                    case 'Yearly': date.setFullYear(date.getFullYear() + 1); break;
+                }
+                return date;
+            };
+
+            // State management for the app
+            const [seats, setSeats] = React.useState(() => {
+                const initialRoom1 = generateSeats('Room1');
+                const initialRoom2 = generateSeats('Room2');
+                const today = new Date();
+                
+                // Pre-book a seat in Room 1 (expiring soon) for demo purposes
+                const preBooked1 = initialRoom1.find(s => s.id === 'Room1-F7');
+                if (preBooked1) {
+                    preBooked1.status = 'booked';
+                    preBooked1.bookedBy = {
+                        name: 'Aron Finch',
+                        mobile: '9876543210',
+                        subscription: 'Monthly',
+                        startDate: new Date(today.getFullYear(), today.getMonth(), today.getDate() - 25),
+                        endDate: new Date(today.getFullYear(), today.getMonth(), today.getDate() - 25 + 30)
+                    };
+                }
+
+                return [...initialRoom1, ...initialRoom2];
+            });
+
+            const [selectedSeat, setSelectedSeat] = React.useState(null);
+            const [isModalOpen, setIsModalOpen] = React.useState(false);
+            const [isExtendModalOpen, setIsExtendModalOpen] = React.useState(false); // New state for extend modal
+            const [message, setMessage] = React.useState('');
+            const [formData, setFormData] = React.useState({ name: '', mobile: '', subscription: 'Monthly', batch: '' });
+            const [searchTerm, setSearchTerm] = React.useState('');
+            const [activeView, setActiveView] = React.useState('dashboard'); // 'dashboard' or 'booking'
+            const [activeRoom, setActiveRoom] = React.useState('Room1'); // New state for active room
+            const [ttsLoading, setTtsLoading] = React.useState(false);
+            const [welcomeMessageLoading, setWelcomeMessageLoading] = React.useState(false);
+
+            // Generates and plays TTS audio for expiring subscriptions
+            const generateTTSAudio = async () => {
+                setTtsLoading(true);
+                const expiringList = expiringSoon.map(seat => `Seat ${seat.id.split('-')[1]} in ${seat.room === 'Room1' ? 'the Study Hall' : 'the Train Room'} for ${seat.bookedBy.name} expires on ${new Date(seat.bookedBy.endDate).toLocaleDateString()}`).join('. ');
+                const prompt = `Please read the following: "Attention. Subscriptions are ending soon. ${expiringList}."`;
+                
+                try {
+                    let retryCount = 0;
+                    let response;
+                    while (retryCount < 3) {
+                        const payload = {
+                            contents: [{ parts: [{ text: prompt }] }],
+                            generationConfig: {
+                                responseModalities: ["AUDIO"],
+                                speechConfig: { voiceConfig: { prebuiltVoiceConfig: { voiceName: "Kore" } } }
+                            },
+                            model: "gemini-2.5-flash-preview-tts"
+                        };
+                        const apiKey = "";
+                        const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-tts:generateContent?key=${apiKey}`;
+                        response = await fetch(apiUrl, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify(payload)
+                        });
+                        if (response.status !== 429) { break; }
+                        await new Promise(resolve => setTimeout(resolve, Math.pow(2, retryCount) * 1000));
+                        retryCount++;
+                    }
+                    if (!response.ok) throw new Error("API call failed after retries.");
+
+                    const result = await response.json();
+                    const audioData = result?.candidates?.[0]?.content?.parts?.[0]?.inlineData?.data;
+                    const mimeType = result?.candidates?.[0]?.content?.parts?.[0]?.inlineData?.mimeType;
+
+                    if (audioData && mimeType && mimeType.startsWith("audio/")) {
+                        const sampleRate = parseInt(mimeType.match(/rate=(\d+)/)[1], 10);
+                        const pcmData = base64ToArrayBuffer(audioData);
+                        const pcm16 = new Int16Array(pcmData);
+                        const wavBlob = pcmToWav(pcm16, sampleRate);
+                        const audioUrl = URL.createObjectURL(wavBlob);
+                        const audio = new Audio(audioUrl);
+                        audio.play();
+                    } else {
+                        setMessage("Failed to generate audio. Please try again.");
+                    }
+                } catch (error) {
+                    console.error("Error generating TTS audio:", error);
+                    setMessage("Error generating audio. Check console for details.");
+                } finally {
+                    setTtsLoading(false);
+                }
+            };
+            
+            // Generates a friendly welcome message using Gemini LLM
+            const generateWelcomeMessage = async (name, room, subscription) => {
+                setWelcomeMessageLoading(true);
+                const prompt = `Write a short, friendly welcome message for a new student named ${name}. They have booked a seat in the ${room === 'Room1' ? 'Study Hall' : 'Train Room'} on a ${subscription} plan. The message should be encouraging and welcome them to the study space.`;
+                
+                try {
+                    let retryCount = 0;
+                    let response;
+                    while (retryCount < 3) {
+                        const chatHistory = [{ role: "user", parts: [{ text: prompt }] }];
+                        const payload = { contents: chatHistory };
+                        const apiKey = "";
+                        const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
+                        response = await fetch(apiUrl, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify(payload)
+                        });
+                        if (response.status !== 429) { break; }
+                        await new Promise(resolve => setTimeout(resolve, Math.pow(2, retryCount) * 1000));
+                        retryCount++;
+                    }
+                    if (!response.ok) throw new Error("API call failed after retries.");
+
+                    const result = await response.json();
+                    return result.candidates && result.candidates.length > 0 ? result.candidates[0].content.parts[0].text : "Welcome! We're happy to have you.";
+                } catch (error) {
+                    console.error("Error generating welcome message:", error);
+                    return "Welcome! We're happy to have you.";
+                } finally {
+                    setWelcomeMessageLoading(false);
+                }
+            };
+
+            // Handles seat click and opens the modal
+            const handleSeatClick = (seatId) => {
+                const seat = seats.find(s => s.id === seatId);
+                setSelectedSeat(seat);
+                setIsModalOpen(true);
+                setMessage('');
+
+                if (seat.status === 'booked') {
+                    setFormData(seat.bookedBy);
+                } else {
+                    setFormData({ name: '', mobile: '', subscription: 'Monthly', batch: '' });
+                }
+            };
+
+            // Handles booking form submission
+            const handleBook = async () => {
+                if (!formData.name || !formData.mobile) {
+                    setMessage('Please fill in all required fields.');
+                    return;
+                }
+                if (!/^\d{10}$/.test(formData.mobile)) {
+                    setMessage('Please enter a valid 10-digit mobile number.');
+                    return;
+                }
+                if (selectedSeat.room === 'Room2' && !formData.batch) {
+                    setMessage('Please enter the batch for this room.');
+                    return;
+                }
+
+                const startDate = new Date();
+                const endDate = calculateEndDate(startDate, formData.subscription);
+                
+                const welcomeMessage = await generateWelcomeMessage(formData.name, selectedSeat.room, formData.subscription);
+
+                const updatedSeats = seats.map(seat =>
+                    seat.id === selectedSeat.id
+                        ? { ...seat, status: 'booked', bookedBy: { ...formData, startDate, endDate } }
+                        : seat
+                );
+                setSeats(updatedSeats);
+                setMessage(`Booking successful! ${welcomeMessage}`);
+                setIsModalOpen(false);
+                setSelectedSeat(null);
+            };
+
+            // Handles removing a booking
+            const handleRemoveBooking = () => {
+                const updatedSeats = seats.map(seat =>
+                    seat.id === selectedSeat.id
+                        ? { ...seat, status: 'available', bookedBy: null }
+                        : seat
+                );
+                setSeats(updatedSeats);
+                setMessage(`Booking for seat ${selectedSeat.id} has been removed.`);
+                setIsModalOpen(false);
+                setSelectedSeat(null);
+            };
+
+            // Handles extending a booking
+            const handleExtendBooking = () => {
+                // Calculate the new end date based on the existing end date
+                const currentEndDate = new Date(selectedSeat.bookedBy.endDate);
+                const newEndDate = calculateEndDate(currentEndDate, formData.subscription);
+
+                const updatedSeats = seats.map(seat => 
+                    seat.id === selectedSeat.id
+                        ? {
+                            ...seat,
+                            bookedBy: {
+                                ...seat.bookedBy,
+                                endDate: newEndDate,
+                                subscription: formData.subscription // Update the subscription type as well
+                            }
+                          }
+                        : seat
+                );
+
+                setSeats(updatedSeats);
+                setMessage(`Booking for seat ${selectedSeat.id} has been extended.`);
+                setIsExtendModalOpen(false); // Close the new modal
+                setIsModalOpen(false); // Close the main modal
+                setSelectedSeat(null);
+            };
+
+            // Determines CSS classes for seats based on their status
+            const getSeatClass = (seat) => {
+                const baseClass = 'seat rounded-xl shadow-md transition-all hover:scale-105 active:scale-95';
+                if (seat.status === 'booked') {
+                    const isExpiring = expiringSoon.some(s => s.id === seat.id);
+                    return `${baseClass} ${isExpiring ? 'bg-orange-500' : 'bg-red-500'}`;
+                } else {
+                    return `${baseClass} bg-green-600 hover:bg-green-700`;
+                }
+            };
+            
+            // Dynamic button color based on seat status
+            const getButtonColor = () => selectedSeat?.status === 'booked' ? 'bg-red-500 hover:bg-red-600' : 'bg-indigo-600 hover:bg-indigo-700';
+
+            // Filters and sorts booked seats for display
+            const filteredBookedSeats = seats.filter(seat => 
+                seat.status === 'booked' && (
+                    seat.bookedBy.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                    seat.id.toLowerCase().includes(searchTerm.toLowerCase())
+                )
+            ).sort((a, b) => a.id.localeCompare(b.id));
+
+            // Finds subscriptions expiring in the next 7 days
+            const expiringSoon = seats.filter(seat => {
+                if (seat.status === 'booked' && seat.bookedBy && seat.bookedBy.endDate) {
+                    const today = new Date();
+                    const endDate = new Date(seat.bookedBy.endDate);
+                    const diffTime = endDate.getTime() - today.getTime();
+                    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+                    return diffDays <= 7 && diffDays >= 0;
+                }
+                return false;
+            });
+
+            // Calculates dashboard metrics
+            const totalSeats = seats.length;
+            const bookedSeatsCount = seats.filter(s => s.status === 'booked').length;
+            const occupancyRate = (bookedSeatsCount / totalSeats) * 100;
+
+            // Renders the dashboard view
+            const renderDashboard = () => (
+                <div className="p-8">
+                    <h2 className="text-3xl font-bold mb-8 text-center text-gray-200">Dashboard</h2>
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+                        <div className="bg-gray-800 p-6 rounded-2xl shadow-lg">
+                            <h3 className="text-lg font-semibold text-gray-400">Total Seats</h3>
+                            <p className="text-4xl font-bold text-indigo-400 mt-2">{totalSeats}</p>
+                        </div>
+                        <div className="bg-gray-800 p-6 rounded-2xl shadow-lg">
+                            <h3 className="text-lg font-semibold text-gray-400">Current Occupancy</h3>
+                            <p className="text-4xl font-bold text-green-400 mt-2">{occupancyRate.toFixed(1)}%</p>
+                        </div>
+                        <div className="bg-gray-800 p-6 rounded-2xl shadow-lg">
+                            <h3 className="text-lg font-semibold text-gray-400">Expiring Soon</h3>
+                            <div className="flex items-center justify-between mt-2">
+                                <p className="text-4xl font-bold text-orange-400">{expiringSoon.length}</p>
+                                <button
+                                    onClick={generateTTSAudio}
+                                    disabled={ttsLoading}
+                                    className="text-xs text-orange-400 hover:text-orange-300 font-semibold transition disabled:opacity-50 disabled:cursor-not-allowed"
+                                >
+                                    {ttsLoading ? 'Loading...' : '🔊 Play Alert'}
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <h3 className="text-2xl font-bold text-center mb-6 text-gray-200">Recent Bookings</h3>
+                    <div className="bg-gray-800 p-6 rounded-2xl shadow-lg max-h-96 overflow-y-auto">
+                        {filteredBookedSeats.length > 0 ? (
+                            <ul className="space-y-4">
+                                {filteredBookedSeats.map(seat => (
+                                    <li 
+                                        key={seat.id} 
+                                        className="p-4 bg-gray-900 rounded-xl border border-gray-700"
+                                    >
+                                        <p className="font-semibold text-gray-300 text-sm">
+                                            <span className="font-bold">{seat.bookedBy.name}</span>
+                                            <span className="text-gray-500"> booked Seat {seat.id.split('-')[1]} ({seat.room === 'Room1' ? 'Study Hall' : 'Train Room'})</span>
+                                        </p>
+                                        <p className="text-xs text-gray-500 mt-1">Ends: {new Date(seat.bookedBy.endDate).toLocaleDateString()}</p>
+                                    </li>
+                                ))}
+                            </ul>
+                        ) : (
+                            <p className="text-center text-gray-500 py-10">No recent bookings to display.</p>
+                        )}
+                    </div>
+                </div>
+            );
+
+            // Renders the main seat booking view
+            const renderBookingView = () => (
+                <div className="p-8">
+                    <h2 className="text-3xl font-bold text-center mb-6 text-gray-200">Seat Booking Manager</h2>
+                    
+                    {/* Room Tabs */}
+                    <div className="flex justify-center gap-4 mb-8">
+                        <button
+                            onClick={() => { setActiveView('booking'); setActiveRoom('Room1'); }}
+                            className={`px-6 py-2 rounded-full font-bold transition-all ${activeRoom === 'Room1' ? 'bg-indigo-600 text-white shadow-lg' : 'bg-gray-700 text-gray-300 hover:bg-gray-600'}`}
+                        >
+                            Study Hall
+                        </button>
+                        <button
+                            onClick={() => { setActiveView('booking'); setActiveRoom('Room2'); }}
+                            className={`px-6 py-2 rounded-full font-bold transition-all ${activeRoom === 'Room2' ? 'bg-indigo-600 text-white shadow-lg' : 'bg-gray-700 text-gray-300 hover:bg-gray-600'}`}
+                        >
+                            Train Room
+                        </button>
+                    </div>
+
+                    {/* Legend */}
+                    <div className="flex justify-center gap-6 mb-8 text-gray-400 flex-wrap text-sm">
+                        <div className="flex items-center">
+                            <div className="w-4 h-4 bg-green-600 rounded-full mr-2"></div>
+                            <span>Available</span>
+                        </div>
+                        <div className="flex items-center">
+                            <div className="w-4 h-4 bg-red-500 rounded-full mr-2"></div>
+                            <span>Booked</span>
+                        </div>
+                        <div className="flex items-center">
+                            <div className="w-4 h-4 bg-orange-500 rounded-full mr-2"></div>
+                            <span>Expiring Soon</span>
+                        </div>
+                    </div>
+
+                    {/* Seat layout rendering */}
+                    <div className="flex justify-center">
+                        <div className="bg-gray-800 p-8 rounded-2xl shadow-xl room-layout">
+                            {seats.filter(s => s.room === activeRoom).map(seat => (
+                                <div
+                                    key={seat.id}
+                                    className={`${getSeatClass(seat)} cursor-pointer`}
+                                    onClick={() => handleSeatClick(seat.id)}
+                                >
+                                    {seat.id.split('-')[1]}
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                </div>
+            );
+
+            return (
+                <div className="min-h-screen bg-gray-900 text-gray-200">
+                    {/* Sidebar navigation */}
+                    <div className="fixed top-0 left-0 h-full w-64 bg-gray-800 p-6 shadow-2xl">
+                        <div className="flex items-center justify-center mb-12">
+                            <svg className="h-10 w-10 text-indigo-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m4 4v10m0-10l8-4m-8 4l-8-4m8 4V7m8 4v10l-8 4m0-10L4 7m4 4v10m0-10l8-4m-8 4V7"/>
+                            </svg>
+                            <span className="ml-2 text-2xl font-extrabold text-gray-200">SpaceQ</span>
+                        </div>
+                        <nav className="space-y-4">
+                            <button
+                                onClick={() => setActiveView('dashboard')}
+                                className={`w-full text-left px-4 py-3 rounded-xl font-semibold transition-all ${activeView === 'dashboard' ? 'bg-indigo-600 text-white' : 'hover:bg-gray-700'}`}
+                            >
+                                Dashboard
+                            </button>
+                            <button
+                                onClick={() => setActiveView('booking')}
+                                className={`w-full text-left px-4 py-3 rounded-xl font-semibold transition-all ${activeView === 'booking' ? 'bg-indigo-600 text-white' : 'hover:bg-gray-700'}`}
+                            >
+                                Booking Manager
+                            </button>
+                        </nav>
+                    </div>
+
+                    {/* Main content area */}
+                    <div className="ml-64 p-8">
+                        {activeView === 'dashboard' ? renderDashboard() : renderBookingView()}
+                    </div>
+                
+                    {/* Main Booking/Unbooking Modal */}
+                    {isModalOpen && selectedSeat && (
+                        <div className="fixed inset-0 flex items-center justify-center modal-overlay p-4">
+                            <div className="bg-gray-800 text-gray-200 rounded-2xl shadow-2xl p-8 max-w-md w-full">
+                                <h2 className="text-2xl font-bold mb-6 text-center">
+                                    {selectedSeat.status === 'booked' ? 'Manage Booking' : 'Book Seat'}
+                                </h2>
+                                <p className="text-center text-sm mb-4 font-mono text-gray-400">{selectedSeat.id}</p>
+
+                                {selectedSeat.status === 'booked' ? (
+                                    <div className="space-y-4">
+                                        <div className="p-6 bg-gray-700 rounded-xl shadow-inner border border-gray-600">
+                                            <p className="text-sm">Name: <span className="font-bold">{selectedSeat.bookedBy.name}</span></p>
+                                            <p className="text-sm">Mobile: {selectedSeat.bookedBy.mobile}</p>
+                                            <p className="text-sm">Subscription: {selectedSeat.bookedBy.subscription}</p>
+                                            <p className="text-sm">End Date: {new Date(selectedSeat.bookedBy.endDate).toLocaleDateString()}</p>
+                                        </div>
+                                        <div className="flex gap-4">
+                                            <button
+                                                onClick={handleRemoveBooking}
+                                                className="w-full py-3 px-6 rounded-xl font-bold text-white bg-red-500 hover:bg-red-600 transition"
+                                            >
+                                                Remove Booking
+                                            </button>
+                                            <button
+                                                onClick={() => { setIsModalOpen(false); setIsExtendModalOpen(true); }}
+                                                className="w-full py-3 px-6 rounded-xl font-bold text-white bg-indigo-600 hover:bg-indigo-700 transition"
+                                            >
+                                                Extend Subscription
+                                            </button>
+                                        </div>
+                                    </div>
+                                ) : (
+                                    <div className="space-y-4">
+                                        <input
+                                            type="text"
+                                            placeholder="Full Name *"
+                                            value={formData.name}
+                                            onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                                            className="w-full rounded-lg border-gray-600 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 bg-gray-700 placeholder-gray-400 text-gray-200"
+                                            required
+                                        />
+                                        <input
+                                            type="tel"
+                                            placeholder="Mobile Number (10 digits) *"
+                                            value={formData.mobile}
+                                            onChange={(e) => setFormData({ ...formData, mobile: e.target.value })}
+                                            pattern="[0-9]{10}"
+                                            className="w-full rounded-lg border-gray-600 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 bg-gray-700 placeholder-gray-400 text-gray-200"
+                                            required
+                                        />
+                                        <select
+                                            value={formData.subscription}
+                                            onChange={(e) => setFormData({ ...formData, subscription: e.target.value })}
+                                            className="w-full rounded-lg border-gray-600 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 bg-gray-700 text-gray-200"
+                                        >
+                                            <option value="Monthly">Monthly</option>
+                                            <option value="Quarterly">Quarterly</option>
+                                            <option value="Half-Yearly">Half-Yearly</option>
+                                            <option value="Yearly">Yearly</option>
+                                        </select>
+                                        {selectedSeat.room === 'Room2' && (
+                                            <input
+                                                type="text"
+                                                placeholder="Batch *"
+                                                value={formData.batch}
+                                                onChange={(e) => setFormData({ ...formData, batch: e.target.value })}
+                                                className="w-full rounded-lg border-gray-600 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 bg-gray-700 placeholder-gray-400 text-gray-200"
+                                                required
+                                            />
+                                        )}
+                                        {message && <div className="text-red-400 text-sm mt-2">{message}</div>}
+                                        <div className="flex gap-4 mt-6">
+                                            <button
+                                                onClick={handleBook}
+                                                disabled={welcomeMessageLoading}
+                                                className={`flex-1 py-3 px-6 rounded-xl font-bold text-white transition disabled:opacity-50 disabled:cursor-not-allowed ${getButtonColor()}`}
+                                            >
+                                                {welcomeMessageLoading ? 'Booking...' : 'Book Seat'}
+                                            </button>
+                                        </div>
+                                    </div>
+                                )}
+                                <div className="mt-4 text-center">
+                                    <button
+                                        onClick={() => { setIsModalOpen(false); setSelectedSeat(null); }}
+                                        className="py-2 px-4 text-sm text-gray-400 hover:text-white transition"
+                                    >
+                                        Cancel
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    )}
+
+                    {/* Extend Subscription Modal (New) */}
+                    {isExtendModalOpen && selectedSeat && (
+                        <div className="fixed inset-0 flex items-center justify-center modal-overlay p-4">
+                            <div className="bg-gray-800 text-gray-200 rounded-2xl shadow-2xl p-8 max-w-md w-full">
+                                <h2 className="text-2xl font-bold mb-6 text-center">Extend Subscription</h2>
+                                <p className="text-center text-sm mb-4 font-mono text-gray-400">Current End Date: {new Date(selectedSeat.bookedBy.endDate).toLocaleDateString()}</p>
+                                <div className="space-y-4">
+                                    <select
+                                        value={formData.subscription}
+                                        onChange={(e) => setFormData({ ...formData, subscription: e.target.value })}
+                                        className="w-full rounded-lg border-gray-600 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 bg-gray-700 text-gray-200"
+                                    >
+                                        <option value="Monthly">Monthly</option>
+                                        <option value="Quarterly">Quarterly</option>
+                                        <option value="Half-Yearly">Half-Yearly</option>
+                                        <option value="Yearly">Yearly</option>
+                                    </select>
+                                    <button
+                                        onClick={handleExtendBooking}
+                                        className="w-full py-3 px-6 rounded-xl font-bold text-white bg-indigo-600 hover:bg-indigo-700 transition"
+                                    >
+                                        Confirm Extension
+                                    </button>
+                                </div>
+                                <div className="mt-4 text-center">
+                                    <button
+                                        onClick={() => { setIsExtendModalOpen(false); setSelectedSeat(null); }}
+                                        className="py-2 px-4 text-sm text-gray-400 hover:text-white transition"
+                                    >
+                                        Cancel
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    )}
+                </div>
+            );
+        };
+
+        // Use createRoot for React 18 compatibility
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+</html>
