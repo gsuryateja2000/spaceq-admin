@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SpaceQ - Study Hall Booking</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @font-face {
+            font-family: 'Polaris Futuristic';
+            src: url('./fonts/Polaris_Futuristic.otf') format('opentype');
+            font-weight: normal;
+            font-style: normal;
+        }
+        body, h1, h2, h3, h4, h5, h6 {
+            font-family: 'Polaris Futuristic', sans-serif;
+        }
+        .space-bg {
+            background-image: url('https://images.unsplash.com/photo-1518384218765-5b432a10e82c?q=80&w=2000&auto=format&fit=crop');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            position: relative;
+        }
+        .space-bg::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.4);
+            z-index: 1;
+        }
+        .space-content {
+            position: relative;
+            z-index: 2;
+        }
+        .logo-bg {
+            background-image: url('http://googleusercontent.com/file_content/3');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+        .card-overlay {
+            background-color: rgba(255, 255, 255, 0.85);
+        }
+        .footer-space-bg {
+            background-image: url('https://images.unsplash.com/photo-1518384218765-5b432a10e82c?q=80&w=2000&auto=format&fit=crop');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            position: relative;
+        }
+        .footer-space-bg::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.85);
+            z-index: 1;
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 10;
+            justify-content: center;
+            align-items: center;
+        }
+        .modal-content {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 1rem;
+            position: relative;
+            z-index: 11;
+        }
+        .discount-tag {
+            position: absolute;
+            top: 0.5rem;
+            right: 0.5rem;
+            background-color: #ef4444;
+            color: white;
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.5rem;
+            font-size: 0.75rem;
+            font-weight: bold;
+            display: none;
+        }
+        .plan-card {
+            position: relative;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-900">
+
+    <!-- Header Section (Hero-style) -->
+    <header class="space-bg py-16 flex flex-col items-center justify-center p-8 overflow-hidden text-center">
+        <div class="space-content relative z-10 max-w-4xl mx-auto">
+            <h1 class="text-4xl sm:text-5xl md:text-6xl font-bold leading-tight mb-4 text-white">
+                Book Your Study Seat
+            </h1>
+            <p class="text-lg sm:text-xl md:text-2xl font-light mb-8 max-w-2xl mx-auto text-white">
+                Find your perfect spot for uninterrupted focus.
+            </p>
+            <a href="index.html" class="inline-block bg-indigo-500 hover:bg-indigo-600 text-white font-semibold py-3 px-8 rounded-full shadow-lg transition-all duration-300 transform hover:scale-105">
+                Back to Home
+            </a>
+        </div>
+    </header>
+
+    <!-- Main Content Section -->
+    <main class="py-20 px-4 sm:px-8 lg:px-16 logo-bg bg-opacity-10 min-h-screen">
+        <div class="relative z-10 max-w-6xl mx-auto space-content">
+            
+            <!-- Space Type Selection Section -->
+            <section class="card-overlay p-8 rounded-xl shadow-lg text-center mb-8">
+                <h2 class="text-3xl font-bold text-gray-900 mb-6">Select Your Space</h2>
+                <div class="flex flex-col sm:flex-row justify-center gap-4">
+                    <button id="studyHallBtn" class="bg-indigo-500 text-white font-semibold py-3 px-8 rounded-full shadow-lg transition-all duration-300 transform hover:scale-105">
+                        Study Hall (AC)
+                    </button>
+                    <button id="coWorkingBtn" class="bg-white text-indigo-500 border border-indigo-500 font-semibold py-3 px-8 rounded-full shadow-lg transition-all duration-300 transform hover:scale-105">
+                        Co-Working Spaces
+                    </button>
+                </div>
+            </section>
+
+            <!-- Plan Selection Section -->
+            <section class="card-overlay p-8 rounded-xl shadow-lg text-center mb-16">
+                <h2 class="text-3xl font-bold text-gray-900 mb-6">Choose Your Plan</h2>
+                <p class="text-gray-600 mb-8">Select a flexible plan that suits your study needs.</p>
+                
+                <div id="plansContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-6">
+                    <!-- Plans will be populated here by JavaScript -->
+                </div>
+            </section>
+
+            <!-- Our Spaces Section -->
+            <section class="card-overlay p-8 rounded-xl shadow-lg mb-16">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl font-bold text-gray-900 mb-6">Our Spaces</h2>
+                    <p class="text-gray-600">Explore our dedicated study environments designed for focus and productivity.</p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <!-- Study Hall Image -->
+                    <div class="rounded-xl overflow-hidden shadow-lg transform transition-transform duration-300 hover:scale-105">
+                        <img src="https://placehold.co/600x400/000000/FFFFFF?text=Study+Hall+Interior" alt="Study Hall Interior" class="w-full h-auto">
+                        <div class="p-6 bg-white">
+                            <h3 class="text-xl font-bold text-gray-900 mb-2">Study Hall (AC)</h3>
+                            <p class="text-gray-600">A peaceful, air-conditioned environment perfect for deep work and concentration.</p>
+                        </div>
+                    </div>
+                    <!-- Co-Working Space Image -->
+                    <div class="rounded-xl overflow-hidden shadow-lg transform transition-transform duration-300 hover:scale-105">
+                        <img src="https://placehold.co/600x400/000000/FFFFFF?text=Co-Working+Space" alt="Co-Working Space" class="w-full h-auto">
+                        <div class="p-6 bg-white">
+                            <h3 class="text-xl font-bold text-gray-900 mb-2">Co-Working Spaces</h3>
+                            <p class="text-gray-600">A collaborative and flexible space designed for teamwork and networking.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Seating Layout Section -->
+            <section class="card-overlay p-8 rounded-xl shadow-lg mb-16 text-center">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl font-bold text-gray-900 mb-6">Seating Layout</h2>
+                    <p class="text-gray-600">Our seating is designed for your comfort and privacy, with ample space for all your study materials.</p>
+                </div>
+                <div class="w-full rounded-xl overflow-hidden shadow-lg transform transition-transform duration-300 hover:scale-105">
+                    <img src="images/spacelayout.jpg" alt="Seating Layout" class="w-full h-auto">
+                </div>
+            </section>
+
+            <!-- Facilities Section -->
+            <section class="card-overlay p-8 rounded-xl shadow-lg mb-16">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl font-bold text-gray-900 mb-6">Our Facilities</h2>
+                    <p class="text-gray-600">We provide a distraction-free, premium environment for your success.</p>
+                </div>
+                <ul class="grid grid-cols-1 md:grid-cols-2 gap-6 text-gray-800">
+                    <li class="flex items-center space-x-3">
+                        <svg class="h-6 w-6 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                        <span>High-Speed Wi-Fi</span>
+                    </li>
+                    <li class="flex items-center space-x-3">
+                        <svg class="h-6 w-6 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                        <span>Comfortable Seating & Desks</span>
+                    </li>
+                    <li class="flex items-center space-x-3">
+                        <svg class="h-6 w-6 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                        <span>Power Outlets at Every Seat</span>
+                    </li>
+                    <li class="flex items-center space-x-3">
+                        <svg class="h-6 w-6 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                        <span>Clean & Peaceful Environment</span>
+                    </li>
+                    <li class="flex items-center space-x-3">
+                        <svg class="h-6 w-6 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                        <span>Secure & Monitored Premises</span>
+                    </li>
+                </ul>
+            </section>
+
+            <!-- Add-ons Section -->
+            <section class="card-overlay p-8 rounded-xl shadow-lg mb-16">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl font-bold text-gray-900 mb-6">Add-Ons</h2>
+                    <p class="text-gray-600">Enhance your study session with these convenient services.</p>
+                </div>
+                <ul class="grid grid-cols-1 md:grid-cols-2 gap-6 text-gray-800">
+                    <li class="flex items-center space-x-3">
+                        <svg class="h-6 w-6 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                        <span>Complimentary Coffee & Tea</span>
+                    </li>
+                    <li class="flex items-center space-x-3">
+                        <svg class="h-6 w-6 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                        <span>Printing & Scanning Services</span>
+                    </li>
+                    <li class="flex items-center space-x-3">
+                        <svg class="h-6 w-6 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                        <span>Freshly Cut Fruits Subscription</span>
+                    </li>
+                    <li class="flex items-center space-x-3">
+                        <svg class="h-6 w-6 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                        <span>Dry Fruits Subscription</span>
+                    </li>
+                    <li class="flex items-center space-x-3">
+                        <svg class="h-6 w-6 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                        <span>Daily Newspapers</span>
+                    </li>
+                    <li class="flex items-center space-x-3">
+                        <svg class="h-6 w-6 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                        <span>Daily Food Subscription (2 meals)</span>
+                    </li>
+                </ul>
+            </section>
+        </div>
+    </main>
+
+    <!-- Payment Modal -->
+    <div id="paymentModal" class="modal">
+        <div class="modal-content text-center max-w-sm w-full">
+            <span class="absolute top-4 right-4 text-gray-500 text-2xl cursor-pointer" onclick="closePayment()">&times;</span>
+            <h2 class="text-2xl font-bold text-gray-900 mb-4" id="planTitle"></h2>
+            <p class="text-gray-600 mb-6">
+                Scan the QR code below to complete your payment of <span class="font-bold text-indigo-500" id="planPrice"></span> via UPI.
+            </p>
+            <img src="https://placehold.co/300x300/22C55E/FFFFFF?text=UPI+QR" alt="UPI QR Code" class="mx-auto w-48 h-48 rounded-lg shadow-lg mb-4">
+            <p class="text-gray-700 font-bold mb-2">UPI ID: spaceq-pay@upi</p>
+            <p class="text-sm text-gray-500">
+                After payment, send a screenshot of the transaction to our WhatsApp number to confirm your booking.
+            </p>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer id="contact" class="footer-space-bg text-gray-400 py-12 px-4 sm:px-8 text-center">
+        <div class="space-content max-w-4xl mx-auto">
+            <h2 class="text-2xl font-bold text-white mb-8">Contact Us</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 text-center md:text-left items-start">
+                <div class="flex flex-col items-center md:items-start">
+                    <h3 class="text-xl font-bold text-white mb-4">Chat with us on WhatsApp</h3>
+                    <a href="https://wa.me/918374242902" target="_blank" class="block">
+                        <img src="IMAGES/wa-qr.jpg" alt="WhatsApp QR Code" class="w-48 h-48 rounded-lg shadow-lg">
+                    </a>
+                    <p class="mt-4 text-white">Scan the code to message us instantly.</p>
+                </div>
+                <div>
+                    <h3 class="text-xl font-bold text-white mb-4 md:mb-2">Our Location</h3>
+                    <p class="mb-4 text-white">Beside Hotel Abhiram, Opp. Krishna Chaitanya Junior College, Ramesh Reddy Nagar, Nellore, Andhra Pradesh 524003</p>
+                    <div class="w-full h-64 md:h-80 rounded-xl overflow-hidden shadow-lg">
+                        <iframe 
+                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3846.541484501229!2d79.97947!3d14.44636!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a4c8c7f0b5d5069%3A0x86134b2f4f24f5a8!2sKrishna%20Chaitanya%20Junior%20College%2C%20vegetable%20market%20centre%2C%20Nellore%2C%20Andhra%20Pradesh%20524003!5e0!3m2!1sen!2sin!4v1716912345678!5m2!1sen!2sin" 
+                            width="100%" 
+                            height="100%" 
+                            style="border:0;" 
+                            allowfullscreen="" 
+                            loading="lazy" 
+                            referrerpolicy="no-referrer-when-downgrade">
+                        </iframe>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-8 pt-8 border-t border-gray-700">
+                <p class="text-white">&copy; 2025 Tejas SpaceQ Edu Pvt. Ltd. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+    <script>
+        const plans = {
+            'studyHall': [
+                { title: 'Daily', price: 199, desc: 'One-time sessions.' },
+                { title: 'Weekly', price: 999, desc: 'Full week of focus.' },
+                { title: 'Monthly', price: 1800, desc: 'The best value for dedicated users.' },
+                { title: 'Quarterly', price: 5130, discount: 'Save 5%', desc: 'Long-term commitment, big savings.' },
+                { title: 'Half-Yearly', price: 9720, discount: 'Save 10%', desc: 'Semi-annual plan.' },
+                { title: 'Yearly', price: 18360, discount: 'Save 15%', desc: 'Maximize your focus and savings.' }
+            ],
+            'coWorking': [
+                { title: 'Daily', price: 199, desc: 'One-time sessions.' },
+                { title: 'Weekly', price: 999, desc: 'Full week of focus.' },
+                { title: 'Monthly', price: 2000, desc: 'The best value for dedicated users.' },
+                { title: 'Quarterly', price: 5700, discount: 'Save 5%', desc: 'Long-term commitment, big savings.' },
+                { title: 'Half-Yearly', price: 10800, discount: 'Save 10%', desc: 'Semi-annual plan.' },
+                { title: 'Yearly', price: 20400, discount: 'Save 15%', desc: 'Maximize your focus and savings.' }
+            ]
+        };
+
+        const plansContainer = document.getElementById('plansContainer');
+        const studyHallBtn = document.getElementById('studyHallBtn');
+        const coWorkingBtn = document.getElementById('coWorkingBtn');
+
+        function renderPlans(planType) {
+            plansContainer.innerHTML = '';
+            const selectedPlans = plans[planType];
+            
+            selectedPlans.forEach(plan => {
+                const planCard = document.createElement('div');
+                planCard.className = 'plan-card p-6 rounded-xl border-2 border-transparent transition-all duration-300 transform hover:scale-105 hover:bg-indigo-50 hover:border-indigo-500 cursor-pointer';
+                planCard.setAttribute('onclick', `showPayment('${plan.title}', '${plan.price}')`);
+                
+                let discountTag = '';
+                if (plan.discount) {
+                    discountTag = `<span class="discount-tag">${plan.discount}</span>`;
+                }
+
+                planCard.innerHTML = `
+                    ${discountTag}
+                    <h3 class="text-2xl font-bold text-gray-900 mb-2">${plan.title}</h3>
+                    <p class="text-gray-600">${plan.desc}</p>
+                    <p class="text-3xl font-bold text-indigo-500 mt-4">₹${plan.price.toLocaleString('en-IN')}</p>
+                `;
+                plansContainer.appendChild(planCard);
+            });
+        }
+
+        function setActiveButton(activeBtn, inactiveBtn) {
+            activeBtn.classList.remove('bg-white', 'text-indigo-500', 'border-indigo-500');
+            activeBtn.classList.add('bg-indigo-500', 'text-white');
+            inactiveBtn.classList.remove('bg-indigo-500', 'text-white');
+            inactiveBtn.classList.add('bg-white', 'text-indigo-500', 'border-indigo-500');
+        }
+
+        studyHallBtn.addEventListener('click', () => {
+            renderPlans('studyHall');
+            setActiveButton(studyHallBtn, coWorkingBtn);
+        });
+
+        coWorkingBtn.addEventListener('click', () => {
+            renderPlans('coWorking');
+            setActiveButton(coWorkingBtn, studyHallBtn);
+        });
+
+        // Initial render
+        document.addEventListener('DOMContentLoaded', () => {
+            renderPlans('studyHall');
+            setActiveButton(studyHallBtn, coWorkingBtn);
+        });
+
+        function showPayment(plan, price) {
+            document.getElementById('planTitle').innerText = plan + ' Plan Payment';
+            document.getElementById('planPrice').innerText = '₹' + price.toLocaleString('en-IN');
+            document.getElementById('paymentModal').style.display = 'flex';
+        }
+        function closePayment() {
+            document.getElementById('paymentModal').style.display = 'none';
+        }
+    </script>
+</body>
+</html>
