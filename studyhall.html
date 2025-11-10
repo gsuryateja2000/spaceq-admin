@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SpaceQ - Study Hall & Software Dev Centre</title>
+    <!-- Polaris Futuristic font -->
+    <!-- You will need to download the font and place it in a 'fonts' directory in your project -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @font-face {
+            font-family: 'Polaris Futuristic';
+            src: url('./fonts/Polaris_Futuristic.otf') format('opentype');
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        body, h1, h2, h3, h4, h5, h6 {
+            font-family: 'Polaris Futuristic', sans-serif;
+        }
+        .space-bg {
+            background-image: url('images/q.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            position: relative;
+        }
+        .space-bg::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.4);
+            z-index: 1;
+        }
+        .space-content {
+            position: relative;
+            z-index: 2;
+        }
+        .logo-bg {
+            background-image: url('http://googleusercontent.com/file_content/3');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+        .card-overlay {
+            background-color: rgba(255, 255, 255, 0.85);
+        }
+        .footer-space-bg {
+            background-image: url('https://images.unsplash.com/photo-1518384218765-5b432a10e82c?q=80&w=2000&auto=format&fit=crop');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            position: relative;
+        }
+        .footer-space-bg::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.85); /* Darker overlay for better text visibility */
+            z-index: 1;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-900">
+
+    <!-- Hero Section -->
+    <section class="space-bg min-h-screen flex flex-col items-center justify-center p-8 overflow-hidden text-center">
+        <div class="space-content relative z-10 max-w-4xl mx-auto">
+            <!-- Logo added here -->
+            
+            <h1 class="text-4xl sm:text-5xl md:text-6xl font-bold leading-tight mb-4 text-white">
+                Welcome to SpaceQ
+            </h1>
+            <p class="text-lg sm:text-xl md:text-2xl font-light mb-8 max-w-2xl mx-auto text-white">
+                Your premier destination for focused study and professional software development training.
+            </p>
+        </div>
+        
+        <!-- Service Cards -->
+        <div class="relative z-10 grid grid-cols-1 md:grid-cols-2 gap-6 mt-12 w-full max-w-5xl">
+            <!-- Study Hall Card -->
+            <a href="seating-booking-page.html" class="group card-overlay text-gray-900 p-8 rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:scale-105 hover:bg-indigo-500 hover:text-white flex flex-col items-center justify-center text-center h-full">
+                <h2 class="text-3xl font-bold mb-2 group-hover:text-white">Study Hall / Co-Working spaces</h2>
+                <p class="text-gray-600 group-hover:text-white">
+                    Find your perfect, distraction-free study space with our convenient booking system.
+                </p>
+            </a>
+
+            <!-- Software Dev Centre Card -->
+            <a href="courses.html" class="group card-overlay text-gray-900 p-8 rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:scale-105 hover:bg-indigo-500 hover:text-white flex flex-col items-center justify-center text-center h-full">
+                <h2 class="text-3xl font-bold mb-2 group-hover:text-white">Software Development</h2>
+                <p class="text-gray-600 group-hover:text-white">
+                    Launch your tech career with our comprehensive courses taught by industry experts.
+                </p>
+            </a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="contact" class="footer-space-bg text-gray-400 py-12 px-4 sm:px-8 text-center">
+        <div class="space-content max-w-4xl mx-auto">
+            <h2 class="text-2xl font-bold text-white mb-8">Contact Us</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 text-center md:text-left items-start">
+                <!-- WhatsApp QR Code Section -->
+                <div class="flex flex-col items-center md:items-start">
+                    <h3 class="text-xl font-bold text-white mb-4">Chat with us on WhatsApp</h3>
+                    <a href="https://wa.me/918374242902" target="_blank" class="block">
+                        <!-- Placeholder QR Code - Replace with your actual QR code image -->
+                        <img src="images/wa-qr.jpg" alt="WhatsApp QR Code" class="w-48 h-48 rounded-lg shadow-lg">
+                    </a>
+                    <p class="mt-4 text-white">Scan the code to message us instantly.</p>
+                </div>
+                <!-- Mobile contact -->
+                <div class="flex flex-col items-center md:items-start">
+                    <h3 class="text-xl font-bold text-white mb-4">Call for any queries</h3>
+                    
+                    </a>
+                    <p class="mt-4 text-white">Call : +91 8374242902</p>
+                    <p class="mt-4 text-white">Call : +91 79812 87404
+                    <p class="mt-4 text-white">Call : +91 9494492902</p>
+                </div>
+                
+                <!-- Google Maps Section -->
+                <div>
+                    <h3 class="text-xl font-bold text-white mb-4 md:mb-2">Our Location</h3>
+                    <p class="mb-4 text-white">Achari Street,Beside Hotel Abhiram, Opp. Krishna Chaitanya Junior College, Ramesh Reddy Nagar, Nellore, Andhra Pradesh 524003</p>
+                    <div class="w-full h-64 md:h-80 rounded-xl overflow-hidden shadow-lg">
+                        <iframe 
+                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3846.541484501229!2d79.9926861545642!3d14.45388349514755!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a4c8c7f0b5d5069%3A0x86134b2f4f24f5a8!2sKrishna%20Chaitanya%20Junior%20College!5e0!3m2!1sen!2sin!4v1716912345678!5m2!1sen!2sin" 
+                            width="100%" 
+                            height="100%" 
+                            style="border:0;" 
+                            allowfullscreen="" 
+                            loading="lazy" 
+                            referrerpolicy="no-referrer-when-downgrade">
+                        </iframe>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-8 pt-8 border-t border-gray-700">
+                <p class="text-white">&copy; 2025 Tejas SpaceQ Edu Pvt. Ltd. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>
