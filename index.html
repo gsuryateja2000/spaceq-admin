@@ -1,433 +1,1334 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-   <meta charset="UTF-8">
-   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <title>Quantum-coaching centre</title>
-    <!-- FONTAWSOME CDN -->
-   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-        integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
-        crossorigin="anonymous" referrerpolicy="no-referrer" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SpaceQ — Cloud Solutions for Business & Education</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #050a14;
+    --surface: #0d1829;
+    --surface2: #111f35;
+    --accent: #00d4ff;
+    --accent2: #7c3aed;
+    --accent3: #06ffa5;
+    --text: #e8f0fe;
+    --muted: #6b87a8;
+    --border: rgba(0,212,255,0.12);
+  }
 
-    <!-- google font -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap"
-        rel="stylesheet">
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-    <!-------------- sweiper js CDN --------------------->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" />
-    <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
+  html { scroll-behavior: smooth; }
 
-    <link rel="stylesheet" href="./css/style.css">
-    
-    <style>
-        body{ background-image: url(./images/bg-texture.png); }
-    </style>
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
 
+  /* ── SPACE CANVAS ── */
+  #spaceCanvas {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    z-index: -1;
+    display: block;
+  }
 
-<!---------------- FAVICON ------------------->
-<link rel="apple-touch-icon" sizes="180x180" href=".favicon/apple-touch-icon.png">
-<link rel="icon" type="image/png" sizes="32x32" href="favicon/favicon-32x32.png">
-<link rel="icon" type="image/png" sizes="16x16" href="favicon/favicon-16x16.png">
-<link rel="manifest" href="favicon/site.webmanifest">
-<meta name="msapplication-TileColor" content="#da532c">
-<meta name="theme-color" content="#ffffff">
+  /* ── NOISE OVERLAY ── */
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+    pointer-events: none; z-index: 0;
+    opacity: 0.4;
+  }
 
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 20px 6vw;
+    background: rgba(5,10,20,0.7);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+  }
 
+  .logo {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800; font-size: 1.6rem;
+    letter-spacing: -0.03em;
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  }
 
+  .logo span { color: var(--accent3); -webkit-text-fill-color: var(--accent3); }
+
+  nav ul { list-style: none; display: flex; gap: 2.5rem; }
+  nav ul a {
+    color: var(--muted); text-decoration: none;
+    font-size: 0.9rem; font-weight: 500; letter-spacing: 0.03em;
+    transition: color 0.2s;
+  }
+  nav ul a:hover { color: var(--accent); }
+
+  .nav-cta {
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    color: #fff !important; -webkit-text-fill-color: #fff !important;
+    padding: 0.55rem 1.3rem; border-radius: 50px;
+    font-weight: 600 !important;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    display: flex; align-items: center;
+    padding: 120px 6vw 80px;
+    position: relative; overflow: hidden;
+    background: transparent;
+  }
+
+  /* Animated orbs */
+  .orb {
+    position: absolute; border-radius: 50%;
+    filter: blur(80px); pointer-events: none;
+    animation: float 8s ease-in-out infinite;
+  }
+  .orb-1 { width: 600px; height: 600px; background: rgba(0,212,255,0.08); top: -100px; right: -100px; }
+  .orb-2 { width: 400px; height: 400px; background: rgba(124,58,237,0.1); bottom: 0; left: 10%; animation-delay: -3s; }
+  .orb-3 { width: 300px; height: 300px; background: rgba(6,255,165,0.06); top: 40%; right: 20%; animation-delay: -5s; }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0) scale(1); }
+    50% { transform: translateY(-30px) scale(1.05); }
+  }
+
+  .hero-content { max-width: 780px; position: relative; z-index: 1; }
+
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    background: rgba(0,212,255,0.08); border: 1px solid rgba(0,212,255,0.2);
+    color: var(--accent); font-size: 0.78rem; font-weight: 600;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    padding: 0.4rem 1rem; border-radius: 50px;
+    margin-bottom: 2rem;
+    animation: fadeUp 0.6s ease both;
+  }
+
+  .hero-badge::before {
+    content: ''; width: 6px; height: 6px; border-radius: 50%;
+    background: var(--accent); animation: pulse 1.5s ease infinite;
+  }
+
+  @keyframes pulse { 0%,100%{opacity:1;} 50%{opacity:0.3;} }
+
+  h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(2.8rem, 6vw, 5rem);
+    font-weight: 800; line-height: 1.05;
+    letter-spacing: -0.04em;
+    animation: fadeUp 0.6s 0.1s ease both;
+  }
+
+  h1 .line-accent {
+    background: linear-gradient(90deg, var(--accent), var(--accent2), var(--accent3));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-size: 200%; animation: shimmer 4s linear infinite;
+  }
+
+  @keyframes shimmer { 0%{background-position:0%} 100%{background-position:200%} }
+
+  .hero-sub {
+    font-size: 1.15rem; color: var(--muted); max-width: 560px;
+    margin: 1.5rem 0 2.5rem;
+    font-weight: 300; line-height: 1.7;
+    animation: fadeUp 0.6s 0.2s ease both;
+  }
+
+  .hero-ctas { display: flex; gap: 1rem; flex-wrap: wrap; animation: fadeUp 0.6s 0.3s ease both; }
+
+  .btn-primary {
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    color: #fff; font-weight: 600; font-size: 0.95rem;
+    padding: 0.85rem 2rem; border-radius: 50px;
+    text-decoration: none; border: none; cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 0 30px rgba(0,212,255,0.25);
+  }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 0 50px rgba(0,212,255,0.4); }
+
+  .btn-outline {
+    background: transparent; color: var(--text); font-weight: 500; font-size: 0.95rem;
+    padding: 0.85rem 2rem; border-radius: 50px;
+    text-decoration: none; border: 1px solid var(--border);
+    cursor: pointer; transition: border-color 0.2s, color 0.2s;
+  }
+  .btn-outline:hover { border-color: var(--accent); color: var(--accent); }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Stats */
+  .hero-stats {
+    display: flex; gap: 3rem; margin-top: 4rem; flex-wrap: wrap;
+    animation: fadeUp 0.6s 0.4s ease both;
+  }
+  .stat-item { }
+  .stat-num {
+    font-family: 'Syne', sans-serif; font-size: 2rem; font-weight: 800;
+    background: linear-gradient(90deg, var(--accent), var(--accent3));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  }
+  .stat-label { font-size: 0.82rem; color: var(--muted); margin-top: 0.2rem; }
+
+  /* ── SECTIONS COMMON ── */
+  section { padding: 6rem 6vw; position: relative; }
+  .section-label {
+    font-size: 0.75rem; font-weight: 700; letter-spacing: 0.15em;
+    text-transform: uppercase; color: var(--accent); margin-bottom: 0.8rem;
+  }
+  .section-title {
+    font-family: 'Syne', sans-serif; font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+    font-weight: 700; line-height: 1.15; letter-spacing: -0.03em;
+    margin-bottom: 1rem;
+  }
+  .section-sub { color: var(--muted); font-size: 1rem; max-width: 520px; line-height: 1.7; }
+
+  /* ── SERVICES ── */
+  #services { background: rgba(13,24,41,0.82); backdrop-filter: blur(12px); }
+
+  .services-header { margin-bottom: 3.5rem; }
+
+  .services-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    border-radius: 16px; overflow: hidden;
+  }
+
+  .service-card {
+    background: var(--surface2); padding: 2.5rem;
+    transition: background 0.3s;
+    position: relative; overflow: hidden;
+    cursor: default;
+  }
+  .service-card::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+    transform: scaleX(0); transform-origin: left;
+    transition: transform 0.4s ease;
+  }
+  .service-card:hover { background: rgba(0,212,255,0.04); }
+  .service-card:hover::before { transform: scaleX(1); }
+
+  .service-icon {
+    width: 48px; height: 48px; border-radius: 12px;
+    background: linear-gradient(135deg, rgba(0,212,255,0.15), rgba(124,58,237,0.15));
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.4rem; margin-bottom: 1.5rem;
+    border: 1px solid rgba(0,212,255,0.1);
+  }
+
+  .service-card h3 {
+    font-family: 'Syne', sans-serif; font-size: 1.1rem;
+    font-weight: 700; margin-bottom: 0.75rem;
+  }
+  .service-card p { color: var(--muted); font-size: 0.9rem; line-height: 1.7; }
+
+  /* ── AUDIENCE ── */
+  .audience-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-top: 3rem; }
+
+  .audience-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 20px; padding: 3rem;
+    position: relative; overflow: hidden;
+    transition: transform 0.3s, border-color 0.3s;
+  }
+  .audience-card:hover { transform: translateY(-4px); border-color: rgba(0,212,255,0.3); }
+
+  .audience-card .big-icon {
+    font-size: 3rem; margin-bottom: 1.5rem; display: block;
+  }
+
+  .audience-card h3 {
+    font-family: 'Syne', sans-serif; font-size: 1.5rem;
+    font-weight: 700; margin-bottom: 1rem;
+  }
+
+  .audience-card p { color: var(--muted); line-height: 1.7; margin-bottom: 1.5rem; }
+
+  .tag-list { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+  .tag {
+    background: rgba(0,212,255,0.08); border: 1px solid rgba(0,212,255,0.15);
+    color: var(--accent); font-size: 0.78rem; font-weight: 500;
+    padding: 0.3rem 0.75rem; border-radius: 50px;
+  }
+
+  .card-accent-corporate { background: linear-gradient(135deg, rgba(0,212,255,0.05), transparent); }
+  .card-accent-education { background: linear-gradient(135deg, rgba(6,255,165,0.05), transparent); }
+
+  /* ── WHY SPACEQ ── */
+  #why { background: rgba(13,24,41,0.82); backdrop-filter: blur(12px); }
+
+  .why-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 2rem; margin-top: 3rem; }
+
+  .why-card {
+    text-align: center; padding: 2.5rem 2rem;
+    background: var(--bg); border: 1px solid var(--border);
+    border-radius: 16px;
+    transition: transform 0.3s;
+  }
+  .why-card:hover { transform: translateY(-4px); }
+
+  .why-num {
+    font-family: 'Syne', sans-serif; font-size: 3rem; font-weight: 800;
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    line-height: 1; margin-bottom: 1rem;
+  }
+
+  .why-card h4 { font-family: 'Syne', sans-serif; font-size: 1rem; font-weight: 700; margin-bottom: 0.5rem; }
+  .why-card p { color: var(--muted); font-size: 0.87rem; line-height: 1.6; }
+
+  /* ── CONTACT ── */
+  #contact { background: rgba(5,10,20,0.75); backdrop-filter: blur(8px); }
+
+  .contact-wrapper {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 4rem;
+    margin-top: 3rem; align-items: start;
+  }
+
+  .contact-info { }
+
+  .contact-item {
+    display: flex; gap: 1rem; align-items: flex-start;
+    margin-bottom: 2rem;
+  }
+
+  .contact-item-icon {
+    width: 44px; height: 44px; flex-shrink: 0;
+    background: linear-gradient(135deg, rgba(0,212,255,0.15), rgba(124,58,237,0.15));
+    border: 1px solid rgba(0,212,255,0.15);
+    border-radius: 12px; display: flex; align-items: center;
+    justify-content: center; font-size: 1.2rem;
+  }
+
+  .contact-item-text h4 { font-weight: 600; margin-bottom: 0.2rem; font-size: 0.95rem; }
+  .contact-item-text p, .contact-item-text a {
+    color: var(--muted); font-size: 0.9rem; text-decoration: none;
+    transition: color 0.2s;
+  }
+  .contact-item-text a:hover { color: var(--accent); }
+
+  .hours-grid { margin-top: 0.5rem; display: grid; grid-template-columns: 1fr 1fr; gap: 0.2rem 1rem; }
+  .hours-grid span { font-size: 0.82rem; color: var(--muted); }
+  .hours-grid .hour-value { color: var(--text); }
+
+  .contact-form {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 20px; padding: 2.5rem;
+  }
+
+  .contact-form h3 {
+    font-family: 'Syne', sans-serif; font-size: 1.3rem; font-weight: 700;
+    margin-bottom: 1.5rem;
+  }
+
+  .form-group { margin-bottom: 1.2rem; }
+
+  .form-group label {
+    display: block; font-size: 0.83rem; font-weight: 500;
+    color: var(--muted); margin-bottom: 0.4rem; letter-spacing: 0.03em;
+  }
+
+  .form-group input, .form-group select, .form-group textarea {
+    width: 100%; background: var(--bg); border: 1px solid var(--border);
+    color: var(--text); font-family: 'DM Sans', sans-serif;
+    font-size: 0.92rem; padding: 0.75rem 1rem;
+    border-radius: 10px; outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    appearance: none;
+  }
+  .form-group select option { background: var(--surface); }
+  .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+    border-color: var(--accent); box-shadow: 0 0 0 3px rgba(0,212,255,0.1);
+  }
+  .form-group textarea { resize: vertical; min-height: 100px; }
+
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+
+  .submit-btn {
+    width: 100%; background: linear-gradient(135deg, var(--accent), var(--accent2));
+    color: #fff; font-weight: 600; font-size: 1rem;
+    padding: 0.9rem; border-radius: 50px; border: none;
+    cursor: pointer; font-family: 'DM Sans', sans-serif;
+    transition: transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 0 25px rgba(0,212,255,0.2);
+  }
+  .submit-btn:hover { transform: translateY(-2px); box-shadow: 0 0 40px rgba(0,212,255,0.35); }
+
+  /* ── FOOTER ── */
+  footer {
+    background: rgba(13,24,41,0.9); border-top: 1px solid var(--border);
+    backdrop-filter: blur(16px);
+    padding: 2.5rem 6vw;
+    display: flex; align-items: center; justify-content: space-between;
+    flex-wrap: wrap; gap: 1rem;
+  }
+
+  footer .logo { font-size: 1.2rem; }
+  footer p { color: var(--muted); font-size: 0.82rem; }
+  footer nav ul { gap: 1.5rem; }
+
+  #audience { background: rgba(5,10,20,0.75); backdrop-filter: blur(8px); }
+  .grid-line {
+    position: absolute; inset: 0; pointer-events: none; overflow: hidden; z-index: 0;
+  }
+  .grid-line::after {
+    content: '';
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(rgba(0,212,255,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,212,255,0.03) 1px, transparent 1px);
+    background-size: 60px 60px;
+  }
+
+  /* ── MICROSOFT PARTNER SECTION ── */
+  #microsoft {
+    background: rgba(5,10,20,0.80);
+    backdrop-filter: blur(10px);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    position: relative; overflow: hidden;
+  }
+
+  #microsoft::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(0,120,212,0.08) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .ms-header { text-align: center; margin-bottom: 4rem; }
+  .ms-header .section-title { margin: 0 auto 1rem; }
+  .ms-header .section-sub { margin: 0 auto; text-align: center; }
+
+  /* Microsoft badge strip */
+  .ms-badge-strip {
+    display: flex; justify-content: center; align-items: center;
+    gap: 1rem; margin-bottom: 3rem; flex-wrap: wrap;
+  }
+
+  .ms-official-badge {
+    display: flex; align-items: center; gap: 0.7rem;
+    background: rgba(0,120,212,0.1);
+    border: 1px solid rgba(0,120,212,0.35);
+    border-radius: 12px; padding: 0.6rem 1.2rem;
+    font-size: 0.82rem; font-weight: 600; color: #60a5fa;
+    letter-spacing: 0.04em;
+  }
+
+  .ms-windows-logo {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 2px;
+    width: 18px; height: 18px; flex-shrink: 0;
+  }
+  .ms-windows-logo span {
+    display: block; border-radius: 1px;
+  }
+  .ms-windows-logo span:nth-child(1) { background: #f25022; }
+  .ms-windows-logo span:nth-child(2) { background: #7fba00; }
+  .ms-windows-logo span:nth-child(3) { background: #00a4ef; }
+  .ms-windows-logo span:nth-child(4) { background: #ffb900; }
+
+  /* Partner cards grid */
+  .ms-partner-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem;
+    margin-bottom: 4rem;
+  }
+
+  .ms-partner-card {
+    background: var(--surface);
+    border: 1px solid rgba(0,120,212,0.2);
+    border-radius: 20px; padding: 2.5rem;
+    text-align: center;
+    transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s;
+    position: relative; overflow: hidden;
+  }
+  .ms-partner-card::after {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0; height: 3px;
+    background: linear-gradient(90deg, #00a4ef, #7fba00);
+    border-radius: 20px 20px 0 0;
+  }
+  .ms-partner-card:hover {
+    transform: translateY(-6px);
+    border-color: rgba(0,164,239,0.5);
+    box-shadow: 0 20px 60px rgba(0,120,212,0.15);
+  }
+
+  .ms-card-icon {
+    font-size: 2.5rem; margin-bottom: 1.2rem; display: block;
+  }
+
+  .ms-partner-card h3 {
+    font-family: 'Syne', sans-serif; font-size: 1.1rem; font-weight: 700;
+    margin-bottom: 0.5rem; color: #e8f4ff;
+  }
+
+  .ms-partner-card .ms-badge-label {
+    display: inline-block; font-size: 0.72rem; font-weight: 700;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    background: rgba(0,164,239,0.12); border: 1px solid rgba(0,164,239,0.25);
+    color: #60c8f5; padding: 0.25rem 0.7rem; border-radius: 50px;
+    margin-bottom: 1rem;
+  }
+
+  .ms-partner-card p { color: var(--muted); font-size: 0.87rem; line-height: 1.7; }
+
+  /* MAICPP highlight banner */
+  .maicpp-banner {
+    background: linear-gradient(135deg, rgba(0,120,212,0.12), rgba(0,164,239,0.06));
+    border: 1px solid rgba(0,164,239,0.25);
+    border-radius: 20px; padding: 3rem;
+    display: flex; align-items: center; gap: 3rem;
+    position: relative; overflow: hidden;
+  }
+
+  .maicpp-banner::before {
+    content: '';
+    position: absolute; right: -60px; top: -60px;
+    width: 250px; height: 250px; border-radius: 50%;
+    background: radial-gradient(circle, rgba(0,164,239,0.1), transparent 70%);
+    pointer-events: none;
+  }
+
+  .maicpp-logo-block {
+    flex-shrink: 0; text-align: center;
+    background: rgba(0,0,0,0.3);
+    border: 1px solid rgba(0,164,239,0.2);
+    border-radius: 16px; padding: 2rem 2.5rem;
+    min-width: 180px;
+  }
+
+  .maicpp-ms-logo {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 4px;
+    width: 48px; height: 48px; margin: 0 auto 1rem;
+  }
+  .maicpp-ms-logo span { display: block; border-radius: 2px; }
+  .maicpp-ms-logo span:nth-child(1) { background: #f25022; }
+  .maicpp-ms-logo span:nth-child(2) { background: #7fba00; }
+  .maicpp-ms-logo span:nth-child(3) { background: #00a4ef; }
+  .maicpp-ms-logo span:nth-child(4) { background: #ffb900; }
+
+  .maicpp-logo-block .prog-name {
+    font-family: 'Syne', sans-serif; font-size: 0.75rem; font-weight: 700;
+    color: #60c8f5; letter-spacing: 0.06em; text-transform: uppercase;
+    line-height: 1.4; margin-bottom: 0.5rem;
+  }
+  .maicpp-logo-block .prog-tag {
+    font-size: 0.7rem; color: var(--muted);
+  }
+
+  .maicpp-content { flex: 1; }
+  .maicpp-content h3 {
+    font-family: 'Syne', sans-serif; font-size: 1.4rem; font-weight: 700;
+    margin-bottom: 0.75rem; color: #e8f4ff;
+  }
+  .maicpp-content p { color: var(--muted); font-size: 0.93rem; line-height: 1.7; margin-bottom: 1.2rem; }
+
+  .maicpp-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+  .maicpp-tag {
+    background: rgba(0,164,239,0.1); border: 1px solid rgba(0,164,239,0.2);
+    color: #60c8f5; font-size: 0.78rem; font-weight: 500;
+    padding: 0.3rem 0.8rem; border-radius: 50px;
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 768px) {
+    .ms-partner-grid { grid-template-columns: 1fr; }
+    .maicpp-banner { flex-direction: column; gap: 2rem; }
+    .maicpp-logo-block { width: 100%; }
+  }
+    nav ul { display: none; }
+    .audience-grid { grid-template-columns: 1fr; }
+    .contact-wrapper { grid-template-columns: 1fr; }
+    .form-row { grid-template-columns: 1fr; }
+    h1 { font-size: 2.4rem; }
+    .hero-stats { gap: 2rem; }
+  }
+</style>
 </head>
-
 <body>
-   
-   
-   
-   
-    <nav>
-        <div class="container nav__container">
-            <a href="index.html">
-                <h4>QUANTUNM coaching</h4>
-            </a>
-            <ul class="nav__menu">
-                <li><a href="index.html">Home</a></li>
-                <li><a href="studyhall.html">Studyhall</a></li>
-                <li><a href="about.html">about</a></li>
-                <li><a href="courses.html">courses</a></li>
-                <li><a href="contact.html">contact us</a></li>
-            </ul>
-            <button id="open-menu-btn"><i class="fa-solid fa-bars"></i></i></button>
-            <button id="close-menu-btn"><i class="fa-solid fa-xmark"></i></i></button>
+
+<!-- SPACE CANVAS BACKGROUND -->
+<canvas id="spaceCanvas"></canvas>
+
+<!-- NAV -->
+<nav>
+  <div class="logo">SPACE<span>Q</span></div>
+  <ul>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#audience">Solutions</a></li>
+    <li><a href="#microsoft">Microsoft</a></li>
+    <li><a href="#why">Why Us</a></li>
+    <li><a href="#contact" class="nav-cta">Contact Us</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="grid-line"></div>
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+  <div class="orb orb-3"></div>
+  <div class="hero-content">
+    <div class="hero-badge">Microsoft AI Cloud Partner Program · MAICPP Member</div>
+    <h1>
+      Cloud Solutions<br>
+      <span class="line-accent">Engineered to Scale</span><br>
+      Your Business
+    </h1>
+    <p class="hero-sub">SpaceQ delivers enterprise-grade cloud infrastructure, corporate training, and educational programs — empowering businesses, trainers, and students in Nellore and beyond.</p>
+    <div class="hero-ctas">
+      <a href="#services" class="btn-primary">Explore Services</a>
+      <a href="#contact" class="btn-outline">Talk to Us</a>
+    </div>
+    <div class="hero-stats">
+      <div class="stat-item">
+        <div class="stat-num">100+</div>
+        <div class="stat-label">Cloud Projects</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">500+</div>
+        <div class="stat-label">Students Trained</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">50+</div>
+        <div class="stat-label">Corporate Clients</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section id="services">
+  <div class="services-header">
+    <div class="section-label">What We Do</div>
+    <div class="section-title">Cloud Services Built<br>for Every Need</div>
+    <p class="section-sub">From infrastructure migration to hands-on training — SpaceQ covers the full cloud spectrum.</p>
+  </div>
+  <div class="services-grid">
+    <div class="service-card">
+      <div class="service-icon">☁️</div>
+      <h3>Cloud Infrastructure</h3>
+      <p>Design, deploy, and manage scalable cloud environments on AWS, Azure, and Google Cloud tailored to your business demands.</p>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">🔄</div>
+      <h3>Migration & Deployment</h3>
+      <p>Seamless lift-and-shift or cloud-native migration strategies with minimal downtime and maximum efficiency.</p>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">🛡️</div>
+      <h3>Cloud Security</h3>
+      <p>End-to-end security architecture, compliance auditing, identity management, and threat monitoring for peace of mind.</p>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">📊</div>
+      <h3>Analytics & Data</h3>
+      <p>Cloud-native data pipelines, dashboards, and AI/ML integrations that turn raw data into actionable business insights.</p>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">🎓</div>
+      <h3>Corporate Training</h3>
+      <p>Customized instructor-led workshops and bootcamps for enterprise teams — cloud fundamentals to advanced certifications.</p>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">🚀</div>
+      <h3>DevOps & Automation</h3>
+      <p>CI/CD pipelines, container orchestration, and infrastructure-as-code to accelerate your software delivery lifecycle.</p>
+    </div>
+  </div>
+</section>
+
+<!-- AUDIENCE -->
+<section id="audience">
+  <div class="section-label">Who We Serve</div>
+  <div class="section-title">One Platform,<br>Multiple Journeys</div>
+  <p class="section-sub">Whether you're scaling a business, teaching a team, or starting your cloud career — SpaceQ has a path for you.</p>
+  <div class="audience-grid">
+    <div class="audience-card card-accent-corporate">
+      <span class="big-icon">🏢</span>
+      <h3>Businesses & Corporates</h3>
+      <p>We partner with startups, SMEs, and large enterprises to architect resilient, cost-optimised cloud environments. From strategy to execution, our team becomes an extension of yours.</p>
+      <div class="tag-list">
+        <span class="tag">Infrastructure</span>
+        <span class="tag">Migration</span>
+        <span class="tag">Security</span>
+        <span class="tag">DevOps</span>
+        <span class="tag">Analytics</span>
+      </div>
+    </div>
+    <div class="audience-card card-accent-education">
+      <span class="big-icon">👨‍💻</span>
+      <h3>Trainers & Students</h3>
+      <p>SpaceQ's learning programs are crafted for aspiring cloud professionals and corporate trainers. Real-world labs, certification prep, and mentorship from practising cloud architects.</p>
+      <div class="tag-list">
+        <span class="tag" style="color: var(--accent3); border-color: rgba(6,255,165,0.25); background: rgba(6,255,165,0.08);">AWS Cert Prep</span>
+        <span class="tag" style="color: var(--accent3); border-color: rgba(6,255,165,0.25); background: rgba(6,255,165,0.08);">Azure Fundamentals</span>
+        <span class="tag" style="color: var(--accent3); border-color: rgba(6,255,165,0.25); background: rgba(6,255,165,0.08);">Hands-on Labs</span>
+        <span class="tag" style="color: var(--accent3); border-color: rgba(6,255,165,0.25); background: rgba(6,255,165,0.08);">Mentorship</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MICROSOFT PARTNER -->
+<section id="microsoft">
+  <div class="ms-header">
+    <div class="section-label" style="text-align:center;">Official Partnership</div>
+    <div class="section-title" style="text-align:center;">Proud Microsoft<br>Certified Partner</div>
+    <p class="section-sub" style="text-align:center; margin:0 auto;">SpaceQ is a verified member of the Microsoft AI Cloud Partner Program (MAICPP) — the world's most recognised partner ecosystem for cloud excellence.</p>
+  </div>
+
+  <div class="ms-badge-strip">
+    <div class="ms-official-badge">
+      <div class="ms-windows-logo"><span></span><span></span><span></span><span></span></div>
+      Microsoft Solutions Partner
+    </div>
+    <div class="ms-official-badge">
+      <div class="ms-windows-logo"><span></span><span></span><span></span><span></span></div>
+      Microsoft Training Partner
+    </div>
+    <div class="ms-official-badge" style="background:rgba(127,186,0,0.1); border-color:rgba(127,186,0,0.35); color:#86efac;">
+      <div class="ms-windows-logo"><span></span><span></span><span></span><span></span></div>
+      MAICPP Member
+    </div>
+  </div>
+
+  <div class="ms-partner-grid">
+    <div class="ms-partner-card">
+      <span class="ms-card-icon">🏆</span>
+      <span class="ms-badge-label">Solutions Partner</span>
+      <h3>Microsoft Solutions Partner</h3>
+      <p>Certified to deliver Microsoft cloud solutions across key solution areas. We meet Microsoft's rigorous standards in performance, skilling, and customer success.</p>
+    </div>
+    <div class="ms-partner-card">
+      <span class="ms-card-icon">🎓</span>
+      <span class="ms-badge-label">Training Partner</span>
+      <h3>Microsoft Training Partner</h3>
+      <p>Authorised to deliver official Microsoft learning programs and certification training for corporate teams and individual learners — from fundamentals to expert level.</p>
+    </div>
+    <div class="ms-partner-card">
+      <span class="ms-card-icon">🤝</span>
+      <span class="ms-badge-label">MAICPP Member</span>
+      <h3>MAICPP Member</h3>
+      <p>Active member of the Microsoft AI Cloud Partner Program — the next generation of Microsoft's partner ecosystem, empowering AI and cloud transformation at scale.</p>
+    </div>
+  </div>
+
+  <div class="maicpp-banner">
+    <div class="maicpp-logo-block">
+      <div class="maicpp-ms-logo"><span></span><span></span><span></span><span></span></div>
+      <div class="prog-name">Microsoft AI Cloud<br>Partner Program</div>
+      <div class="prog-tag">MAICPP Member</div>
+    </div>
+    <div class="maicpp-content">
+      <h3>What MAICPP Membership Means for You</h3>
+      <p>The Microsoft AI Cloud Partner Program (MAICPP) is the next generation of Microsoft's global partner ecosystem. As an active MAICPP member, SpaceQ has demonstrated proven capabilities across cloud performance, customer success, and Microsoft technology skilling. This means you get solutions and training backed by Microsoft's highest partner standards.</p>
+      <div class="maicpp-tags">
+        <span class="maicpp-tag">Azure Cloud</span>
+        <span class="maicpp-tag">Microsoft 365</span>
+        <span class="maicpp-tag">AI &amp; Copilot</span>
+        <span class="maicpp-tag">Security</span>
+        <span class="maicpp-tag">Modern Work</span>
+        <span class="maicpp-tag">Data &amp; Analytics</span>
+        <span class="maicpp-tag">Official Certification Prep</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHY SPACEQ -->
+<section id="why">
+  <div class="section-label">Why SpaceQ</div>
+  <div class="section-title">The SpaceQ Difference</div>
+  <p class="section-sub">We combine deep technical expertise with a commitment to learning and local roots in Nellore.</p>
+  <div class="why-grid">
+    <div class="why-card">
+      <div class="why-num">01</div>
+      <h4>Certified Experts</h4>
+      <p>Our team holds AWS, Azure & GCP certifications with proven delivery experience across industries.</p>
+    </div>
+    <div class="why-card">
+      <div class="why-num">02</div>
+      <h4>Practice-Led Learning</h4>
+      <p>Every training program includes real cloud environments, not just slides — because skills come from doing.</p>
+    </div>
+    <div class="why-card">
+      <div class="why-num">03</div>
+      <h4>End-to-End Support</h4>
+      <p>From initial consultation to post-deployment support, SpaceQ is with you at every step.</p>
+    </div>
+    <div class="why-card">
+      <div class="why-num">04</div>
+      <h4>Microsoft Certified</h4>
+      <p>As an official Microsoft Solutions & Training Partner (MAICPP), our credentials are validated by the world's leading cloud ecosystem.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="section-label">Get In Touch</div>
+  <div class="section-title">Let's Build Something<br>in the Cloud</div>
+  <div class="contact-wrapper">
+    <div class="contact-info">
+      <div class="contact-item">
+        <div class="contact-item-icon">📍</div>
+        <div class="contact-item-text">
+          <h4>Address</h4>
+          <p>Vegetable Market Centre, Opp. Krishna Chaitanya Junior College,<br>Ramesh Reddy Nagar, Nellore,<br>Andhra Pradesh — 524003</p>
         </div>
-    </nav>
-
-
-    
-    <!--------------------------------- END OF NAVBAR -------------------------------->
-
-
-    
-    <header>
-        <div class="container header__container">
-            <div class="header__left">
-                <h1>grow your skill to advance your career path</h1>
-                <p>Unlock your potential, embrace the future. Empowering minds with cutting-edge knowledge and practical skills for a tech-driven world. Experience excellence in technical education with our dynamic online platform.</p>
-                <a href="courses.html" class="btn btn-primery">Get started</a>
-
-            </div>
-
-            <div class="header__right">
-                <div class="header__right-image">
-                    <img src="images/header.svg">
-                </div>
-            </div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-item-icon">📞</div>
+        <div class="contact-item-text">
+          <h4>Phone</h4>
+          <a href="tel:+918374242902">+91 83742 42902</a>
         </div>
-    </header>
-    <!--------------------------------- END OF HEADER -------------------------------->
-    <section class="categories">
-        <div class="container catogeries__container">
-            <div class="categories__left">
-                <h1>Categories</h1>
-                <p>Education isn’t an exception to the ever-growing use of the internet. Gone are those days when students had to spend hours in the library searching for answers, seeking references, verifying facts, etc. and then and come up with their observations and inferences.</p>
-                <a href="#" class="btn">learn more</a>
-            </div>
-
-            <div class="catogeries__right">
-                <article class="catogory">
-                    <span class="catogory__icon"><i class="fa-solid fa-lock"></i></span>
-                    <h5>cyber security</h5>
-                    <p>every aspect of protecting an organization and assets against cyber threats</p>
-                </article>
-
-                <article class="catogory">
-                    <span class="catogory__icon"><i class="fa-solid fa-wand-magic-sparkles"></i></span>
-                    <h5>Graphic design</h5>
-                    <p>the practice of composing and arranging the visual elements of a project.</p>
-                </article>
-
-                <article class="catogory">
-                    <span class="catogory__icon"><i class="fa-sharp fa-solid fa-indian-rupee-sign"></i></span>
-                    <h5>finance</h5>
-                    <p>Finance is about management, creation, and study of money and investments.</p>
-                </article>
-
-                <article class="catogory">
-                    <span class="catogory__icon"><i class="fa-solid fa-bullhorn"></i></span>
-                    <h5>marketing</h5>
-                    <p>a company's activity which promote to buying or selling of a product or service</p>
-                </article>
-
-                <article class="catogory">
-                    <span class="catogory__icon"><i class="fa-solid fa-code"></i></i></span>
-                    <h5>Programming</h5>
-                    <p>the process of transforming instructions into the computer's language</p>
-                </article>
-
-                <article class="catogory">
-                    <span class="catogory__icon"><i class="fa-solid fa-globe"></i></span>
-                    <h5>web development</h5>
-                    <p>the building and maintenance of websites</p>
-                </article>
-            </div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-item-icon">🕐</div>
+        <div class="contact-item-text">
+          <h4>Working Hours</h4>
+          <div class="hours-grid">
+            <span>Mon – Sun</span>
+            <span class="hour-value">5:00 AM – 10:30 PM</span>
+          </div>
         </div>
-    </section>
-    <!--------------------------------- END OF CATOGERY SECTION -------------------------------->
-    <section class="courses">
-        <h2>Our Popular courses</h2>
-        <div class="container courses__container">
-            <article class="course">
-                <div class="course__image">
-                    <img src="./images/course1.jpg" alt="">
-                </div>
-                <div class="course__info">
-                    <h4>Full stack web development</h4>
-                    <p>An immersive Full-Stack Developer course will help you build a solid foundation to impress the top-tech professionals and recruiters to land a good job in a product-based company.</p>
-                    <a href="courses.html" class="btn btn-primery">Learn More</a>
-                </div>
-            </article>
-
-            <article class="course">
-                <div class="course__image">
-                    <img src="./images/course2.jpg" alt="">
-                </div>
-                <div class="course__info">
-                    <h4>Data Science</h4>
-                    <p>One of the best courses to pursue after graduation is a master’s degree in data science. Data Science has deservedly earned the title of the best job of the twenty-first century.</p>
-                    <a href="courses.html" class="btn btn-primery">Learn More</a>
-                </div>
-            </article>
-
-            <article class="course">
-                <div class="course__image">
-                    <img src="./images/course3.jpg" alt="">
-                </div>
-                <div class="course__info">
-                    <h4>Cloud Computing</h4>
-                    <p>Cloud Computing is a Computer Science arm that deals with the storage, management, and processing of data on internet server networks. It is a global solution for retrieving and storing data. Cloud computing is rapidly becoming an important part of IT-based enterprises.</p>
-                    <a href="courses.html" class="btn btn-primery">Learn More</a>
-                </div>
-            </article>
+      </div>
+      <div class="contact-item">
+        <div class="contact-item-icon">🌐</div>
+        <div class="contact-item-text">
+          <h4>SpaceQ Study Hall</h4>
+          <p>Our state-of-the-art facility hosts in-person training sessions, workshops, and collaborative workspaces — rated 4.9 ⭐ by our community.</p>
         </div>
-    </section>
+      </div>
+    </div>
 
-    <!--------------------------------- END OF POPULAR COURSES -------------------------------->
-
-    <section class="faqs">
-        <h2>Frequently Asked Questions</h2>
-        <div class="container faqs__container">
-            <article class="faq">
-                <div class="faq_icon"><i class="fa-solid fa-plus"></i></div>
-                <div class="question__answer">
-                    <h4>What courses do you offer?</h4>
-                    <p>We offer a wide range of courses covering various technical disciplines such as programming, web development, data science, artificial intelligence, cybersecurity, and more. Our course catalog is constantly expanding to meet the evolving demands of the industry.</p>
-                </div>
-            </article>
-
-            <article class="faq">
-                <div class="faq_icon"><i class="fa-solid fa-plus"></i></div>
-                <div class="question__answer">
-                    <h4>How can I enroll in a course?</h4>
-                    <p>Enrolling in a course is easy! Simply visit our website, browse through the available courses, and select the one you're interested in. Click on the "Enroll" button, and you'll be guided through the enrollment process, which typically involves creating an account and making the necessary payment.</p>
-                </div>
-            </article>
-
-            <article class="faq">
-                <div class="faq_icon"><i class="fa-solid fa-plus"></i></i></div>
-                <div class="question__answer">
-                    <h4>Are the courses self-paced or instructor-led?</h4>
-                    <p>We offer both self-paced and instructor-led courses to cater to different learning preferences. Self-paced courses allow you to study at your own convenience and progress through the materials at your preferred pace. Instructor-led courses provide structured learning with designated class timings and the opportunity to interact with instructors and fellow learners.</p>
-                </div>
-            </article>
-
-            <article class="faq">
-                <div class="faq_icon"><i class="fa-solid fa-plus"></i></div>
-                <div class="question__answer">
-                    <h4>Do you provide certifications upon course completion?</h4>
-                    <p>Yes, upon successful completion of a course, we provide certifications that validate your skills and knowledge in the respective field. Our certifications are recognized and respected in the industry, helping you enhance your professional profile and career prospects.</p>
-                </div>
-            </article>
-
-            <article class="faq">
-                <div class="faq_icon"><i class="fa-solid fa-plus"></i></div>
-                <div class="question__answer">
-                    <h4>Can I access the course materials offline?</h4>
-                    <p>Our courses are primarily delivered through our online platform, allowing you to access the course materials anytime and anywhere with an internet connection. However, in some cases, we offer downloadable resources that you can access offline for specific modules or lessons.</p>
-                </div>
-            </article>
-
-            <article class="faq">
-                <div class="faq_icon"><i class="fa-solid fa-plus"></i></div>
-                <div class="question__answer">
-                    <h4>Is there any prerequisite required for the courses?</h4>
-                    <p>The prerequisite knowledge varies depending on the course. Some courses may have specific prerequisites, such as familiarity with a programming language or basic understanding of certain concepts. However, we also offer beginner-level courses that assume no prior knowledge, making them suitable for individuals with little to no technical background.</p>
-                </div>
-            </article>
-
-            <article class="faq">
-                <div class="faq_icon"><i class="fa-solid fa-plus"></i></div>
-                <div class="question__answer">
-                    <h4>What kind of support is available during the course?</h4>
-                    <p>We provide comprehensive support throughout your learning journey. Our courses feature discussion forums, where you can interact with instructors and fellow learners to ask questions, seek clarification, and engage in meaningful discussions. Additionally, our support team is available via email or chat to address any technical or administrative queries you may have.</p>
-                </div>
-            </article>
-
-            <article class="faq">
-                <div class="faq_icon"><i class="fa-solid fa-plus"></i></div>
-                <div class="question__answer">
-                    <h4>Are there any live interactive sessions or webinars?</h4>
-                    <p>Yes, we occasionally organize live interactive sessions and webinars conducted by industry experts. These sessions offer opportunities for real-time engagement, Q&A sessions, and in-depth discussions on specific topics related to the course content or industry trends.</p>
-                </div>
-            </article>
-
-            <article class="faq">
-                <div class="faq_icon"><i class="fa-solid fa-plus"></i></div>
-                <div class="question__answer">
-                    <h4>How long do I have access to the course materials?</h4>
-                    <p>Upon enrollment, you typically gain access to the course materials for an extended period. The specific duration of access varies depending on the course, ranging from a few months to a year or more. This allows you ample time to study, review the materials, and complete any assignments or assessments at your own pace.</p>
-                </div>
-            </article>
-
-            <article class="faq">
-                <div class="faq_icon"><i class="fa-solid fa-plus"></i></div>
-                <div class="question__answer">
-                    <h4>Is financial aid or scholarships available?</h4>
-                    <p>We understand the importance of making education accessible to all. While the availability of financial aid or scholarships may vary, we strive to provide opportunities for eligible individuals. Please check our website or contact our support team for information regarding any available financial aid options or scholarship programs.</p>
-                </div>
-            </article>
+    <div class="contact-form">
+      <h3>Send Us a Message</h3>
+      <div class="form-row">
+        <div class="form-group">
+          <label>First Name</label>
+          <input type="text" placeholder="Ravi">
         </div>
-    </section>
-
-    <script>
-        const faqs = document.querySelectorAll('.faq');
-
-        faqs.forEach(faq => {
-            faq.addEventListener('click', () => {
-                faq.classList.toggle('open');
-
-                //change icon from plus to the minus
-                const icon = faq.querySelector('.faq_icon i ');
-                if (icon.className === "fa-solid fa-plus") {
-                    icon.className = "fa-solid fa-minus";
-                } else {
-                    icon.className = "fa-solid fa-plus";
-                }
-            })
-        })
-    </script>
-
-    <!--------------------------------- END OF FAQs -------------------------------->
-
-    <!------------- starting of the student testimonial section ------------------------>
-
-    <section class="container testimonials__container mySwiper">
-        <h2>Student's Testimonial</h2>
-        <div class="swiper-wrapper">
-            <article class="testimonial swiper-slide">
-                <div class="avatar">
-                    <img src="./images/avatar1.jpg" alt="">
-                </div>
-                <div class="testimonial__info">
-                    <h5>Madhu</h5>
-                    <small>Web Development Student</small>
-                </div>
-                <div class="testimonial__body">
-                    <p>"I was amazed by the depth of knowledge and practical skills I gained from the web development course. The instructors were exceptional, and the interactive learning environment helped me master the latest industry techniques. Highly recommended!"</p>
-                </div>
-            </article>
-
-
-            <article class="testimonial swiper-slide">
-                <div class="avatar">
-                    <img src="./images/avatar2.jpg" alt="">
-                </div>
-                <div class="testimonial__info">
-                    <h5>janani</h5>
-                    <small>Data Science Student</small>
-                </div>
-                <div class="testimonial__body">
-                    <p>"Enrolling in the data science program was a game-changer for my career. The comprehensive curriculum, hands-on projects, and mentorship opportunities helped me build a solid foundation in data analysis and machine learning. Thanks to this program, I landed my dream job!"</p>
-                </div>
-            </article>
-
-
-            <article class="testimonial swiper-slide">
-                <div class="avatar">
-                    <img src="./images/avatar3.jpg" alt="">
-                </div>
-                <div class="testimonial__info">
-                    <h5>Himanshu</h5>
-                    <small>Programming Student</small>
-                </div>
-                <div class="testimonial__body">
-                    <p>"I had zero coding experience before joining the programming course. The course structure and step-by-step guidance helped me grasp coding concepts quickly. The support from instructors and the online community made my learning journey enjoyable and rewarding. Now, I'm confident in my programming abilities!"</p>
-                </div>
-            </article>
-
-
-            <article class="testimonial swiper-slide">
-                <div class="avatar">
-                    <img src="./images/avatar4.jpg" alt="">
-                </div>
-                <div class="testimonial__info">
-                    <h5>Shivam</h5>
-                    <small>Cybersecurity Student</small>
-                </div>
-                <div class="testimonial__body">
-                    <p>"The cybersecurity course surpassed my expectations. The content was up-to-date and covered various cybersecurity domains. The practical labs and simulated scenarios gave me a real-world perspective on tackling security threats. This course equipped me with the skills to protect organizations from cyber risks."</p>
-                </div>
-            </article>
-
-
-            <article class="testimonial swiper-slide">
-                <div class="avatar">
-                    <img src="./images/avatar5.jpg" alt="">
-                </div>
-                <div class="testimonial__info">
-                    <h5>Pritam</h5>
-                    <small>Artificial Intelligence Student</small>
-                </div>
-                <div class="testimonial__body">
-                    <p>"I couldn't be happier with my experience in the artificial intelligence course. The curriculum was well-structured, and the instructors were knowledgeable and approachable. The course not only taught me the theory but also provided hands-on projects that allowed me to apply AI techniques. It was truly transformative!"</p>
-                </div>
-            </article>
+        <div class="form-group">
+          <label>Last Name</label>
+          <input type="text" placeholder="Kumar">
         </div>
-        <div class="swiper-pagination"></div>
-    </section>
+      </div>
+      <div class="form-group">
+        <label>Email Address</label>
+        <input type="email" placeholder="you@company.com">
+      </div>
+      <div class="form-group">
+        <label>Phone Number</label>
+        <input type="tel" placeholder="+91 98765 43210">
+      </div>
+      <div class="form-group">
+        <label>I am a...</label>
+        <select>
+          <option value="">Select your profile</option>
+          <option>Business / Corporate</option>
+          <option>Corporate Trainer</option>
+          <option>Student</option>
+          <option>Freelancer / Developer</option>
+          <option>Other</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>How can we help?</label>
+        <textarea placeholder="Describe your requirements or ask us anything..."></textarea>
+      </div>
+      <button class="submit-btn">Send Message →</button>
+    </div>
+  </div>
+</section>
 
-    <script>
-        var swiper = new Swiper(".mySwiper", {
-            slidesPerView: 1,
-            spaceBetween: 30,
-            pagination: {
-                el: ".swiper-pagination",
-                clickable: true,
-            },
-            //when window width is >= 600px
-            breakpoints: {
-                600: {
-                    slidesPerView: 2
-                }
-            }
-        });
-    </script>
+<!-- FOOTER -->
+<footer>
+  <div class="logo">SPACE<span>Q</span></div>
+  <p>© 2025 SpaceQ. Cloud Solutions · Nellore, Andhra Pradesh</p>
+  <nav>
+    <ul>
+      <li><a href="#services">Services</a></li>
+      <li><a href="#audience">Solutions</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+</footer>
 
-    <!--------- NOW IT'S TIME FOR THE FOOTER SECTION  --------->
+<script>
+// ═══════════════════════════════════════════════════
+//  SPACEQ — SPACE BACKGROUND ENGINE (Fixed)
+// ═══════════════════════════════════════════════════
+(function () {
+  const canvas = document.getElementById('spaceCanvas');
+  const ctx    = canvas.getContext('2d');
+  let W, H;
 
-    <footer>
-        <div class="container footer__container">
-            <div class="footer__1">
-                <a href="index.html" class="footer__logo">
-                    <h4>Quantum-coaching</h4>
-                </a>
-                <p>"Unlock Your Potential with Cutting-Edge Knowledge: Empowering the Tech Innovators of Tomorrow!"</p>
-            </div>
+  function resize() {
+    W = canvas.width  = window.innerWidth;
+    H = canvas.height = window.innerHeight;
+  }
+  resize();
+  window.addEventListener('resize', () => { resize(); initAll(); });
 
-            <div class="footer__2">
-                <h4>Parmalinks</h4>
-                <ul class="Parmalinks">
-                    <li><a href="index.html">Home</a></li>
-                    <li><a href="about.html">About</a></li>
-                    <li><a href="courses.html">courses</a></li>
-                    <li><a href="contact.html">contact us</a></li>
-                </ul>
-            </div>
+  /* ── Utilities ── */
+  const rand  = (a, b) => Math.random() * (b - a) + a;
+  const randI = (a, b) => Math.floor(rand(a, b));
+  const TAU   = Math.PI * 2;
 
-            <div class="footer__3">
-                <h4>primacy</h4>
-                <ul class="privacy">
-                    <li><a href="#">privacy policy</a></li>
-                    <li><a href="#">Terms and conditions</a></li>
-                    <li><a href="#"></a>Refund policy</li>
-                </ul>
-            </div>
+  /* ── Rounded rectangle helper (replaces ctx.roundRect for compatibility) ── */
+  function roundRect(x, y, w, h, r) {
+    ctx.beginPath();
+    ctx.moveTo(x + r, y);
+    ctx.lineTo(x + w - r, y);
+    ctx.quadraticCurveTo(x + w, y, x + w, y + r);
+    ctx.lineTo(x + w, y + h - r);
+    ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+    ctx.lineTo(x + r, y + h);
+    ctx.quadraticCurveTo(x, y + h, x, y + h - r);
+    ctx.lineTo(x, y + r);
+    ctx.quadraticCurveTo(x, y, x + r, y);
+    ctx.closePath();
+  }
 
-            <div class="footer__4">
-                <h4>Contact us</h4>
-                <div>
-                    <p>+91 9494492902</p>
-                    <p>suryagunji24@gmail.com</p>
-                </div>
-            
-                <ul class="footer__socials">
-                <li><a href="https://www.facebook.com/profile.php?id=100011312194742"><i class="fa-brands fa-facebook"></i></a></li>
-                <li><a href="https://www.instagram.com/niru.nny/"><i class="fa-brands fa-instagram"></i></a></li>
-                <li><a href="#"><i class="fa-brands fa-twitter"></i></a></li>
-                <li><a href="https://www.linkedin.com/in/niru-nny/"><i class="fa-brands fa-linkedin"></i></a></li>
-            </ul>
-            </div>
-        </div>
-        <div class="footer__copyright">
-            <small>Copyright &copy; made by <i class="fa-solid fa-heart fa-beat-fade" style="color: #fa2500;"></i>
-                Spaceq</small>
-        </div>
-    </footer>
+  /* ════════════════ STARS ════════════════ */
+  let stars = [];
+  function initStars() {
+    stars = [];
+    const count = Math.floor((W * H) / 1800);
+    const palette = ['#ffffff','#cce8ff','#ffe8cc','#ffcccc','#ccffee','#e0ccff'];
+    for (let i = 0; i < count; i++) {
+      stars.push({
+        x: rand(0, W), y: rand(0, H),
+        r: rand(0.3, 2.2),
+        alpha: rand(0.3, 1),
+        twinkleSpeed: rand(0.3, 1.5),
+        twinklePhase: rand(0, TAU),
+        color: palette[randI(0, palette.length)]
+      });
+    }
+  }
 
-    <!--------- FOOTER SECTION ENDS --------->
+  function drawStars(t) {
+    stars.forEach(s => {
+      const a = s.alpha * (0.5 + 0.5 * Math.sin(t * s.twinkleSpeed + s.twinklePhase));
+      ctx.beginPath();
+      ctx.arc(s.x, s.y, s.r, 0, TAU);
+      ctx.fillStyle = s.color;
+      ctx.globalAlpha = Math.max(0, Math.min(1, a));
+      ctx.fill();
+    });
+    ctx.globalAlpha = 1;
+  }
 
-    <script src="main.js"></script>
+  /* ════════════════ NEBULAE ════════════════ */
+  let nebulae = [];
+  function initNebulae() {
+    nebulae = [
+      { cx: 0.75, cy: 0.25, r: 0.32, c1: 'rgba(90,20,180,0.18)',  c2: 'rgba(0,0,0,0)' },
+      { cx: 0.15, cy: 0.65, r: 0.25, c1: 'rgba(0,160,220,0.14)',  c2: 'rgba(0,0,0,0)' },
+      { cx: 0.55, cy: 0.80, r: 0.20, c1: 'rgba(180,40,120,0.12)', c2: 'rgba(0,0,0,0)' },
+      { cx: 0.88, cy: 0.70, r: 0.18, c1: 'rgba(40,200,160,0.10)', c2: 'rgba(0,0,0,0)' },
+      { cx: 0.30, cy: 0.15, r: 0.22, c1: 'rgba(200,100,40,0.09)', c2: 'rgba(0,0,0,0)' },
+    ];
+  }
 
+  function drawNebulae() {
+    nebulae.forEach(n => {
+      const gx = n.cx * W, gy = n.cy * H, gr = n.r * Math.max(W, H);
+      const g = ctx.createRadialGradient(gx, gy, 0, gx, gy, gr);
+      g.addColorStop(0, n.c1);
+      g.addColorStop(1, n.c2);
+      ctx.globalAlpha = 1;
+      ctx.beginPath();
+      ctx.arc(gx, gy, gr, 0, TAU);
+      ctx.fillStyle = g;
+      ctx.fill();
+    });
+  }
+
+  /* ════════════════ GALAXY (pre-baked particles, no rand per frame) ════════════════ */
+  let galaxyParticles = [];
+  let galaxyAngle = 0;
+
+  function initGalaxy() {
+    galaxyParticles = [];
+    const arms = 3, ppa = 200;
+    for (let arm = 0; arm < arms; arm++) {
+      const armOffset = (TAU / arms) * arm;
+      for (let i = 0; i < ppa; i++) {
+        const progress = i / ppa;
+        const angle    = armOffset + progress * TAU * 2.5;
+        const radius   = progress * 160;
+        const spread   = rand(-18, 18);
+        const px = Math.cos(angle) * (radius + spread);
+        const py = Math.sin(angle) * (radius + spread) * 0.55;
+        const size  = (rand(0.4, 1.6)) * (1 - progress * 0.6);
+        const alpha = (1 - progress) * 0.55 * rand(0.5, 1);
+        const hue   = 200 + arm * 40 + progress * 60;
+        galaxyParticles.push({ px, py, size: Math.max(0.3, size), alpha, hue });
+      }
+    }
+  }
+
+  function drawGalaxy() {
+    const cx = W * 0.78, cy = H * 0.22;
+    ctx.save();
+    ctx.translate(cx, cy);
+    ctx.rotate(galaxyAngle);
+
+    galaxyParticles.forEach(p => {
+      ctx.beginPath();
+      ctx.arc(p.px, p.py, p.size, 0, TAU);
+      ctx.fillStyle = `hsla(${p.hue},80%,80%,${p.alpha})`;
+      ctx.globalAlpha = 1;
+      ctx.fill();
+    });
+
+    // Bright core glow
+    const core = ctx.createRadialGradient(0, 0, 0, 0, 0, 30);
+    core.addColorStop(0,   'rgba(255,220,180,0.75)');
+    core.addColorStop(0.3, 'rgba(180,120,255,0.30)');
+    core.addColorStop(1,   'rgba(0,0,0,0)');
+    ctx.beginPath();
+    ctx.arc(0, 0, 30, 0, TAU);
+    ctx.fillStyle = core;
+    ctx.globalAlpha = 1;
+    ctx.fill();
+
+    ctx.restore();
+    galaxyAngle += 0.0003;
+  }
+
+  /* ════════════════ COMETS ════════════════ */
+  let comets = [];
+  let cometTimer = 0;
+
+  function spawnComet() {
+    const fromTop = Math.random() > 0.5;
+    const hue = randI(180, 261);
+    comets.push({
+      x: fromTop ? rand(0, W) : 0,
+      y: fromTop ? 0 : rand(0, H * 0.5),
+      vx: rand(8, 18), vy: rand(3, 9),
+      len: rand(120, 280),
+      alpha: rand(0.7, 1),
+      width: rand(1.2, 2.5),
+      hue,                       // store hue separately — no string manipulation
+      life: 0,
+      maxLife: rand(60, 120)
+    });
+  }
+
+  function updateComets() {
+    cometTimer++;
+    if (cometTimer % 90 === 0 && comets.length < 4) spawnComet();
+    comets = comets.filter(c => c.life < c.maxLife);
+    comets.forEach(c => {
+      c.x += c.vx; c.y += c.vy; c.life++;
+      const fade  = 1 - c.life / c.maxLife;
+      const speed = Math.hypot(c.vx, c.vy);
+      const tx = c.x - (c.vx / speed) * c.len;
+      const ty = c.y - (c.vy / speed) * c.len;
+
+      const g = ctx.createLinearGradient(c.x, c.y, tx, ty);
+      g.addColorStop(0, `hsla(${c.hue},100%,90%,${fade * c.alpha})`);
+      g.addColorStop(1, 'rgba(255,255,255,0)');
+
+      ctx.beginPath();
+      ctx.moveTo(c.x, c.y);
+      ctx.lineTo(tx, ty);
+      ctx.strokeStyle = g;
+      ctx.lineWidth   = c.width * fade;
+      ctx.globalAlpha = 1;
+      ctx.stroke();
+
+      // Head glow
+      const glowR = Math.max(0.1, c.width * 1.8 * fade);
+      ctx.beginPath();
+      ctx.arc(c.x, c.y, glowR, 0, TAU);
+      ctx.fillStyle = `rgba(255,255,255,${fade * 0.8})`;
+      ctx.fill();
+    });
+  }
+
+  /* ════════════════ SPACESHIP ════════════════ */
+  class Spaceship {
+    constructor(small = false) {
+      this.small = small;
+      this.reset(true);
+    }
+
+    reset(init = false) {
+      this.x   = init ? rand(-500, -100) : -200;
+      this.y   = rand(H * (this.small ? 0.5 : 0.05), H * (this.small ? 0.92 : 0.55));
+      this.vx  = rand(this.small ? 1.2 : 1.8, this.small ? 2.2 : 3.5);
+      this.vy  = rand(-0.3, 0.5);
+      this.scale = rand(this.small ? 0.35 : 0.6, this.small ? 0.55 : 1.2);
+      this.alpha = init ? rand(0, 0.3) : 0;
+      this.thrustPhase = 0;
+    }
+
+    update() {
+      this.x += this.vx;
+      this.y += this.vy;
+      this.thrustPhase += 0.18;
+      if (this.x < 120)      this.alpha = Math.min(0.95, this.alpha + 0.025);
+      if (this.x > W - 180)  this.alpha = Math.max(0, this.alpha - 0.025);
+      if (this.x > W + 350)  this.reset(false);
+    }
+
+    draw() {
+      if (this.alpha <= 0.01) return;
+      ctx.save();
+      ctx.translate(this.x, this.y);
+      ctx.scale(this.scale, this.scale);
+      ctx.globalAlpha = this.alpha;
+      ctx.rotate(Math.atan2(this.vy, this.vx));
+
+      // Thrust flame
+      const tLen = 30 + Math.sin(this.thrustPhase) * 12;
+      const tg   = ctx.createLinearGradient(0, 0, -(tLen + 20), 0);
+      tg.addColorStop(0,   'rgba(0,200,255,0.9)');
+      tg.addColorStop(0.35,'rgba(120,80,255,0.6)');
+      tg.addColorStop(1,   'rgba(0,0,0,0)');
+      ctx.beginPath();
+      ctx.moveTo(-14, -5); ctx.lineTo(-14 - tLen, 0); ctx.lineTo(-14, 5);
+      ctx.fillStyle = tg; ctx.fill();
+
+      // Secondary flame
+      const tg2 = ctx.createLinearGradient(0, 0, -(tLen * 0.6), 0);
+      tg2.addColorStop(0, 'rgba(0,255,180,0.7)');
+      tg2.addColorStop(1, 'rgba(0,0,0,0)');
+      ctx.beginPath();
+      ctx.moveTo(-12, -2); ctx.lineTo(-12 - tLen * 0.6, 0); ctx.lineTo(-12, 2);
+      ctx.fillStyle = tg2; ctx.fill();
+
+      // Hull
+      ctx.beginPath();
+      ctx.moveTo(40, 0); ctx.lineTo(10, -10); ctx.lineTo(-20, -8);
+      ctx.lineTo(-30, -4); ctx.lineTo(-30, 4); ctx.lineTo(-20, 8); ctx.lineTo(10, 10);
+      ctx.closePath();
+      const hull = ctx.createLinearGradient(-30, -10, 40, 10);
+      hull.addColorStop(0, '#1a2a4a'); hull.addColorStop(0.5, '#2a4a7a'); hull.addColorStop(1, '#0a1a3a');
+      ctx.fillStyle = hull; ctx.strokeStyle = 'rgba(0,200,255,0.55)'; ctx.lineWidth = 0.8;
+      ctx.fill(); ctx.stroke();
+
+      // Cockpit
+      ctx.beginPath();
+      ctx.ellipse(16, -2, 10, 6, 0, 0, TAU);
+      const cg = ctx.createRadialGradient(14, -4, 1, 16, -2, 9);
+      cg.addColorStop(0, 'rgba(150,230,255,0.9)'); cg.addColorStop(1, 'rgba(0,80,160,0.4)');
+      ctx.fillStyle = cg; ctx.fill();
+
+      // Wing top
+      ctx.beginPath();
+      ctx.moveTo(5,-8); ctx.lineTo(-10,-28); ctx.lineTo(-22,-24); ctx.lineTo(-20,-8);
+      ctx.closePath();
+      ctx.fillStyle = '#162040'; ctx.strokeStyle = 'rgba(0,180,255,0.4)'; ctx.lineWidth = 0.6;
+      ctx.fill(); ctx.stroke();
+
+      // Wing bottom
+      ctx.beginPath();
+      ctx.moveTo(5,8); ctx.lineTo(-10,28); ctx.lineTo(-22,24); ctx.lineTo(-20,8);
+      ctx.closePath();
+      ctx.fillStyle = '#162040'; ctx.fill(); ctx.stroke();
+
+      // Engine pods — use helper instead of roundRect
+      roundRect(-22, -16, 14, 7, 3);
+      ctx.fillStyle = '#0d1a33'; ctx.strokeStyle = 'rgba(0,200,255,0.5)'; ctx.lineWidth = 0.7;
+      ctx.fill(); ctx.stroke();
+
+      roundRect(-22, 9, 14, 7, 3);
+      ctx.fill(); ctx.stroke();
+
+      // Ship glow
+      const sg = ctx.createRadialGradient(0, 0, 10, 0, 0, 55);
+      sg.addColorStop(0, 'rgba(0,180,255,0.07)'); sg.addColorStop(1, 'rgba(0,0,0,0)');
+      ctx.beginPath(); ctx.arc(0, 0, 55, 0, TAU);
+      ctx.fillStyle = sg; ctx.fill();
+
+      ctx.restore();
+    }
+  }
+
+  let ship1, ship2;
+  function initShips() {
+    ship1 = new Spaceship(false);
+    ship2 = new Spaceship(true);
+  }
+
+  /* ════════════════ PLANETS ════════════════ */
+  let planets = [];
+  function initPlanets() {
+    planets = [
+      { px: 0.92, py: 0.55, r: 55, cA: '#1a3060', cB: '#0a1a40', ring: true,  rt: 0.35 },
+      { px: 0.06, py: 0.88, r: 32, cA: '#3a1a20', cB: '#200a10', ring: false },
+      { px: 0.50, py: 0.05, r: 18, cA: '#103040', cB: '#051820', ring: false },
+    ];
+  }
+
+  function drawPlanets() {
+    planets.forEach(p => {
+      const x = p.px * W, y = p.py * H, r = p.r;
+
+      // Body
+      const g = ctx.createRadialGradient(x - r*0.3, y - r*0.3, r*0.1, x, y, r);
+      g.addColorStop(0, p.cA); g.addColorStop(1, p.cB);
+      ctx.beginPath(); ctx.arc(x, y, r, 0, TAU);
+      ctx.fillStyle = g; ctx.globalAlpha = 0.75; ctx.fill();
+
+      // Atmosphere
+      const atm = ctx.createRadialGradient(x, y, r*0.85, x, y, r*1.3);
+      atm.addColorStop(0, 'rgba(80,140,255,0.15)'); atm.addColorStop(1, 'rgba(0,0,0,0)');
+      ctx.beginPath(); ctx.arc(x, y, r*1.3, 0, TAU);
+      ctx.fillStyle = atm; ctx.globalAlpha = 1; ctx.fill();
+
+      // Ring
+      if (p.ring) {
+        ctx.save();
+        ctx.translate(x, y); ctx.scale(1, p.rt);
+        const rg = ctx.createLinearGradient(-r*2, 0, r*2, 0);
+        rg.addColorStop(0,    'rgba(100,160,255,0)');
+        rg.addColorStop(0.25, 'rgba(120,180,255,0.35)');
+        rg.addColorStop(0.5,  'rgba(160,200,255,0.12)');
+        rg.addColorStop(0.75, 'rgba(120,180,255,0.35)');
+        rg.addColorStop(1,    'rgba(100,160,255,0)');
+        ctx.beginPath(); ctx.ellipse(0, 0, r*2, r*0.18, 0, 0, TAU);
+        ctx.strokeStyle = rg; ctx.lineWidth = r*0.32; ctx.globalAlpha = 0.6;
+        ctx.stroke();
+        ctx.restore(); ctx.globalAlpha = 1;
+      }
+    });
+  }
+
+  /* ════════════════ ASTEROIDS ════════════════ */
+  let asteroids = [];
+  function initAsteroids() {
+    asteroids = [];
+    for (let i = 0; i < 18; i++) {
+      // Pre-compute irregular shape offsets
+      const sides = 7;
+      const offsets = Array.from({length: sides}, (_, j) => 0.7 + 0.3 * Math.sin(j * 2.3));
+      asteroids.push({
+        x: rand(0, W), y: rand(H * 0.3, H * 0.9),
+        vx: rand(0.3, 1.2), vy: rand(-0.2, 0.2),
+        r: rand(2, 7), rot: rand(0, TAU), rotSpeed: rand(-0.02, 0.02),
+        alpha: rand(0.3, 0.7), offsets, sides
+      });
+    }
+  }
+
+  function updateDrawAsteroids() {
+    asteroids.forEach(a => {
+      a.x += a.vx; a.y += a.vy; a.rot += a.rotSpeed;
+      if (a.x > W + 20) a.x = -20;
+
+      ctx.save();
+      ctx.translate(a.x, a.y); ctx.rotate(a.rot);
+      ctx.globalAlpha = a.alpha;
+      ctx.beginPath();
+      for (let i = 0; i < a.sides; i++) {
+        const ang = (i / a.sides) * TAU;
+        const rr  = a.r * a.offsets[i];
+        i === 0 ? ctx.moveTo(Math.cos(ang)*rr, Math.sin(ang)*rr)
+                : ctx.lineTo(Math.cos(ang)*rr, Math.sin(ang)*rr);
+      }
+      ctx.closePath();
+      ctx.fillStyle = '#3a4a5a'; ctx.strokeStyle = 'rgba(150,180,220,0.3)'; ctx.lineWidth = 0.5;
+      ctx.fill(); ctx.stroke();
+      ctx.restore();
+    });
+    ctx.globalAlpha = 1;
+  }
+
+  /* ════════════════ INIT + LOOP ════════════════ */
+  function initAll() {
+    initStars();
+    initNebulae();
+    initGalaxy();
+    initPlanets();
+    initAsteroids();
+    initShips();
+  }
+
+  function loop(ts) {
+    const t = ts * 0.001;
+    ctx.clearRect(0, 0, W, H);
+    ctx.fillStyle = '#02040e';
+    ctx.fillRect(0, 0, W, H);
+
+    drawNebulae();
+    drawStars(t);
+    drawGalaxy();
+    drawPlanets();
+    updateDrawAsteroids();
+    updateComets();
+    ship1.update(); ship1.draw();
+    ship2.update(); ship2.draw();
+
+    requestAnimationFrame(loop);
+  }
+
+  initAll();
+  requestAnimationFrame(loop);
+})();
+
+/* ═══════════════════════════════════════════════════
+   PAGE INTERACTIONS
+═══════════════════════════════════════════════════ */
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.style.opacity  = '1';
+      e.target.style.transform = 'translateY(0)';
+    }
+  });
+}, { threshold: 0.1 });
+
+document.querySelectorAll('.service-card, .audience-card, .why-card, .contact-item').forEach(el => {
+  el.style.opacity   = '0';
+  el.style.transform = 'translateY(20px)';
+  el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+  observer.observe(el);
+});
+
+const submitBtn = document.querySelector('.submit-btn');
+if (submitBtn) {
+  submitBtn.addEventListener('click', () => {
+    submitBtn.textContent = '✓ Message Sent!';
+    submitBtn.style.background = 'linear-gradient(135deg, #06ffa5, #00a86b)';
+    setTimeout(() => {
+      submitBtn.textContent  = 'Send Message →';
+      submitBtn.style.background = '';
+    }, 3000);
+  });
+}
+</script>
 
 </body>
- 
 </html>
