@@ -8,7 +8,7 @@
 <style>
   :root {
     --bg:#080c14;--surface:#0d1421;--card:#111927;--border:#1e2d42;
-    --accent:#00d4ff;--accent2:#ff6b35;--green:#10b981;--red:#ef4444;
+    --accent:#00d4ff;--green:#10b981;--red:#ef4444;
     --yellow:#f59e0b;--purple:#7c3aed;--text:#e2e8f0;--muted:#64748b;
     --fh:'Syne',sans-serif;--fm:'Space Mono',monospace;
   }
@@ -16,17 +16,9 @@
   body{background:var(--bg);color:var(--text);font-family:var(--fh);min-height:100vh;}
   body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(0,212,255,0.025) 1px,transparent 1px),linear-gradient(90deg,rgba(0,212,255,0.025) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;z-index:0;}
 
-  /* CONNECT SCREEN */
-  #connectScreen{
-    position:fixed;inset:0;z-index:100;
-    display:flex;align-items:center;justify-content:center;
-    background:var(--bg);
-  }
-  .connect-box{
-    background:var(--card);border:1px solid var(--border);border-radius:20px;
-    padding:40px;max-width:560px;width:90%;text-align:center;
-    box-shadow:0 40px 80px rgba(0,0,0,0.6);
-  }
+  /* ── CONNECT SCREEN ── */
+  #connectScreen{position:fixed;inset:0;z-index:100;display:flex;align-items:center;justify-content:center;background:var(--bg);}
+  .connect-box{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:40px;max-width:560px;width:90%;text-align:center;box-shadow:0 40px 80px rgba(0,0,0,0.6);}
   .connect-box h2{font-size:1.6rem;font-weight:800;margin-bottom:6px;}
   .connect-box p{color:var(--muted);font-size:0.82rem;line-height:1.6;margin-bottom:28px;}
   .step-row{display:flex;flex-direction:column;gap:12px;margin-bottom:24px;text-align:left;}
@@ -35,56 +27,26 @@
   .step-text{font-size:0.75rem;color:var(--text);line-height:1.5;}
   .step-text strong{color:var(--accent);}
   .step-text code{background:rgba(0,212,255,0.1);padding:1px 6px;border-radius:4px;font-family:var(--fm);font-size:0.68rem;color:var(--accent);}
-
   .input-group{position:relative;margin-bottom:14px;}
   .input-group label{display:block;font-size:0.7rem;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;text-align:left;}
-  .input-group input{
-    width:100%;background:var(--surface);border:1px solid var(--border);
-    color:var(--text);padding:12px 16px;border-radius:10px;
-    font-family:var(--fm);font-size:0.75rem;outline:none;
-    transition:border-color 0.2s;
-  }
+  .input-group input{width:100%;background:var(--surface);border:1px solid var(--border);color:var(--text);padding:12px 16px;border-radius:10px;font-family:var(--fm);font-size:0.75rem;outline:none;transition:border-color 0.2s;}
   .input-group input:focus{border-color:var(--accent);}
   .input-group input::placeholder{color:var(--muted);}
-  .extracted-id{
-    font-size:0.7rem;font-family:var(--fm);
-    padding:6px 12px;border-radius:6px;margin-bottom:12px;
-    display:none;text-align:left;
-  }
+  .extracted-id{font-size:0.7rem;font-family:var(--fm);padding:6px 12px;border-radius:6px;margin-bottom:12px;display:none;text-align:left;}
   .extracted-id.ok{background:rgba(16,185,129,0.1);border:1px solid rgba(16,185,129,0.3);color:var(--green);}
   .extracted-id.err{background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.3);color:var(--red);}
-
-  /* Connect error shown on connect screen */
-  #connectError{
-    display:none;
-    background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.3);
-    border-radius:10px;padding:14px 16px;margin-bottom:14px;
-    color:var(--red);font-size:0.74rem;font-family:var(--fm);text-align:left;
-    line-height:1.6;
-  }
-
-  .connect-btn{
-    width:100%;padding:13px;background:linear-gradient(135deg,var(--accent),var(--purple));
-    border:none;border-radius:10px;color:#000;font-family:var(--fh);font-weight:800;
-    font-size:0.88rem;cursor:pointer;letter-spacing:0.5px;transition:all 0.2s;
-  }
+  #connectError{display:none;background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.3);border-radius:10px;padding:14px 16px;margin-bottom:14px;color:var(--red);font-size:0.74rem;font-family:var(--fm);text-align:left;line-height:1.6;}
+  .connect-btn{width:100%;padding:13px;background:linear-gradient(135deg,var(--accent),var(--purple));border:none;border-radius:10px;color:#000;font-family:var(--fh);font-weight:800;font-size:0.88rem;cursor:pointer;letter-spacing:0.5px;transition:all 0.2s;}
   .connect-btn:hover{transform:translateY(-2px);box-shadow:0 10px 28px rgba(0,212,255,0.3);}
   .connect-btn:disabled{opacity:0.5;cursor:not-allowed;transform:none;}
-  .demo-link{margin-top:14px;font-size:0.72rem;color:var(--muted);cursor:pointer;text-decoration:underline;}
-  .demo-link:hover{color:var(--accent);}
 
-  /* HEADER */
-  header{
-    position:relative;z-index:10;
-    display:flex;align-items:center;justify-content:space-between;
-    padding:16px 28px;border-bottom:1px solid var(--border);
-    background:rgba(8,12,20,0.97);backdrop-filter:blur(12px);
-  }
+  /* ── HEADER ── */
+  header{position:relative;z-index:10;display:flex;align-items:center;justify-content:space-between;padding:16px 28px;border-bottom:1px solid var(--border);background:rgba(8,12,20,0.97);backdrop-filter:blur(12px);}
   .logo{display:flex;align-items:center;gap:10px;}
   .logo-icon{width:38px;height:38px;border-radius:10px;background:linear-gradient(135deg,var(--accent),var(--purple));display:grid;place-items:center;font-size:18px;}
   .logo h1{font-size:1.1rem;font-weight:800;}
   .logo span{font-size:0.65rem;color:var(--muted);font-family:var(--fm);display:block;}
-  .header-right{display:flex;align-items:center;gap:10px;}
+  .header-right{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
   .sheet-badge{display:flex;align-items:center;gap:6px;background:rgba(16,185,129,0.1);border:1px solid rgba(16,185,129,0.3);padding:5px 12px;border-radius:20px;font-size:0.65rem;font-family:var(--fm);color:var(--green);}
   .sheet-badge::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--green);animation:blink 2s infinite;}
   @keyframes blink{0%,100%{opacity:1}50%{opacity:0.3}}
@@ -92,10 +54,10 @@
   .refresh-btn:hover{background:rgba(0,212,255,0.2);}
   .disconnect-btn{background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.3);color:var(--red);padding:7px 14px;border-radius:8px;font-size:0.72rem;cursor:pointer;font-family:var(--fh);font-weight:600;}
 
-  /* MAIN */
+  /* ── MAIN ── */
   .main{position:relative;z-index:5;padding:22px 28px;display:flex;flex-direction:column;gap:20px;}
 
-  /* ALERTS */
+  /* ── ALERTS ── */
   .alerts-scroll{display:flex;gap:10px;overflow-x:auto;padding-bottom:2px;}
   .alert-pill{flex-shrink:0;display:flex;align-items:center;gap:7px;padding:9px 14px;border-radius:10px;font-size:0.72rem;font-family:var(--fm);animation:slideIn 0.4s ease-out backwards;}
   .alert-pill.danger{background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.3);color:var(--red);}
@@ -103,8 +65,9 @@
   .alert-pill.info{background:rgba(0,212,255,0.1);border:1px solid rgba(0,212,255,0.3);color:var(--accent);}
   @keyframes slideIn{from{opacity:0;transform:translateX(-10px)}to{opacity:1;transform:translateX(0)}}
 
-  /* KPI */
-  .kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;}
+  /* ── TOP ROW: KPIs + SPEEDOMETER ── */
+  .top-row{display:grid;grid-template-columns:1fr 240px;gap:16px;align-items:start;}
+  .kpi-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;}
   .kpi{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:18px;position:relative;overflow:hidden;transition:transform 0.2s;}
   .kpi:hover{transform:translateY(-3px);}
   .kpi.hl{border-color:var(--accent);}
@@ -114,11 +77,39 @@
   .kpi-sub{font-size:0.68rem;color:var(--muted);margin-top:5px;font-family:var(--fm);}
   .kpi-icon{position:absolute;top:14px;right:14px;font-size:22px;opacity:0.2;}
 
-  /* SECTION */
+  /* ── SPEEDOMETER ── */
+  .speedo-wrap{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:20px;display:flex;flex-direction:column;align-items:center;}
+  .speedo-title{font-size:0.65rem;color:var(--muted);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:10px;}
+  .speedo-svg{width:100%;max-width:200px;}
+  .speedo-pct{font-size:2rem;font-weight:800;text-align:center;margin-top:2px;}
+  .speedo-sub{font-size:0.65rem;color:var(--muted);font-family:var(--fm);text-align:center;margin-top:2px;}
+  .speedo-legend{display:flex;gap:10px;margin-top:10px;font-size:0.6rem;font-family:var(--fm);}
+  .speedo-legend span{display:flex;align-items:center;gap:4px;color:var(--muted);}
+  .speedo-legend span::before{content:'';width:8px;height:8px;border-radius:2px;display:inline-block;}
+  .leg-g::before{background:var(--green);}
+  .leg-y::before{background:var(--yellow);}
+  .leg-r::before{background:var(--red);}
+
+  /* ── SECTION TITLE ── */
   .sec-title{font-size:0.65rem;text-transform:uppercase;letter-spacing:2px;color:var(--muted);display:flex;align-items:center;gap:8px;margin-bottom:12px;}
   .sec-title::after{content:'';flex:1;height:1px;background:var(--border);}
 
-  /* TABLE */
+  /* ── PHONE DIRECTORY ── */
+  .phone-wrap{background:var(--card);border:1px solid var(--border);border-radius:14px;overflow:hidden;}
+  .phone-search{width:100%;background:var(--surface);border:none;border-bottom:1px solid var(--border);color:var(--text);padding:12px 16px;font-family:var(--fm);font-size:0.75rem;outline:none;}
+  .phone-search::placeholder{color:var(--muted);}
+  .phone-list{max-height:300px;overflow-y:auto;}
+  .phone-item{display:flex;align-items:center;justify-content:space-between;padding:10px 16px;border-bottom:1px solid rgba(30,45,66,0.4);transition:background 0.15s;}
+  .phone-item:last-child{border:none;}
+  .phone-item:hover{background:rgba(0,212,255,0.03);}
+  .phone-name{font-size:0.78rem;font-weight:700;}
+  .phone-detail{font-size:0.62rem;color:var(--muted);font-family:var(--fm);margin-top:2px;}
+  .phone-right{display:flex;align-items:center;gap:10px;}
+  .phone-num{font-family:var(--fm);font-size:0.75rem;color:var(--accent);}
+  .call-btn{background:rgba(16,185,129,0.15);border:1px solid rgba(16,185,129,0.3);color:var(--green);padding:4px 10px;border-radius:6px;font-size:0.63rem;font-family:var(--fm);text-decoration:none;}
+  .call-btn:hover{background:rgba(16,185,129,0.28);}
+
+  /* ── TABLE ── */
   .tbl-wrap{background:var(--card);border:1px solid var(--border);border-radius:14px;overflow:hidden;}
   table{width:100%;border-collapse:collapse;font-size:0.73rem;}
   th{color:var(--muted);font-weight:600;text-align:left;padding:10px 14px;border-bottom:1px solid var(--border);font-size:0.62rem;text-transform:uppercase;letter-spacing:1px;background:rgba(0,212,255,0.03);}
@@ -131,12 +122,12 @@
   .badge.critical{background:rgba(239,68,68,0.15);color:var(--red);}
   .badge.expired{background:rgba(100,116,139,0.2);color:var(--muted);}
   .badge.plan{background:rgba(0,212,255,0.1);color:var(--accent);}
-  .days-bar-wrap{width:90px;height:6px;background:rgba(255,255,255,0.06);border-radius:3px;overflow:hidden;display:inline-block;vertical-align:middle;margin-left:6px;}
-  .days-bar{height:100%;border-radius:3px;transition:width 1s;}
+  .days-bar-wrap{width:80px;height:5px;background:rgba(255,255,255,0.06);border-radius:3px;overflow:hidden;display:inline-block;vertical-align:middle;margin-left:5px;}
+  .days-bar{height:100%;border-radius:3px;}
   .proof-link{color:var(--accent);font-size:0.65rem;font-family:var(--fm);text-decoration:none;}
   .proof-link:hover{text-decoration:underline;}
 
-  /* REMINDER GRID */
+  /* ── REMINDERS ── */
   .rem-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;}
   .rem-card{padding:14px;border-radius:12px;border:1px solid;position:relative;overflow:hidden;}
   .rem-card.expired{border-color:rgba(239,68,68,0.5);background:rgba(239,68,68,0.06);}
@@ -148,24 +139,57 @@
   .rem-name{font-size:0.82rem;font-weight:700;}
   .rem-detail{font-size:0.65rem;color:var(--muted);font-family:var(--fm);margin-top:2px;}
   .rem-tag{display:inline-flex;padding:3px 8px;border-radius:5px;font-size:0.63rem;font-family:var(--fm);margin-top:8px;}
-  .expired .rem-type,.expired .rem-tag{color:var(--red);}
-  .expired .rem-tag{background:rgba(239,68,68,0.15);}
-  .critical .rem-type,.critical .rem-tag{color:var(--red);}
-  .critical .rem-tag{background:rgba(239,68,68,0.12);}
-  .warn .rem-type,.warn .rem-tag{color:var(--yellow);}
-  .warn .rem-tag{background:rgba(245,158,11,0.12);}
-  .soon .rem-type,.soon .rem-tag{color:var(--accent);}
-  .soon .rem-tag{background:rgba(0,212,255,0.1);}
+  .expired .rem-type,.expired .rem-tag{color:var(--red);}.expired .rem-tag{background:rgba(239,68,68,0.15);}
+  .critical .rem-type,.critical .rem-tag{color:var(--red);}.critical .rem-tag{background:rgba(239,68,68,0.12);}
+  .warn .rem-type,.warn .rem-tag{color:var(--yellow);}.warn .rem-tag{background:rgba(245,158,11,0.12);}
+  .soon .rem-type,.soon .rem-tag{color:var(--accent);}.soon .rem-tag{background:rgba(0,212,255,0.1);}
 
-  /* EMPTY */
+  /* ── SEAT MAP ── */
+  .map-wrap{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:24px;overflow-x:auto;}
+  .map-legend{display:flex;gap:16px;margin-bottom:20px;flex-wrap:wrap;}
+  .map-legend span{display:flex;align-items:center;gap:6px;font-size:0.67rem;font-family:var(--fm);color:var(--muted);}
+  .map-legend span::before{content:'';width:14px;height:14px;border-radius:4px;display:inline-block;}
+  .leg-empty::before{background:rgba(100,116,139,0.2);border:1px solid rgba(100,116,139,0.4);}
+  .leg-occ::before{background:rgba(16,185,129,0.25);border:1px solid var(--green);}
+  .leg-exp::before{background:rgba(245,158,11,0.25);border:1px solid var(--yellow);}
+  .leg-dead::before{background:rgba(239,68,68,0.25);border:1px solid var(--red);}
+
+  .map-section-label{font-size:0.68rem;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:2px;margin-bottom:12px;margin-top:4px;}
+  .map-divider{height:1px;background:var(--border);margin:22px 0;}
+
+  .seat-row{display:flex;gap:5px;align-items:center;margin-bottom:5px;}
+  .row-lbl{font-size:0.58rem;font-family:var(--fm);color:var(--muted);width:16px;text-align:right;flex-shrink:0;margin-right:2px;}
+  .seat{
+    width:34px;height:34px;border-radius:6px;
+    display:flex;align-items:center;justify-content:center;
+    font-size:0.58rem;font-family:var(--fm);font-weight:700;
+    cursor:pointer;position:relative;transition:transform 0.15s,box-shadow 0.15s;
+    border:1px solid;flex-shrink:0;
+  }
+  .seat:hover{transform:scale(1.18);z-index:10;box-shadow:0 4px 16px rgba(0,0,0,0.4);}
+  .seat.empty{background:rgba(100,116,139,0.12);border-color:rgba(100,116,139,0.28);color:rgba(100,116,139,0.6);}
+  .seat.occupied{background:rgba(16,185,129,0.18);border-color:var(--green);color:var(--green);}
+  .seat.expiring{background:rgba(245,158,11,0.18);border-color:var(--yellow);color:var(--yellow);}
+  .seat.expdead{background:rgba(239,68,68,0.18);border-color:var(--red);color:var(--red);}
+
+  .seat-tip{
+    display:none;position:absolute;bottom:calc(100% + 8px);left:50%;transform:translateX(-50%);
+    background:#0d1421;border:1px solid var(--border);border-radius:8px;
+    padding:8px 12px;z-index:50;pointer-events:none;
+    font-family:var(--fm);font-size:0.62rem;line-height:1.7;
+    box-shadow:0 8px 28px rgba(0,0,0,0.6);min-width:150px;
+    white-space:nowrap;
+  }
+  .seat:hover .seat-tip{display:block;}
+  .seat-tip::after{content:'';position:absolute;top:100%;left:50%;transform:translateX(-50%);border:5px solid transparent;border-top-color:#0d1421;}
+
+  /* ── MISC ── */
   .empty{text-align:center;padding:40px;color:var(--muted);font-size:0.8rem;}
   .loading{text-align:center;padding:40px;color:var(--accent);font-size:0.8rem;font-family:var(--fm);animation:blink 1s infinite;}
-
-  /* ERROR */
   .error-box{background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.3);border-radius:10px;padding:16px;color:var(--red);font-size:0.78rem;font-family:var(--fm);}
 
-  @media(max-width:1100px){.kpi-grid{grid-template-columns:repeat(2,1fr);}.rem-grid{grid-template-columns:1fr 1fr;}}
-  @media(max-width:700px){.kpi-grid{grid-template-columns:1fr 1fr;}.rem-grid{grid-template-columns:1fr;}header{padding:12px 16px;}.main{padding:14px;}}
+  @media(max-width:960px){.top-row{grid-template-columns:1fr;}.rem-grid{grid-template-columns:1fr 1fr;}}
+  @media(max-width:600px){.kpi-grid{grid-template-columns:1fr 1fr;}.rem-grid{grid-template-columns:1fr;}.main{padding:14px;}header{padding:12px 16px;flex-wrap:wrap;gap:8px;}.seat{width:28px;height:28px;font-size:0.5rem;}}
 </style>
 </head>
 <body>
@@ -176,52 +200,31 @@
     <div style="font-size:40px;margin-bottom:12px">📊</div>
     <h2>Connect Your Google Sheet</h2>
     <p>Paste your Google Sheet link below. The dashboard will auto-extract the Sheet ID, fetch your study hall data, and calculate expiry dates & reminders automatically.</p>
-
     <div class="step-row">
-      <div class="step">
-        <div class="step-num">1</div>
-        <div class="step-text">Open your Google Sheet → Click <strong>Share</strong> → Set to <strong>"Anyone with the link can view"</strong></div>
-      </div>
-      <div class="step">
-        <div class="step-num">2</div>
-        <div class="step-text">Copy the full URL from your browser — looks like:<br><code>https://docs.google.com/spreadsheets/d/YOUR_ID/edit...</code></div>
-      </div>
-      <div class="step">
-        <div class="step-num">3</div>
-        <div class="step-text">Paste below. Sheet ID is extracted automatically. No API key needed for public sheets!</div>
-      </div>
+      <div class="step"><div class="step-num">1</div><div class="step-text">Open your Google Sheet → Click <strong>Share</strong> → Set to <strong>"Anyone with the link can view"</strong></div></div>
+      <div class="step"><div class="step-num">2</div><div class="step-text">Copy the full URL — looks like:<br><code>https://docs.google.com/spreadsheets/d/YOUR_ID/edit...</code></div></div>
+      <div class="step"><div class="step-num">3</div><div class="step-text">Paste below. Sheet ID is extracted automatically!</div></div>
     </div>
-
     <div class="input-group">
       <label>Google Sheet URL</label>
       <input type="text" id="sheetUrlInput" placeholder="https://docs.google.com/spreadsheets/d/..." oninput="extractId(this.value)" />
     </div>
     <div class="extracted-id" id="extractedId"></div>
-
     <div class="input-group">
-      <label>Sheet / Tab Name <span style="color:var(--muted);text-transform:none;letter-spacing:0">(leave blank for first sheet)</span></label>
+      <label>Sheet / Tab Name <span style="color:var(--muted);text-transform:none;letter-spacing:0">(leave blank for Sheet1)</span></label>
       <input type="text" id="sheetNameInput" placeholder="Sheet1" />
     </div>
-
-    <!-- Error shown HERE on connect screen if fetch fails -->
     <div id="connectError"></div>
-
-    <button class="connect-btn" id="connectBtn" onclick="connectSheet()" disabled>
-      🔗 Connect & Load Data
-    </button>
+    <button class="connect-btn" id="connectBtn" onclick="connectSheet()" disabled>🔗 Connect & Load Data</button>
   </div>
 </div>
 
 <!-- ═══ DASHBOARD ═══ -->
 <div id="dashboard" style="display:none">
-
   <header>
     <div class="logo">
       <div class="logo-icon">📚</div>
-      <div>
-        <h1>StudyHalls Dashboard</h1>
-        <span id="sheetLabel">Loading...</span>
-      </div>
+      <div><h1>StudyHalls Dashboard</h1><span id="sheetLabel">Loading...</span></div>
     </div>
     <div class="header-right">
       <div class="sheet-badge" id="syncBadge">SHEET CONNECTED</div>
@@ -229,415 +232,451 @@
       <button class="disconnect-btn" onclick="disconnect()">✕ Disconnect</button>
     </div>
   </header>
-
   <div class="main" id="mainContent">
     <div class="loading">⏳ Loading data from Google Sheets...</div>
   </div>
-
 </div>
 
 <script>
-// ═══ GLOBALS ═══
-let sheetId = '';
-let sheetName = 'Sheet1';
-let allStudents = [];
+// ══════════════════════════════════════════════
+// GLOBALS
+// ══════════════════════════════════════════════
+let sheetId='', sheetName='Sheet1', allStudents=[];
+const TOTAL_SEATS=77;
 
-// ═══ PLAN LOGIC ═══
-const PLANS = [
-  { amount: 950,  days: 15,  label: '15 Days' },
-  { amount: 1700, days: 30,  label: '1 Month' },
-  { amount: 3400, days: 60,  label: '2 Months' },
-  { amount: 4800, days: 90,  label: '3 Months' },
+// ══════════════════════════════════════════════
+// LAYOUT — matches your physical map exactly
+// Single row: {row:'X', seats:[1..n]}
+// Double row: {rows:['X','Y'], seats:[1..n]}  → two separate rows stacked
+// ══════════════════════════════════════════════
+const COWORK_LAYOUT=[
+  {row:'D',  seats:[1,2,3,4,5,6,7,8,9]},
+  {rows:['C','B'], seats:[1,2,3,4,5,6,7,8,9,10]},
+  {row:'A',  seats:[1,2,3,4,5,6,7,8,9]},
+];
+const HALL_LAYOUT=[
+  {row:'A',  seats:[1,2,3,4,5,6,7,8,9]},
+  {row:'H',  seats:[1,2,3,4,5,6,7,8,9,10]},
+  {rows:['B','C'], seats:[1,2,3,4,5,6,7,8,9,10]},
+  {rows:['D','E'], seats:[1,2,3,4,5,6,7,8,9]},
+  {rows:['F','G'], seats:[1,2,3,4,5,6,7,8,9,10]},
 ];
 
-function getPlan(amount) {
-  const amt = parseInt(amount);
-  let closest = PLANS.reduce((prev, curr) =>
-    Math.abs(curr.amount - amt) < Math.abs(prev.amount - amt) ? curr : prev
-  );
-  return closest;
+// ══════════════════════════════════════════════
+// PLANS
+// ══════════════════════════════════════════════
+const PLANS=[
+  {amount:950, days:15,label:'15 Days'},
+  {amount:1700,days:30,label:'1 Month'},
+  {amount:3400,days:60,label:'2 Months'},
+  {amount:4800,days:90,label:'3 Months'},
+];
+function getPlan(amount){
+  const amt=parseInt(amount);
+  return PLANS.reduce((p,c)=>Math.abs(c.amount-amt)<Math.abs(p.amount-amt)?c:p);
 }
-
-function getExpiryDate(joinDate, planDays) {
-  const d = new Date(joinDate);
-  d.setDate(d.getDate() + planDays);
-  return d;
+function getExpiryDate(joinDate,planDays){
+  const d=new Date(joinDate);d.setDate(d.getDate()+planDays);return d;
 }
-
-function getDaysLeft(expiryDate) {
-  const today = new Date();
-  today.setHours(0,0,0,0);
-  const exp = new Date(expiryDate);
-  exp.setHours(0,0,0,0);
-  return Math.ceil((exp - today) / (1000*60*60*24));
+function getDaysLeft(exp){
+  const t=new Date();t.setHours(0,0,0,0);
+  const e=new Date(exp);e.setHours(0,0,0,0);
+  return Math.ceil((e-t)/(864e5));
 }
-
-function getStatus(daysLeft) {
-  if (daysLeft < 0)  return { label: 'EXPIRED',  cls: 'expired',  icon: '💀' };
-  if (daysLeft <= 3) return { label: 'CRITICAL', cls: 'critical', icon: '🚨' };
-  if (daysLeft <= 7) return { label: 'DUE SOON', cls: 'warn',     icon: '⚠️' };
-  return               { label: 'ACTIVE',   cls: 'active',   icon: '✅' };
+function getStatus(dl){
+  if(dl<0) return{label:'EXPIRED', cls:'expired', icon:'💀'};
+  if(dl<=3)return{label:'CRITICAL',cls:'critical',icon:'🚨'};
+  if(dl<=7)return{label:'DUE SOON',cls:'warn',    icon:'⚠️'};
+  return        {label:'ACTIVE',  cls:'active',  icon:'✅'};
 }
+function fmtDate(d){if(!d)return'—';return new Date(d).toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'numeric'});}
+function fmtINR(n){return'₹'+(parseInt(n)||0).toLocaleString('en-IN');}
 
-function fmtDate(d) {
-  if (!d) return '—';
-  const dt = new Date(d);
-  return dt.toLocaleDateString('en-IN', { day:'2-digit', month:'short', year:'numeric' });
-}
-
-function fmtINR(n) {
-  const num = parseInt(n) || 0;
-  return '₹' + num.toLocaleString('en-IN');
-}
-
-// ═══ EXTRACT SHEET ID FROM URL ═══
-function extractId(url) {
-  const box = document.getElementById('extractedId');
-  const btn = document.getElementById('connectBtn');
-  // Clear previous connect error whenever user edits URL
+// ══════════════════════════════════════════════
+// CONNECT LOGIC
+// ══════════════════════════════════════════════
+function extractId(url){
+  const box=document.getElementById('extractedId'),btn=document.getElementById('connectBtn');
   showConnectError('');
-
-  const match = url.match(/\/spreadsheets\/d\/([a-zA-Z0-9_-]{20,})/);
-  if (match) {
-    sheetId = match[1];
-    box.style.display = 'block';
-    box.className = 'extracted-id ok';
-    box.textContent = '✓ Sheet ID extracted: ' + sheetId.substring(0,24) + '...';
-    btn.disabled = false;
-  } else if (url.length > 10) {
-    sheetId = '';
-    box.style.display = 'block';
-    box.className = 'extracted-id err';
-    box.textContent = '✗ Could not extract Sheet ID. Make sure you copied the full URL.';
-    btn.disabled = true;
-  } else {
-    sheetId = '';
-    box.style.display = 'none';
-    btn.disabled = true;
-  }
+  const m=url.match(/\/spreadsheets\/d\/([a-zA-Z0-9_-]{20,})/);
+  if(m){sheetId=m[1];box.style.display='block';box.className='extracted-id ok';box.textContent='✓ Sheet ID: '+sheetId.substring(0,24)+'...';btn.disabled=false;}
+  else if(url.length>10){sheetId='';box.style.display='block';box.className='extracted-id err';box.textContent='✗ Could not extract Sheet ID.';btn.disabled=true;}
+  else{sheetId='';box.style.display='none';btn.disabled=true;}
+}
+function showConnectError(msg){
+  const el=document.getElementById('connectError');
+  if(!msg){el.style.display='none';el.innerHTML='';return;}
+  el.style.display='block';el.innerHTML=msg;
+}
+function proxyUrl(csvUrl){
+  return`https://api.allorigins.win/raw?url=${encodeURIComponent(csvUrl)}&t=${Date.now()}`;
 }
 
-// ═══ SHOW/HIDE CONNECT ERROR ═══
-function showConnectError(msg) {
-  const el = document.getElementById('connectError');
-  if (!msg) {
-    el.style.display = 'none';
-    el.innerHTML = '';
-    return;
-  }
-  el.style.display = 'block';
-  el.innerHTML = msg;
-}
-
-// ═══ CONNECT — stays on connect screen until fetch succeeds ═══
-async function connectSheet() {
-  if (!sheetId) return;
-
-  const btn = document.getElementById('connectBtn');
-  const nameInput = document.getElementById('sheetNameInput').value.trim();
-  sheetName = nameInput || 'Sheet1';
-
-  // Show loading state on button, keep connect screen visible
-  btn.disabled = true;
-  btn.textContent = '⏳ Connecting...';
-  showConnectError('');
-
-  const csvUrl = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:csv&sheet=${encodeURIComponent(sheetName)}`;
-  const proxiedUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(csvUrl)}`;
-
-  try {
-    const res = await fetch(proxiedUrl);
-    if (!res.ok) throw new Error('HTTP ' + res.status + ' — Could not reach the sheet.');
-    const text = await res.text();
-
-    // Check if Google returned an error page instead of CSV
-    if (text.trim().startsWith('<!DOCTYPE') || text.trim().startsWith('<html')) {
-      throw new Error('Google returned an error. The sheet may not be publicly shared.');
-    }
-
-    const rows = parseCSV(text);
-    if (rows.length < 2) throw new Error('Sheet appears empty or has no data rows.');
-
-    // ✅ Success — now show dashboard
-    const students = buildStudents(rows);
-    allStudents = students;
-
-    document.getElementById('connectScreen').style.display = 'none';
-    document.getElementById('dashboard').style.display = 'block';
-    document.getElementById('sheetLabel').textContent = 'Sheet ID: ' + sheetId.substring(0,20) + '...';
-
+async function connectSheet(){
+  if(!sheetId)return;
+  const btn=document.getElementById('connectBtn');
+  sheetName=document.getElementById('sheetNameInput').value.trim()||'Sheet1';
+  btn.disabled=true;btn.textContent='⏳ Connecting...';showConnectError('');
+  try{
+    const text=await fetchCSV();
+    const rows=parseCSV(text);
+    if(rows.length<2)throw new Error('Sheet appears empty or has no data rows.');
+    allStudents=buildStudents(rows);
+    document.getElementById('connectScreen').style.display='none';
+    document.getElementById('dashboard').style.display='block';
+    document.getElementById('sheetLabel').textContent='Sheet ID: '+sheetId.substring(0,20)+'...';
     renderDashboard();
-
-  } catch(e) {
-    // ❌ Stay on connect screen, show error
-    showConnectError(
-      `❌ <strong>Could not connect:</strong> ${e.message}<br><br>
+  }catch(e){
+    showConnectError(`❌ <strong>Could not connect:</strong> ${e.message}<br><br>
       <strong>Checklist:</strong><br>
-      • Sheet is shared as "Anyone with the link can view"<br>
-      • Sheet tab name matches (default: Sheet1)<br>
-      • The URL is a valid Google Sheets link`
-    );
-  } finally {
-    btn.disabled = false;
-    btn.textContent = '🔗 Connect & Load Data';
-  }
+      • Sheet shared as "Anyone with the link can view"<br>
+      • Sheet tab name is correct (default: Sheet1)<br>
+      • URL is a valid Google Sheets link`);
+  }finally{btn.disabled=false;btn.textContent='🔗 Connect & Load Data';}
 }
 
-// ═══ FETCH FROM GOOGLE SHEETS (refresh, already on dashboard) ═══
-async function fetchAndRender() {
-  const mc = document.getElementById('mainContent');
-  mc.innerHTML = '<div class="loading">⏳ Fetching data from Google Sheets...</div>';
+async function fetchCSV(){
+  const csvUrl=`https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:csv&sheet=${encodeURIComponent(sheetName)}`;
+  const res=await fetch(proxyUrl(csvUrl),{cache:'no-store'});
+  if(!res.ok)throw new Error('HTTP '+res.status+' — Could not reach the sheet.');
+  const text=await res.text();
+  if(text.trim().startsWith('<!DOCTYPE')||text.trim().startsWith('<html'))
+    throw new Error('Google returned an error. Check sharing settings.');
+  return text;
+}
 
-  const csvUrl = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:csv&sheet=${encodeURIComponent(sheetName)}`;
-  const proxiedUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(csvUrl)}`;
-
-  try {
-    const res = await fetch(proxiedUrl);
-    if (!res.ok) throw new Error('Could not fetch sheet. HTTP ' + res.status);
-    const text = await res.text();
-    if (text.trim().startsWith('<!DOCTYPE') || text.trim().startsWith('<html')) {
-      throw new Error('Google returned an error page. Check that sharing is still set to "Anyone with the link can view".');
-    }
-    const rows = parseCSV(text);
-    if (rows.length < 2) throw new Error('Sheet appears empty or column names do not match expected format.');
-    allStudents = buildStudents(rows);
+async function fetchAndRender(){
+  const mc=document.getElementById('mainContent');
+  mc.innerHTML='<div class="loading">⏳ Fetching fresh data...</div>';
+  try{
+    const text=await fetchCSV();
+    const rows=parseCSV(text);
+    if(rows.length<2)throw new Error('Sheet appears empty.');
+    allStudents=buildStudents(rows);
     renderDashboard();
-  } catch(e) {
-    mc.innerHTML = `<div class="error-box">❌ ${e.message}<br><br>
-      <strong>Checklist:</strong><br>
-      • Sheet is shared as "Anyone with the link can view"<br>
-      • Sheet tab name matches (default: Sheet1)<br>
-      • Columns: Name | Join Date | payment amount | Payment Date | Room | Seat No | purpose | Phone Number | adrees proof photo link | __PowerAppsId__
-    </div>`;
+  }catch(e){
+    mc.innerHTML=`<div class="error-box">❌ ${e.message}</div>`;
   }
 }
 
-// ═══ PARSE CSV ═══
-function parseCSV(text) {
-  const lines = text.trim().split('\n');
-  return lines.map(line => {
-    const cols = [];
-    let cur = '', inQ = false;
-    for (let i = 0; i < line.length; i++) {
-      const c = line[i];
-      if (c === '"') { inQ = !inQ; }
-      else if (c === ',' && !inQ) { cols.push(cur.trim()); cur = ''; }
-      else cur += c;
+function parseCSV(text){
+  return text.trim().split('\n').map(line=>{
+    const cols=[];let cur='',inQ=false;
+    for(const c of line){
+      if(c==='"'){inQ=!inQ;}else if(c===','&&!inQ){cols.push(cur.trim());cur='';}else cur+=c;
     }
-    cols.push(cur.trim());
-    return cols;
+    cols.push(cur.trim());return cols;
   });
 }
 
-// ═══ PROCESS ROWS → STUDENT OBJECTS ═══
-function buildStudents(rows) {
-  const headers = rows[0].map(h => h.replace(/^"|"$/g,'').toLowerCase().trim());
-
-  const col = (name) => {
-    const aliases = {
-      'name': ['name'],
-      'joindate': ['join date','joindate','join_date','enrollment date'],
-      'amount': ['payment amount','amount','fee','payment_amount'],
-      'paydate': ['payment date','payment_date','paid date'],
-      'room': ['room','hall','room no'],
-      'seat': ['seat no','seat','seat number','seat_no'],
-      'purpose': ['purpose','type'],
-      'phone': ['phone number','phone','mobile','contact'],
-      'proof': ['adrees proof photo link','address proof','proof link','proof_link','address proof photo link'],
-      'powerid': ['__powerappsid__','powerappsid','id'],
+function buildStudents(rows){
+  const headers=rows[0].map(h=>h.replace(/^"|"$/g,'').toLowerCase().trim());
+  const col=name=>{
+    const aliases={
+      name:['name'],joindate:['join date','joindate','join_date','enrollment date'],
+      amount:['payment amount','amount','fee'],paydate:['payment date','paid date'],
+      room:['room','hall','room no'],seat:['seat no','seat','seat number'],
+      purpose:['purpose','type'],phone:['phone number','phone','mobile','contact'],
+      proof:['adrees proof photo link','address proof','proof link'],
     };
-    const list = aliases[name] || [name];
-    for (const alias of list) {
-      const idx = headers.findIndex(h => h.includes(alias));
-      if (idx >= 0) return idx;
-    }
+    for(const a of(aliases[name]||[name])){const i=headers.findIndex(h=>h.includes(a));if(i>=0)return i;}
     return -1;
   };
-
-  const C = {
-    name:    col('name'),
-    join:    col('joindate'),
-    amount:  col('amount'),
-    paydate: col('paydate'),
-    room:    col('room'),
-    seat:    col('seat'),
-    purpose: col('purpose'),
-    phone:   col('phone'),
-    proof:   col('proof'),
-    id:      col('powerid'),
-  };
-
-  const students = [];
-  for (let i = 1; i < rows.length; i++) {
-    const r = rows[i];
-    if (!r[C.name] || r[C.name] === '') continue;
-    const clean = (idx) => idx >= 0 ? (r[idx] || '').replace(/^"|"$/g,'').trim() : '';
-    const name    = clean(C.name);
-    const join    = clean(C.join);
-    const amount  = clean(C.amount).replace(/[₹,]/g,'');
-    const paydate = clean(C.paydate);
-    const room    = clean(C.room);
-    const seat    = clean(C.seat);
-    const purpose = clean(C.purpose);
-    const phone   = clean(C.phone);
-    const proof   = clean(C.proof);
-
-    const plan    = getPlan(amount);
-    const expiry  = getExpiryDate(join, plan.days);
-    const daysLeft = getDaysLeft(expiry);
-    const status  = getStatus(daysLeft);
-
-    students.push({ name, join, amount, paydate, room, seat, purpose, phone, proof, plan, expiry, daysLeft, status });
+  const C={name:col('name'),join:col('joindate'),amount:col('amount'),room:col('room'),
+    seat:col('seat'),phone:col('phone'),proof:col('proof'),purpose:col('purpose'),paydate:col('paydate')};
+  const out=[];
+  for(let i=1;i<rows.length;i++){
+    const r=rows[i];if(!r[C.name]||r[C.name]==='')continue;
+    const clean=idx=>idx>=0?(r[idx]||'').replace(/^"|"$/g,'').trim():'';
+    const name=clean(C.name),join=clean(C.join),amount=clean(C.amount).replace(/[₹,]/g,''),
+      room=clean(C.room),seat=clean(C.seat),phone=clean(C.phone),proof=clean(C.proof),
+      purpose=clean(C.purpose),paydate=clean(C.paydate);
+    const plan=getPlan(amount),expiry=getExpiryDate(join,plan.days),
+      daysLeft=getDaysLeft(expiry),status=getStatus(daysLeft);
+    out.push({name,join,amount,paydate,room,seat,phone,proof,purpose,plan,expiry,daysLeft,status});
   }
-  return students;
+  return out;
 }
 
-// ═══ RENDER DASHBOARD ═══
-function renderDashboard() {
-  const mc = document.getElementById('mainContent');
+// ══════════════════════════════════════════════
+// RENDER
+// ══════════════════════════════════════════════
+function renderDashboard(){
+  const mc=document.getElementById('mainContent');
+  const total=allStudents.reduce((s,st)=>s+(parseInt(st.amount)||0),0);
+  const active=allStudents.filter(s=>s.status.cls==='active').length;
+  const expired=allStudents.filter(s=>s.status.cls==='expired').length;
+  const critical=allStudents.filter(s=>s.status.cls==='critical'||s.status.cls==='warn').length;
+  const reminders=allStudents.filter(s=>s.daysLeft<=7);
 
-  const total = allStudents.reduce((s,st) => s + (parseInt(st.amount)||0), 0);
-  const active = allStudents.filter(s => s.status.cls === 'active').length;
-  const expired = allStudents.filter(s => s.status.cls === 'expired').length;
-  const critical = allStudents.filter(s => s.status.cls === 'critical' || s.status.cls === 'warn').length;
-  const reminders = allStudents.filter(s => s.daysLeft <= 7);
-
-  const alertsHtml = buildAlerts(reminders);
-  const kpiHtml = buildKPIs(total, allStudents.length, active, expired, critical);
-  const tableHtml = buildTable();
-  const reminderHtml = buildReminders(reminders);
-
-  mc.innerHTML = alertsHtml + kpiHtml +
-    `<div class="sec-title">📋 Student Records</div>` + tableHtml +
-    `<div class="sec-title">🔔 Expiry Reminder Alerts</div>` + reminderHtml;
+  mc.innerHTML=
+    buildAlerts(reminders)+
+    buildTopRow(total,allStudents.length,active,expired,critical)+
+    `<div class="sec-title">📞 Phone Directory</div>`+buildPhoneDir()+
+    `<div class="sec-title">📋 Student Records</div>`+buildTable()+
+    `<div class="sec-title">🔔 Expiry Reminders</div>`+buildReminders(reminders)+
+    `<div class="sec-title">🗺️ Seat Occupancy Map</div>`+buildSeatMap();
 }
 
-function buildAlerts(reminders) {
-  if (!reminders.length && allStudents.length > 0) {
-    return `<div class="alerts-scroll"><div class="alert-pill info">✅ All students are active — no reminders needed</div></div>`;
-  }
-  let html = '<div class="alerts-scroll">';
-  reminders.sort((a,b) => a.daysLeft - b.daysLeft).slice(0,8).forEach((s,i) => {
-    const cls = s.daysLeft < 0 ? 'danger' : s.daysLeft <= 3 ? 'danger' : 'warn';
-    const msg = s.daysLeft < 0
-      ? `🔴 EXPIRED ${Math.abs(s.daysLeft)} days ago`
-      : s.daysLeft === 0 ? `🔴 EXPIRES TODAY`
-      : `⚠️ EXPIRES IN ${s.daysLeft} DAY${s.daysLeft>1?'S':''}`;
-    html += `<div class="alert-pill ${cls}" style="animation-delay:${i*0.07}s">${msg} · ${s.name} · ${s.room} Seat ${s.seat} · ${s.plan.label} Plan · ${fmtINR(s.amount)}</div>`;
+// ── ALERTS ──
+function buildAlerts(rem){
+  if(!rem.length&&allStudents.length>0)
+    return`<div class="alerts-scroll"><div class="alert-pill info">✅ All students active — no reminders needed</div></div>`;
+  let h='<div class="alerts-scroll">';
+  rem.sort((a,b)=>a.daysLeft-b.daysLeft).slice(0,8).forEach((s,i)=>{
+    const cls=s.daysLeft<=3?'danger':'warn';
+    const msg=s.daysLeft<0?`🔴 EXPIRED ${Math.abs(s.daysLeft)}d ago`:s.daysLeft===0?`🔴 EXPIRES TODAY`:`⚠️ ${s.daysLeft}d left`;
+    h+=`<div class="alert-pill ${cls}" style="animation-delay:${i*0.07}s">${msg} · ${s.name} · ${s.room} Seat ${s.seat}</div>`;
   });
-  html += '</div>';
-  return html;
+  return h+'</div>';
 }
 
-function buildKPIs(total, count, active, expired, critical) {
-  const highRoom = allStudents.reduce((acc, s) => {
-    acc[s.room] = (acc[s.room]||0) + (parseInt(s.amount)||0);
-    return acc;
-  }, {});
-  const topRoom = Object.entries(highRoom).sort((a,b)=>b[1]-a[1])[0];
+// ── TOP ROW: KPIs + Speedometer ──
+function buildTopRow(total,count,active,expired,critical){
+  const occ=count>0?Math.round(count/TOTAL_SEATS*100):0;
+  // Needle: -90deg = 0%, +90deg = 100%
+  const angle=-90+(occ/100)*180;
+  const toRad=a=>a*Math.PI/180;
+  const cx=90,cy=88,r=68;
+  const nx=(cx+r*Math.cos(toRad(angle))).toFixed(2);
+  const ny=(cy+r*Math.sin(toRad(angle))).toFixed(2);
+  const sColor=occ>=80?'var(--red)':occ>=50?'var(--yellow)':'var(--green)';
 
-  return `<div class="kpi-grid">
-    <div class="kpi hl">
-      <div class="kpi-icon">💰</div>
-      <div class="kpi-label">Total Collection</div>
-      <div class="kpi-val">${fmtINR(total)}</div>
-      <div class="kpi-sub">${count} students enrolled</div>
+  return`<div class="top-row">
+    <div class="kpi-grid">
+      <div class="kpi hl">
+        <div class="kpi-icon">💰</div>
+        <div class="kpi-label">Total Collection</div>
+        <div class="kpi-val">${fmtINR(total)}</div>
+        <div class="kpi-sub">${count} students enrolled</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-icon">✅</div>
+        <div class="kpi-label">Active Students</div>
+        <div class="kpi-val" style="color:var(--green)">${active}</div>
+        <div class="kpi-sub">out of ${count} total</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-icon">🔔</div>
+        <div class="kpi-label">Expiry Alerts</div>
+        <div class="kpi-val" style="color:var(--yellow)">${critical}</div>
+        <div class="kpi-sub">due within 7 days</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-icon">💀</div>
+        <div class="kpi-label">Expired</div>
+        <div class="kpi-val" style="color:var(--red)">${expired}</div>
+        <div class="kpi-sub">${TOTAL_SEATS-count} seats available</div>
+      </div>
     </div>
-    <div class="kpi">
-      <div class="kpi-icon">✅</div>
-      <div class="kpi-label">Active Students</div>
-      <div class="kpi-val" style="color:var(--green)">${active}</div>
-      <div class="kpi-sub">out of ${count} total</div>
-    </div>
-    <div class="kpi">
-      <div class="kpi-icon">🔔</div>
-      <div class="kpi-label">Expiry Alerts</div>
-      <div class="kpi-val" style="color:var(--yellow)">${critical}</div>
-      <div class="kpi-sub">due within 7 days</div>
-    </div>
-    <div class="kpi">
-      <div class="kpi-icon">💀</div>
-      <div class="kpi-label">Expired / Top Room</div>
-      <div class="kpi-val" style="color:var(--red);font-size:1.3rem">${expired} expired${topRoom ? ` · ${topRoom[0]}` : ''}</div>
-      <div class="kpi-sub">${topRoom ? `${topRoom[0]}: ${fmtINR(topRoom[1])}` : '—'}</div>
+
+    <div class="speedo-wrap">
+      <div class="speedo-title">Occupancy Rate</div>
+      <svg class="speedo-svg" viewBox="0 0 180 100" style="overflow:visible">
+        <!-- BG arc -->
+        <path d="M 22 88 A 68 68 0 0 1 158 88" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="16" stroke-linecap="round"/>
+        <!-- Green 0–50% -->
+        <path d="M 22 88 A 68 68 0 0 1 90 20" fill="none" stroke="rgba(16,185,129,0.35)" stroke-width="16" stroke-linecap="round"/>
+        <!-- Yellow 50–80% -->
+        <path d="M 90 20 A 68 68 0 0 1 141 32" fill="none" stroke="rgba(245,158,11,0.35)" stroke-width="16" stroke-linecap="round"/>
+        <!-- Red 80–100% -->
+        <path d="M 141 32 A 68 68 0 0 1 158 88" fill="none" stroke="rgba(239,68,68,0.35)" stroke-width="16" stroke-linecap="round"/>
+        <!-- Needle -->
+        <line x1="${cx}" y1="${cy}" x2="${nx}" y2="${ny}" stroke="${sColor}" stroke-width="3.5" stroke-linecap="round"/>
+        <circle cx="${cx}" cy="${cy}" r="6" fill="${sColor}"/>
+        <!-- Tick labels -->
+        <text x="14" y="102" fill="rgba(100,116,139,0.7)" font-size="9" font-family="monospace">0</text>
+        <text x="82" y="14" fill="rgba(100,116,139,0.7)" font-size="9" font-family="monospace">50%</text>
+        <text x="148" y="102" fill="rgba(100,116,139,0.7)" font-size="9" font-family="monospace">100</text>
+      </svg>
+      <div class="speedo-pct" style="color:${sColor}">${occ}%</div>
+      <div class="speedo-sub">${count} / ${TOTAL_SEATS} seats filled</div>
+      <div class="speedo-legend">
+        <span class="leg-g">Low</span>
+        <span class="leg-y">Med</span>
+        <span class="leg-r">High</span>
+      </div>
     </div>
   </div>`;
 }
 
-function buildTable() {
-  if (!allStudents.length) return '<div class="empty">No student data found in sheet.</div>';
-  let rows = '';
-  allStudents.forEach(s => {
-    const pct = Math.max(0, Math.min(100, Math.round(s.daysLeft / s.plan.days * 100)));
-    const barColor = s.status.cls === 'active' ? 'var(--green)' : s.status.cls === 'expired' ? 'var(--muted)' : s.status.cls === 'critical' ? 'var(--red)' : 'var(--yellow)';
-    const proofCell = s.proof
-      ? `<a class="proof-link" href="${s.proof}" target="_blank">🔗 View</a>`
-      : '<span style="color:var(--muted);font-size:0.65rem">—</span>';
-    rows += `<tr>
-      <td><strong>${s.name}</strong><br><span style="color:var(--muted);font-size:0.63rem;font-family:var(--fm)">${s.phone}</span></td>
-      <td>${s.room}<br><span style="color:var(--muted);font-size:0.63rem">Seat ${s.seat}</span></td>
-      <td><span class="badge plan">${s.plan.label}</span><br><span style="color:var(--muted);font-size:0.63rem;font-family:var(--fm)">${fmtINR(s.amount)}</span></td>
+// ── PHONE DIRECTORY ──
+function buildPhoneDir(){
+  const sorted=[...allStudents].sort((a,b)=>a.name.localeCompare(b.name));
+  let items='';
+  sorted.forEach(s=>{
+    const dot=s.status.cls==='active'?'🟢':s.status.cls==='expired'?'🔴':s.status.cls==='critical'?'🔴':'🟡';
+    items+=`<div class="phone-item">
+      <div>
+        <div class="phone-name">${dot} ${s.name}</div>
+        <div class="phone-detail">${s.room} · Seat ${s.seat} · ${s.plan.label} · ${s.status.label}</div>
+      </div>
+      <div class="phone-right">
+        <span class="phone-num">${s.phone||'—'}</span>
+        ${s.phone?`<a class="call-btn" href="tel:${s.phone}">📞 Call</a>`:''}
+      </div>
+    </div>`;
+  });
+  return`<div class="phone-wrap">
+    <input class="phone-search" type="text" placeholder="🔍  Search name, room, seat..." oninput="filterPhones(this.value)">
+    <div class="phone-list" id="phoneList">${items}</div>
+  </div>`;
+}
+function filterPhones(q){
+  const t=q.toLowerCase();
+  document.querySelectorAll('.phone-item').forEach(el=>{
+    el.style.display=el.textContent.toLowerCase().includes(t)?'':'none';
+  });
+}
+
+// ── TABLE ──
+function buildTable(){
+  if(!allStudents.length)return'<div class="empty">No student data found.</div>';
+  let rows='';
+  allStudents.forEach(s=>{
+    const pct=Math.max(0,Math.min(100,Math.round(s.daysLeft/s.plan.days*100)));
+    const bc=s.status.cls==='active'?'var(--green)':s.status.cls==='expired'?'var(--muted)':s.status.cls==='critical'?'var(--red)':'var(--yellow)';
+    const proof=s.proof?`<a class="proof-link" href="${s.proof}" target="_blank">🔗 View</a>`:'—';
+    rows+=`<tr>
+      <td><strong>${s.name}</strong><br><span style="color:var(--muted);font-size:0.62rem;font-family:var(--fm)">${s.phone}</span></td>
+      <td>${s.room}<br><span style="color:var(--muted);font-size:0.62rem">Seat ${s.seat}</span></td>
+      <td><span class="badge plan">${s.plan.label}</span><br><span style="color:var(--muted);font-size:0.62rem;font-family:var(--fm)">${fmtINR(s.amount)}</span></td>
       <td style="font-family:var(--fm);font-size:0.7rem">${fmtDate(s.join)}</td>
       <td style="font-family:var(--fm);font-size:0.7rem">${fmtDate(s.expiry)}</td>
       <td>
         <span class="badge ${s.status.cls}">${s.status.icon} ${s.status.label}</span>
         <div style="margin-top:4px;display:flex;align-items:center;gap:4px">
-          <span style="font-size:0.6rem;font-family:var(--fm);color:var(--muted)">${s.daysLeft < 0 ? Math.abs(s.daysLeft)+'d ago' : s.daysLeft+'d left'}</span>
-          <div class="days-bar-wrap"><div class="days-bar" style="width:${pct}%;background:${barColor}"></div></div>
+          <span style="font-size:0.6rem;font-family:var(--fm);color:var(--muted)">${s.daysLeft<0?Math.abs(s.daysLeft)+'d ago':s.daysLeft+'d left'}</span>
+          <div class="days-bar-wrap"><div class="days-bar" style="width:${pct}%;background:${bc}"></div></div>
         </div>
       </td>
-      <td>${proofCell}</td>
+      <td>${proof}</td>
     </tr>`;
   });
-
-  return `<div class="tbl-wrap"><table>
-    <thead><tr>
-      <th>Student</th><th>Room / Seat</th><th>Plan</th>
-      <th>Join Date</th><th>Expiry Date</th><th>Status</th><th>Proof</th>
-    </tr></thead>
+  return`<div class="tbl-wrap"><table>
+    <thead><tr><th>Student</th><th>Room/Seat</th><th>Plan</th><th>Join</th><th>Expiry</th><th>Status</th><th>Proof</th></tr></thead>
     <tbody>${rows}</tbody>
   </table></div>`;
 }
 
-function buildReminders(reminders) {
-  if (!reminders.length) return '<div class="empty" style="background:var(--card);border:1px solid var(--border);border-radius:14px">🎉 No reminders — all students are active!</div>';
-  const sorted = [...reminders].sort((a,b) => a.daysLeft - b.daysLeft);
-  let html = '<div class="rem-grid">';
-  sorted.forEach(s => {
-    const cls = s.daysLeft < 0 ? 'expired' : s.daysLeft <= 3 ? 'critical' : s.daysLeft <= 7 ? 'warn' : 'soon';
-    const emoji = s.daysLeft < 0 ? '💀' : s.daysLeft <= 3 ? '🚨' : '⚠️';
-    const tagText = s.daysLeft < 0 ? `${Math.abs(s.daysLeft)} DAYS OVERDUE` : s.daysLeft === 0 ? 'EXPIRES TODAY' : `${s.daysLeft} DAYS LEFT`;
-    html += `<div class="rem-card ${cls}">
+// ── REMINDERS ──
+function buildReminders(rem){
+  if(!rem.length)return'<div class="empty" style="background:var(--card);border:1px solid var(--border);border-radius:14px">🎉 No reminders — all students active!</div>';
+  let h='<div class="rem-grid">';
+  [...rem].sort((a,b)=>a.daysLeft-b.daysLeft).forEach(s=>{
+    const cls=s.daysLeft<0?'expired':s.daysLeft<=3?'critical':s.daysLeft<=7?'warn':'soon';
+    const emoji=s.daysLeft<0?'💀':s.daysLeft<=3?'🚨':'⚠️';
+    const tag=s.daysLeft<0?`${Math.abs(s.daysLeft)} DAYS OVERDUE`:s.daysLeft===0?'EXPIRES TODAY':`${s.daysLeft} DAYS LEFT`;
+    h+=`<div class="rem-card ${cls}">
       <div class="rem-emoji">${emoji}</div>
       <div class="rem-type">${s.status.label}</div>
       <div class="rem-name">${s.name}</div>
-      <div class="rem-detail">${s.room} · Seat ${s.seat} · ${s.plan.label} Plan · ${fmtINR(s.amount)}</div>
-      <div class="rem-detail" style="margin-top:2px">📞 ${s.phone || '—'} · Joined ${fmtDate(s.join)}</div>
-      <div class="rem-tag">${tagText}</div>
+      <div class="rem-detail">${s.room} · Seat ${s.seat} · ${s.plan.label} · ${fmtINR(s.amount)}</div>
+      <div class="rem-detail" style="margin-top:2px">📞 ${s.phone||'—'} · Joined ${fmtDate(s.join)}</div>
+      <div class="rem-tag">${tag}</div>
     </div>`;
   });
-  html += '</div>';
-  return html;
+  return h+'</div>';
 }
 
-function refreshData() {
-  if (sheetId) fetchAndRender();
+// ══════════════════════════════════════════════
+// SEAT MAP
+// Matches physical layout from the image:
+//
+// CO-WORKING (top):
+//   Row D : 9 seats (1-9)
+//   Row C : 10 seats (double row C + B)
+//   Row B : 10 seats
+//   Row A : 9 seats (1-9)
+//
+// STUDY HALL (bottom):
+//   Row A : 9 seats (1-9)
+//   Row H : 10 seats (1-10)
+//   Rows B+C : double, 10 seats each
+//   Rows D+E : double, 9 seats each
+//   Rows F+G : double, 10 seats each
+//
+// Seat lookup uses room letter + seat number
+// from the spreadsheet e.g. room="A" seat="3"
+// ══════════════════════════════════════════════
+function buildSeatMap(){
+  // Build lookup map: "ROOM-SEAT" → student
+  const lu={};
+  allStudents.forEach(s=>{
+    const key=`${(s.room||'').toUpperCase().trim()}-${(s.seat||'').trim()}`;
+    lu[key]=s;
+  });
+
+  function seatCell(rowLetter, num){
+    const key=`${rowLetter}-${num}`;
+    const s=lu[key];
+    let cls='empty',tipHtml=`<span style="color:var(--muted)">Seat ${num} — Available</span>`;
+    if(s){
+      if(s.status.cls==='expired'||s.status.cls==='critical') cls='expdead';
+      else if(s.status.cls==='warn') cls='expiring';
+      else cls='occupied';
+      const dl=s.daysLeft<0?`<span style="color:var(--red)">${Math.abs(s.daysLeft)}d OVERDUE</span>`:
+                s.daysLeft===0?`<span style="color:var(--red)">EXPIRES TODAY</span>`:
+                `<span style="color:var(--green)">${s.daysLeft}d left</span>`;
+      tipHtml=`<strong>${s.name}</strong><br>${s.room} · Seat ${num}<br>${s.plan.label} · ${fmtINR(s.amount)}<br>${dl}<br>📞 ${s.phone||'—'}`;
+    }
+    return`<div class="seat ${cls}">
+      ${num}
+      <div class="seat-tip">${tipHtml}</div>
+    </div>`;
+  }
+
+  function singleRow(letter, seats){
+    return`<div class="seat-row">
+      <div class="row-lbl">${letter}</div>
+      ${seats.map(n=>seatCell(letter,n)).join('')}
+    </div>`;
+  }
+
+  function doubleRow(letA, letB, seats){
+    return singleRow(letA,seats)+singleRow(letB,seats);
+  }
+
+  const range=(n)=>[...Array(n)].map((_,i)=>i+1);
+
+  return`<div class="map-wrap">
+    <div class="map-legend">
+      <span class="leg-empty">Empty / Available</span>
+      <span class="leg-occ">Occupied (Active)</span>
+      <span class="leg-exp">Expiring Soon (≤7 days)</span>
+      <span class="leg-dead">Expired / Critical</span>
+    </div>
+
+    <div class="map-section-label">🖥️ Co-working Spaces</div>
+    ${singleRow('D', range(9))}
+    ${doubleRow('C','B', range(10))}
+    ${singleRow('A', range(9))}
+
+    <div class="map-divider"></div>
+
+    <div class="map-section-label">📚 Study Hall</div>
+    ${singleRow('A', range(9))}
+    ${singleRow('H', range(10))}
+    ${doubleRow('B','C', range(10))}
+    ${doubleRow('D','E', range(9))}
+    ${doubleRow('F','G', range(10))}
+  </div>`;
 }
 
-function disconnect() {
-  sheetId = ''; allStudents = [];
-  document.getElementById('sheetUrlInput').value = '';
-  document.getElementById('extractedId').style.display = 'none';
-  document.getElementById('connectBtn').disabled = true;
+// ══════════════════════════════════════════════
+// UTILS
+// ══════════════════════════════════════════════
+function refreshData(){if(sheetId)fetchAndRender();}
+function disconnect(){
+  sheetId='';allStudents=[];
+  document.getElementById('sheetUrlInput').value='';
+  document.getElementById('extractedId').style.display='none';
+  document.getElementById('connectBtn').disabled=true;
   showConnectError('');
-  // Reset sync badge style
-  const badge = document.getElementById('syncBadge');
-  badge.textContent = 'SHEET CONNECTED';
-  badge.style.color = '';
-  badge.style.borderColor = '';
-  badge.style.background = '';
-  document.getElementById('dashboard').style.display = 'none';
-  document.getElementById('connectScreen').style.display = 'flex';
+  const b=document.getElementById('syncBadge');
+  b.textContent='SHEET CONNECTED';b.style.color='';b.style.borderColor='';b.style.background='';
+  document.getElementById('dashboard').style.display='none';
+  document.getElementById('connectScreen').style.display='flex';
 }
 </script>
 </body>
