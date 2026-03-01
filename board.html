@@ -343,7 +343,7 @@ async function connectSheet() {
   showConnectError('');
 
   const csvUrl = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:csv&sheet=${encodeURIComponent(sheetName)}`;
-  const proxiedUrl = `https://corsproxy.io/?url=${encodeURIComponent(csvUrl)}`;
+  const proxiedUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(csvUrl)}`;
 
   try {
     const res = await fetch(proxiedUrl);
@@ -389,7 +389,7 @@ async function fetchAndRender() {
   mc.innerHTML = '<div class="loading">⏳ Fetching data from Google Sheets...</div>';
 
   const csvUrl = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:csv&sheet=${encodeURIComponent(sheetName)}`;
-  const proxiedUrl = `https://corsproxy.io/?url=${encodeURIComponent(csvUrl)}`;
+  const proxiedUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(csvUrl)}`;
 
   try {
     const res = await fetch(proxiedUrl);
