@@ -205,9 +205,12 @@
     font-family:'IBM Plex Mono', monospace; font-size:0.85rem;
     padding:14px 24px; border-radius:999px; text-decoration:none;
     display:inline-flex; align-items:center; gap:8px;
+    transition: all 0.3s ease;
   }
   .btn-primary{ background:var(--accent); color:var(--accent-ink); }
+  .btn-primary:hover{ transform: translateY(-2px); box-shadow: 0 6px 20px rgba(255, 106, 26, 0.25); }
   .btn-ghost{ border:1px solid var(--border); color:var(--text); background:var(--bg); }
+  .btn-ghost:hover{ border-color:var(--accent); color:var(--accent); }
 
   .stat-strip{
     display:flex; gap:40px; flex-wrap:wrap; margin-top:44px; padding-top:26px;
@@ -300,8 +303,10 @@
     text-align:center; font-family:'IBM Plex Mono', monospace; font-size:0.84rem;
     padding:13px; border-radius:8px; text-decoration:none;
     border:1px solid var(--border); color:var(--text);
+    transition: all 0.3s ease;
   }
   .price-card.popular .price-btn{ background:var(--accent); color:var(--accent-ink); border-color:var(--accent); }
+  .price-btn:hover{ transform: translateY(-2px); }
 
   /* ---------- RATING ---------- */
   .rating-block{ text-align:center; }
@@ -309,6 +314,46 @@
   .rating-score span{ font-size:1.6rem; color:var(--text-dim); }
   .stars-big{ color:var(--accent); letter-spacing:4px; font-size:1.2rem; margin-top:8px; }
   .rating-count{ font-family:'IBM Plex Mono', monospace; font-size:0.8rem; color:var(--text-dim); margin-top:8px; }
+
+  /* ---------- CTA SECTION ---------- */
+  .cta-section{
+    padding:80px 0;
+    background:linear-gradient(135deg, var(--accent) 0%, rgba(255, 106, 26, 0.8) 100%);
+    text-align:center;
+    color:var(--accent-ink);
+  }
+  .cta-section h2{
+    font-family:'Fraunces', serif;
+    font-size:clamp(1.8rem, 3.5vw, 2.8rem);
+    font-weight:600;
+    margin-bottom:16px;
+  }
+  .cta-section p{
+    font-size:1.05rem;
+    max-width:50ch;
+    margin:0 auto 32px;
+    opacity:0.95;
+    line-height:1.6;
+  }
+  .btn-book-seat{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.95rem;
+    background:var(--accent-ink);
+    color:var(--accent);
+    padding:16px 36px;
+    border-radius:999px;
+    text-decoration:none;
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    font-weight:600;
+    transition:all 0.3s ease;
+    box-shadow:0 4px 15px rgba(0,0,0,0.2);
+  }
+  .btn-book-seat:hover{
+    transform:translateY(-3px);
+    box-shadow:0 8px 25px rgba(0,0,0,0.3);
+  }
 
   /* ---------- CONTACT ---------- */
   .contact-grid{ display:grid; grid-template-columns:1fr 1fr; gap:40px; align-items:start; }
@@ -370,7 +415,7 @@
       <h1 class="hero-title">Quiet. Open early. Open <em>late</em>.</h1>
       <p class="hero-sub">Seventeen and a half hours a day, every single day. No shift you can't make, no excuse for not showing up — this is where Nellore comes to actually finish the syllabus.</p>
       <div class="hero-actions">
-        <a class="btn btn-primary" href="https://wa.me/918374242902?text=Hi%2C%20I%27d%20like%20to%20visit%20SpaceQ%20Study%20Hall" target="_blank" rel="noopener">Message on WhatsApp</a>
+        <a class="btn btn-primary" href="https://spaceq.myabhyasika.in/signup" target="_blank" rel="noopener">Book Your Seat</a>
         <a class="btn btn-ghost" href="#hours">See Today's Hours</a>
       </div>
       <div class="stat-strip">
@@ -386,21 +431,13 @@
         <img src="images/Img1.jpeg" alt="SpaceQ photo 1">
       </div>
       <div class="slide">
-        <img src="images/WhatsApp%20Image%202025-09-01%20at%2018.46.59.jpeg" alt="SpaceQ photo 2">
+        <img src="images/img8.jpeg" alt="SpaceQ photo 2">
       </div>
       <div class="slide">
-        <img src="images/WhatsApp%20Image%202025-09-01%20at%2018.47.04%20(1).jpeg" alt="SpaceQ photo 3">
-      </div>
-      <div class="slide">
-        <img src="images/WhatsApp%20Image%202025-09-01%20at%2018.47.04.jpeg" alt="SpaceQ photo 4">
-      </div>
-      <div class="slide">
-        <img src="images/WhatsApp%20Image%202025-09-01%20at%2018.47.18.jpeg" alt="SpaceQ photo 5">
+        <img src="images/img10.jpeg" alt="SpaceQ photo 3">
       </div>
       <div class="carousel-dots" id="carouselDots">
         <span class="active"></span>
-        <span></span>
-        <span></span>
         <span></span>
         <span></span>
       </div>
@@ -444,14 +481,8 @@
     <h2 class="section-heading">Inside SpaceQ</h2>
     <div class="gallery-grid">
       <div class="gallery-tile"><img src="images/Img1.jpeg" alt="SpaceQ photo 1"></div>
-      
-      <div class="gallery-tile"><img src="images/WhatsApp%20Image%202025-09-01%20at%2018.47.04.jpeg" alt="SpaceQ photo 4"></div>
-      <div class="gallery-tile"><img src="images/WhatsApp%20Image%202025-09-01%20at%2018.47.18.jpeg" alt="SpaceQ photo 5"></div>
-      <div class="gallery-tile"><img src="images/WhatsApp%20Image%202025-09-01%20at%2018.47.19.jpeg" alt="SpaceQ photo 6"></div>
-      <div class="gallery-tile"><img src="images/WhatsApp%20Image%202025-09-01%20at%2018.47.20%20(1).jpeg" alt="SpaceQ photo 7"></div>
-      <div class="gallery-tile"><img src="images/WhatsApp%20Image%202025-09-01%20at%2018.47.20.jpeg" alt="SpaceQ photo 8"></div>
-      <div class="gallery-tile"><img src="images/WhatsApp%20Image%202025-09-01%20at%2018.47.21.jpeg" alt="SpaceQ photo 9"></div>
-      <div class="gallery-tile"><img src="images/WhatsApp%20Image%202025-09-01%20at%2018.47.23%20(1).jpeg" alt="SpaceQ photo 10"></div>
+      <div class="gallery-tile"><img src="images/img8.jpeg" alt="SpaceQ photo 2"></div>
+      <div class="gallery-tile"><img src="images/img10.jpeg" alt="SpaceQ photo 3"></div>
     </div>
   </div>
 </section>
@@ -511,6 +542,14 @@
   </div>
 </section>
 
+<section class="cta-section">
+  <div class="wrap">
+    <h2>Ready to focus? Your desk awaits.</h2>
+    <p>Join 100+ students who've already chosen SpaceQ as their study space.</p>
+    <a class="btn-book-seat" href="https://spaceq.myabhyasika.in/signup" target="_blank" rel="noopener">Book Your Seat Now →</a>
+  </div>
+</section>
+
 <section class="section alt" id="contact">
   <div class="wrap">
     <h2 class="section-heading">Visit Us Today</h2>
@@ -532,7 +571,7 @@
           <span class="tag">Instagram</span>
           <p><a href="https://instagram.com/spaceq_25" target="_blank" rel="noopener">@spaceq_25</a></p>
         </div>
-        <a class="btn btn-primary" href="https://wa.me/918374242902?text=Hi%2C%20I%27d%20like%20to%20visit%20SpaceQ%20Study%20Hall" target="_blank" rel="noopener">Message on WhatsApp</a>
+        <a class="btn btn-primary" href="https://spaceq.myabhyasika.in/signup" target="_blank" rel="noopener">Book Your Seat</a>
       </div>
       <div class="map-frame">
         <iframe src="https://maps.google.com/maps?q=14.4462842,79.9795268&z=16&output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="SpaceQ Study Hall location"></iframe>
