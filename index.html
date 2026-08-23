@@ -3,8 +3,64 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SpaceQ Study Hall — Open 5:30AM to 10:00 PM, Nellore</title>
-<meta name="description" content="SpaceQ Study Hall, Ramesh Reddy Nagar, Nellore — open 5 AM to 10:30 PM daily. Rated 4.9 on Google across 96 reviews. Message us on WhatsApp.">
+<title>SpaceQ</title>
+<meta name="description" content="SpaceQ Study Hall, Ramesh Reddy Nagar (VRC Centre), Nellore — open 5:30 AM to 10:00 PM daily. Rated 4.9 on Google across 100+ reviews. Message us on WhatsApp.">
+<link rel="canonical" href="https://yourdomain.com/">
+
+<!-- Open Graph -->
+<meta property="og:type" content="business.business">
+<meta property="og:title" content="SpaceQ Study Hall — Open 5:30 AM to 10 PM, Nellore">
+<meta property="og:description" content="Study hall in VRC Centre, Ramesh Reddy Nagar, Nellore. Rated 4.9★ on Google across 100+ reviews. Message us on WhatsApp to book a seat.">
+<meta property="og:url" content="https://yourdomain.com/">
+<meta property="og:image" content="https://yourdomain.com/images/img1.jpg">
+<meta property="og:locale" content="en_IN">
+<meta property="og:site_name" content="SpaceQ Study Hall">
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="SpaceQ Study Hall — Nellore">
+<meta name="twitter:description" content="Open 5:30 AM – 10 PM daily. Rated 4.9★ on Google. Message us on WhatsApp.">
+<meta name="twitter:image" content="https://yourdomain.com/images/img1.jpg">
+
+<!-- Local Business schema -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "StudySpace",
+  "name": "SpaceQ Study Hall",
+  "image": "https://yourdomain.com/images/img1.jpg",
+  "url": "https://yourdomain.com/",
+  "telephone": "+918374742902",
+  "priceRange": "\u20b9\u20b9",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "Vegetable Market Centre, Opp. Krishna Chaitanya Junior College, Ramesh Reddy Nagar",
+    "addressLocality": "Nellore",
+    "addressRegion": "Andhra Pradesh",
+    "postalCode": "524003",
+    "addressCountry": "IN"
+  },
+  "geo": {
+    "@type": "GeoCoordinates",
+    "latitude": 14.4462842,
+    "longitude": 79.9795268
+  },
+  "openingHoursSpecification": {
+    "@type": "OpeningHoursSpecification",
+    "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"],
+    "opens": "05:30",
+    "closes": "22:00"
+  },
+  "aggregateRating": {
+    "@type": "AggregateRating",
+    "ratingValue": "4.9",
+    "reviewCount": "96"
+  },
+  "sameAs": [
+    "https://instagram.com/spaceq_25"
+  ]
+}
+</script>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -95,6 +151,14 @@
   @media (max-width:900px){ .nav-links{ display:none; } }
 
   .nav-right{ display:flex; align-items:center; gap:12px; }
+
+  .icon-link{
+    width:34px; height:34px; border-radius:50%;
+    display:flex; align-items:center; justify-content:center;
+    border:1px solid var(--border); color:var(--text-dim);
+    text-decoration:none; font-size:15px;
+  }
+  .icon-link:hover{ color:var(--accent); border-color:var(--accent); }
 
   .theme-toggle{
     display:flex; align-items:center; gap:4px;
@@ -262,14 +326,16 @@
   .contact-item{ margin-bottom:24px; }
   .contact-item .tag{ font-family:'IBM Plex Mono', monospace; font-size:0.72rem; color:var(--accent); text-transform:uppercase; letter-spacing:0.06em; display:block; margin-bottom:8px; }
   .contact-item p{ font-size:1rem; color:var(--text); line-height:1.6; }
+  .contact-social{ display:flex; gap:10px; margin-top:8px; }
   .map-frame{ width:100%; height:320px; border:1px solid var(--border); border-radius:10px; overflow:hidden; }
   .map-frame iframe{ width:100%; height:100%; border:0; }
 
   footer{
     padding:32px 0; border-top:1px solid var(--border); background:var(--bg);
     font-family:'IBM Plex Mono', monospace; font-size:0.75rem; color:var(--text-dim);
-    display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px;
+    display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:10px;
   }
+  footer .footer-social{ display:flex; align-items:center; gap:10px; }
 
   .wa-float{
     position:fixed; bottom:24px; right:24px; z-index:60;
@@ -298,6 +364,7 @@
     <a href="#contact">Contact</a>
   </div>
   <div class="nav-right">
+    <a class="icon-link" href="https://instagram.com/spaceq_25" target="_blank" rel="noopener" aria-label="SpaceQ on Instagram">📷</a>
     <div class="theme-toggle" role="group" aria-label="Theme toggle">
       <button id="btnLight" aria-label="Light mode">☀︎</button>
       <button id="btnDark" aria-label="Dark mode">☾</button>
@@ -309,7 +376,7 @@
 <header class="hero">
   <div class="wrap hero-grid">
     <div>
-      <div class="hero-eyebrow"> Vrc centre, Nellore</div>
+      <div class="hero-eyebrow">VRC Centre, Nellore</div>
       <h1 class="hero-title">Quiet. Open early. Open <em>late</em>.</h1>
       <p class="hero-sub">Seventeen and a half hours a day, every single day. No shift you can't make, no excuse for not showing up — this is where Nellore comes to actually finish the syllabus.</p>
       <div class="hero-actions">
@@ -325,7 +392,7 @@
     </div>
 
     <div class="hero-carousel" id="heroCarousel">
-      <!-- slides injected by script using img1.jpg ... img5.jpg -->
+      <!-- slides injected by script using images/img1.jpg ... images/img5.jpg -->
       <div class="carousel-dots" id="carouselDots"></div>
     </div>
   </div>
@@ -339,7 +406,7 @@
       <div class="ribbon-now" id="ribbonNow" data-time=""></div>
     </div>
     <div class="ribbon-ticks">
-      <span>5:00</span><span>8:00</span><span>11:00</span><span>14:00</span><span>17:00</span><span>20:00</span><span>22:30</span>
+      <span>5:30</span><span>8:00</span><span>11:00</span><span>14:00</span><span>17:00</span><span>20:00</span><span>22:00</span>
     </div>
     <p class="ribbon-caption">Most study halls in Nellore open with the shops around them. <strong>SpaceQ opens before sunrise and closes after dinner</strong> — built around exam schedules, not shop hours.</p>
   </div>
@@ -365,7 +432,6 @@
 <section class="section alt" id="gallery">
   <div class="wrap">
     <h2 class="section-heading">Inside SpaceQ</h2>
-    
     <div class="gallery-grid" id="galleryGrid"></div>
   </div>
 </section>
@@ -390,7 +456,7 @@
         <ul class="price-list">
           <li>Open seating</li>
           <li>Wi-Fi included</li>
-          <li>5:30 AM – 10:00PM access</li>
+          <li>5:30 AM – 10:00 PM access</li>
         </ul>
         <a class="price-btn" href="https://wa.me/918374742902?text=Hi%2C%20I%27d%20like%20to%20know%20the%20rate%20for%20a%20Day%20Pass%20at%20SpaceQ" target="_blank" rel="noopener">Ask on WhatsApp</a>
       </div>
@@ -440,7 +506,11 @@
         </div>
         <div class="contact-item">
           <span class="tag">Operating Hours</span>
-          <p>5:00 AM – 10:30 PM, Monday – Sunday</p>
+          <p>5:30 AM – 10:00 PM, Monday – Sunday</p>
+        </div>
+        <div class="contact-item">
+          <span class="tag">Instagram</span>
+          <p><a href="https://instagram.com/spaceq_25" target="_blank" rel="noopener">@spaceq_25</a></p>
         </div>
         <a class="btn btn-primary" href="https://wa.me/918374742902?text=Hi%2C%20I%27d%20like%20to%20visit%20SpaceQ%20Study%20Hall" target="_blank" rel="noopener">Message on WhatsApp</a>
       </div>
@@ -452,9 +522,12 @@
 </section>
 
 <footer>
-  <div class="wrap" style="display:flex; justify-content:space-between; width:100%; flex-wrap:wrap; gap:10px;">
+  <div class="wrap" style="display:flex; align-items:center; justify-content:space-between; width:100%; flex-wrap:wrap; gap:10px;">
     <span>SpaceQ Study Hall — Nellore</span>
-    <span>© 2026</span>
+    <div class="footer-social">
+      <a class="icon-link" href="https://instagram.com/spaceq_25" target="_blank" rel="noopener" aria-label="SpaceQ on Instagram">📷</a>
+      <span>© 2026</span>
+    </div>
   </div>
 </footer>
 
@@ -531,10 +604,10 @@
     requestAnimationFrame(loop);
   })();
 
-  // ---- Hours ribbon reflecting real current time ----
+  // ---- Hours ribbon reflecting real current time (5:30 AM – 10:00 PM) ----
   function updateRibbon(){
     const now = new Date();
-    const openMin = 5*60, closeMin = 22*60+30;
+    const openMin = 5*60+30, closeMin = 22*60;
     const curMin = now.getHours()*60 + now.getMinutes();
     let pct, isOpen = curMin >= openMin && curMin <= closeMin;
     if(curMin < openMin) pct = 0;
@@ -549,7 +622,7 @@
   updateRibbon();
   setInterval(updateRibbon, 60000);
 
-  // ---- Hero carousel: img1.jpg ... img5.jpg, loops automatically ----
+  // ---- Hero carousel: images/img1.jpg ... images/img5.jpg, loops automatically ----
   const heroCarousel = document.getElementById('heroCarousel');
   const dotsWrap = document.getElementById('carouselDots');
   const heroCount = 5;
@@ -557,8 +630,8 @@
     const slide = document.createElement('div');
     slide.className = 'slide' + (i === 1 ? ' active' : '');
     slide.innerHTML = `
-      <img src="img${i}.jpg" alt="SpaceQ photo ${i}" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-      <div class="slide-fallback" style="display:none;">📷 img${i}.jpg</div>
+      <img src="images/img${i}.jpg" alt="SpaceQ photo ${i}" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+      <div class="slide-fallback" style="display:none;">📷 images/img${i}.jpg</div>
     `;
     heroCarousel.insertBefore(slide, dotsWrap);
     const dot = document.createElement('span');
@@ -576,14 +649,14 @@
     dots[currentSlide].classList.add('active');
   }, 4000);
 
-  // ---- Gallery: img1.jpg ... img8.jpg ----
+  // ---- Gallery: images/img1.jpg ... images/img8.jpg ----
   const galleryGrid = document.getElementById('galleryGrid');
   for(let i=1; i<=8; i++){
     const tile = document.createElement('div');
     tile.className = 'gallery-tile';
     tile.innerHTML = `
-      <img src="img${i}.jpg" alt="SpaceQ photo ${i}" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-      <div class="tile-fallback" style="display:none;">📷 img${i}.jpg</div>
+      <img src="images/img${i}.jpg" alt="SpaceQ photo ${i}" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+      <div class="tile-fallback" style="display:none;">📷 images/img${i}.jpg</div>
     `;
     galleryGrid.appendChild(tile);
   }
