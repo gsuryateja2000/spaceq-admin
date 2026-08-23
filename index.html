@@ -12,7 +12,7 @@
 <meta property="og:title" content="SpaceQ Study Hall — Open 5:30 AM to 10 PM, Nellore">
 <meta property="og:description" content="Study hall in VRC Centre, Ramesh Reddy Nagar, Nellore. Rated 4.9★ on Google across 100+ reviews. Message us on WhatsApp to book a seat.">
 <meta property="og:url" content="https://yourdomain.com/">
-<meta property="og:image" content="images/img1.jpeg">
+<meta property="og:image" content="images/Img1.jpeg">
 <meta property="og:locale" content="en_IN">
 <meta property="og:site_name" content="SpaceQ Study Hall">
 
@@ -20,7 +20,7 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="SpaceQ Study Hall — Nellore">
 <meta name="twitter:description" content="Open 5:30 AM – 10 PM daily. Rated 4.9★ on Google. Message us on WhatsApp.">
-<meta name="twitter:image" content="images/img1.jpeg">
+<meta name="twitter:image" content="images/Img1.jpeg">
 
 <!-- Local Business schema -->
 <script type="application/ld+json">
@@ -28,7 +28,7 @@
   "@context": "https://schema.org",
   "@type": "StudySpace",
   "name": "SpaceQ Study Hall",
-  "image": "images/img1.jpeg",
+  "image": "images/Img1.jpeg",
   "url": "https://spaceq.co.in/",
   "telephone": "+918374242902",
   "priceRange": "\u20b9\u20b9",
@@ -226,11 +226,6 @@
   }
   .hero-carousel .slide.active{ opacity:1; }
   .hero-carousel .slide img{ width:100%; height:100%; object-fit:cover; display:block; }
-  .hero-carousel .slide-fallback{
-    display:flex; position:absolute; inset:0; align-items:center; justify-content:center;
-    font-family:'IBM Plex Mono', monospace; font-size:0.82rem; color:var(--text-dim);
-    text-align:center; padding:20px; background:var(--bg-2);
-  }
   .carousel-dots{
     position:absolute; bottom:14px; left:50%; transform:translateX(-50%);
     display:flex; gap:6px; z-index:2;
@@ -276,11 +271,6 @@
     border:1px dashed var(--border); background:var(--bg-2);
   }
   .gallery-tile img{ width:100%; height:100%; object-fit:cover; display:block; }
-  .tile-fallback{
-    display:flex; position:absolute; inset:0; align-items:center; justify-content:center;
-    font-family:'IBM Plex Mono', monospace; font-size:0.74rem; color:var(--text-dim);
-    text-align:center; padding:12px;
-  }
 
   /* ---------- REVIEWS ---------- */
   .reviews-marquee{ overflow:hidden; margin-top:10px; }
@@ -392,8 +382,28 @@
     </div>
 
     <div class="hero-carousel" id="heroCarousel">
-      <!-- slides injected by script using images/img1.jpeg ... images/img5.jpeg -->
-      <div class="carousel-dots" id="carouselDots"></div>
+      <div class="slide active">
+        <img src="images/Img1.jpeg" alt="SpaceQ photo 1">
+      </div>
+      <div class="slide">
+        <img src="images/WhatsApp%20Image%202025-09-01%20at%2018.46.59.jpeg" alt="SpaceQ photo 2">
+      </div>
+      <div class="slide">
+        <img src="images/WhatsApp%20Image%202025-09-01%20at%2018.47.04%20(1).jpeg" alt="SpaceQ photo 3">
+      </div>
+      <div class="slide">
+        <img src="images/WhatsApp%20Image%202025-09-01%20at%2018.47.04.jpeg" alt="SpaceQ photo 4">
+      </div>
+      <div class="slide">
+        <img src="images/WhatsApp%20Image%202025-09-01%20at%2018.47.18.jpeg" alt="SpaceQ photo 5">
+      </div>
+      <div class="carousel-dots" id="carouselDots">
+        <span class="active"></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
     </div>
   </div>
 </header>
@@ -432,7 +442,18 @@
 <section class="section alt" id="gallery">
   <div class="wrap">
     <h2 class="section-heading">Inside SpaceQ</h2>
-    <div class="gallery-grid" id="galleryGrid"></div>
+    <div class="gallery-grid">
+      <div class="gallery-tile"><img src="images/Img1.jpeg" alt="SpaceQ photo 1"></div>
+      <div class="gallery-tile"><img src="images/WhatsApp%20Image%202025-09-01%20at%2018.46.59.jpeg" alt="SpaceQ photo 2"></div>
+      <div class="gallery-tile"><img src="images/WhatsApp%20Image%202025-09-01%20at%2018.47.04%20(1).jpeg" alt="SpaceQ photo 3"></div>
+      <div class="gallery-tile"><img src="images/WhatsApp%20Image%202025-09-01%20at%2018.47.04.jpeg" alt="SpaceQ photo 4"></div>
+      <div class="gallery-tile"><img src="images/WhatsApp%20Image%202025-09-01%20at%2018.47.18.jpeg" alt="SpaceQ photo 5"></div>
+      <div class="gallery-tile"><img src="images/WhatsApp%20Image%202025-09-01%20at%2018.47.19.jpeg" alt="SpaceQ photo 6"></div>
+      <div class="gallery-tile"><img src="images/WhatsApp%20Image%202025-09-01%20at%2018.47.20%20(1).jpeg" alt="SpaceQ photo 7"></div>
+      <div class="gallery-tile"><img src="images/WhatsApp%20Image%202025-09-01%20at%2018.47.20.jpeg" alt="SpaceQ photo 8"></div>
+      <div class="gallery-tile"><img src="images/WhatsApp%20Image%202025-09-01%20at%2018.47.21.jpeg" alt="SpaceQ photo 9"></div>
+      <div class="gallery-tile"><img src="images/WhatsApp%20Image%202025-09-01%20at%2018.47.23%20(1).jpeg" alt="SpaceQ photo 10"></div>
+    </div>
   </div>
 </section>
 
@@ -534,8 +555,7 @@
 <a class="wa-float" href="https://wa.me/918374242902?text=Hi%2C%20I%27d%20like%20to%20know%20more%20about%20SpaceQ%20Study%20Hall" target="_blank" rel="noopener" aria-label="Chat on WhatsApp">💬</a>
 
 <script>
-  // ---- Fix in-page anchor links: scroll manually so the preview sandbox
-  // never treats a "#section" link as an external navigation ----
+  // ---- Fix in-page anchor links ----
   document.querySelectorAll('a[href^="#"]').forEach(link => {
     link.addEventListener('click', (e) => {
       const id = link.getAttribute('href').slice(1);
@@ -547,7 +567,7 @@
     });
   });
 
-  // ---- Theme: class on body, auto by device hour, manual override works ----
+  // ---- Theme ----
   const body = document.body;
   const btnLight = document.getElementById('btnLight');
   const btnDark = document.getElementById('btnDark');
@@ -565,7 +585,7 @@
   btnLight.addEventListener('click', () => setTheme('light'));
   btnDark.addEventListener('click', () => setTheme('dark'));
 
-  // ---- Ambient starfield: subtle, theme-aware, no motion sickness ----
+  // ---- Ambient starfield ----
   (function(){
     const canvas = document.getElementById('bgCanvas');
     const ctx = canvas.getContext('2d');
@@ -604,7 +624,7 @@
     requestAnimationFrame(loop);
   })();
 
-  // ---- Hours ribbon reflecting real current time (5:30 AM – 10:00 PM) ----
+  // ---- Hours ribbon ----
   function updateRibbon(){
     const now = new Date();
     const openMin = 5*60+30, closeMin = 22*60;
@@ -622,22 +642,9 @@
   updateRibbon();
   setInterval(updateRibbon, 60000);
 
-  // ---- Hero carousel: images/img1.jpeg ... images/img5.jpeg, loops automatically ----
+  // ---- Hero carousel ----
   const heroCarousel = document.getElementById('heroCarousel');
   const dotsWrap = document.getElementById('carouselDots');
-  const heroCount = 5;
-  for(let i=1; i<=heroCount; i++){
-    const slide = document.createElement('div');
-    slide.className = 'slide' + (i === 1 ? ' active' : '');
-    slide.innerHTML = `
-      <img src="images/img${i}.jpeg" alt="SpaceQ photo ${i}" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-      <div class="slide-fallback" style="display:none;">📷 images/img${i}.jpeg</div>
-    `;
-    heroCarousel.insertBefore(slide, dotsWrap);
-    const dot = document.createElement('span');
-    if(i === 1) dot.className = 'active';
-    dotsWrap.appendChild(dot);
-  }
   let currentSlide = 0;
   const slides = heroCarousel.querySelectorAll('.slide');
   const dots = dotsWrap.querySelectorAll('span');
@@ -649,19 +656,7 @@
     dots[currentSlide].classList.add('active');
   }, 4000);
 
-  // ---- Gallery: images/img1.jpeg ... images/img10.jpeg ----
-  const galleryGrid = document.getElementById('galleryGrid');
-  for(let i=1; i<=10; i++){
-    const tile = document.createElement('div');
-    tile.className = 'gallery-tile';
-    tile.innerHTML = `
-      <img src="images/img${i}.jpeg" alt="SpaceQ photo ${i}" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-      <div class="tile-fallback" style="display:none;">📷 images/img${i}.jpeg</div>
-    `;
-    galleryGrid.appendChild(tile);
-  }
-
-  // ---- Real Google reviews (4★+), paraphrased for display, looped ----
+  // ---- Reviews ----
   const reviews = [
     "Peaceful and motivating from the moment you walk in — the space is well maintained, and the owner keeps a genuinely close eye on student comfort and upkeep.",
     "A disciplined, quiet setup that works well for government exam aspirants, IT employees, and students putting in long hours without disturbance.",
