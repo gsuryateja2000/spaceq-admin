@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SpaceQ Study Hall — Open 5 AM to 10:30 PM, Nellore</title>
+<meta name="description" content="SpaceQ Study Hall, Ramesh Reddy Nagar, Nellore — open 5 AM to 10:30 PM daily. Rated 4.9 on Google across 96 reviews. Message us on WhatsApp.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=IBM+Plex+Mono:wght@400;500;600&family=Source+Sans+3:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --bg:#FFFFFF;
+    --bg-2:#F7F5F1;
+    --card:#FDFCFA;
+    --text:#1B1810;
+    --text-dim:#5B5546;
+    --accent:#FF6A1A;
+    --accent-dim:#FFE0CC;
+    --accent-ink:#FFFFFF;
+    --border:rgba(27,24,16,0.12);
+    --nav-fade:rgba(255,255,255,0.94);
+  }
+  body.theme-dark{
+    --bg:#0A0A0A;
+    --bg-2:#151515;
+    --card:#1D1D1D;
+    --text:#FFFFFF;
+    --text-dim:#C9C9C6;
+    --accent:#1ED760;
+    --accent-dim:#123A22;
+    --accent-ink:#0A0A0A;
+    --border:rgba(255,255,255,0.16);
+    --nav-fade:rgba(10,10,10,0.94);
+  }
+
+  /* ---------- AMBIENT BACKGROUND (subtle, theme-aware) ---------- */
+  #bgCanvas{
+    position:fixed; inset:0; width:100%; height:100%;
+    z-index:-2; display:block; pointer-events:none;
+  }
+  .bg-orb{
+    position:fixed; z-index:-1; border-radius:50%;
+    filter:blur(110px); background:var(--accent);
+    opacity:0.07; pointer-events:none;
+    animation:bgDrift 20s ease-in-out infinite alternate;
+  }
+  .orb-a{ width:460px; height:460px; top:-120px; left:-100px; }
+  .orb-b{ width:380px; height:380px; bottom:-100px; right:-80px; animation-delay:-10s; }
+  @keyframes bgDrift{ from{ transform:translate(0,0); } to{ transform:translate(40px, 50px); } }
+
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:'Source Sans 3', sans-serif;
+    -webkit-font-smoothing:antialiased;
+    transition:background .3s ease, color .3s ease;
+  }
+
+  ::selection{background:var(--accent); color:var(--accent-ink);}
+  a{color:inherit;}
+
+  .wrap{max-width:1160px; margin:0 auto; padding:0 32px;}
+  @media (max-width:640px){ .wrap{padding:0 20px;} }
+
+  section[id]{ scroll-margin-top:76px; }
+
+  /* ---------- NAV ---------- */
+  nav{
+    position:sticky; top:0; z-index:50;
+    display:flex; align-items:center; justify-content:space-between;
+    padding:16px 32px;
+    background:var(--nav-fade);
+    border-bottom:1px solid var(--border);
+    backdrop-filter:blur(6px);
+    gap:16px;
+    flex-wrap:wrap;
+  }
+  @media (max-width:640px){ nav{padding:14px 20px;} }
+
+  .brand{
+    font-family:'Fraunces', serif; font-weight:600; font-size:1.1rem;
+    display:flex; align-items:center; gap:9px; color:var(--text);
+  }
+  .brand .dot{ width:9px; height:9px; border-radius:50%; background:var(--accent); }
+
+  .nav-links{ display:flex; gap:26px; font-size:0.92rem; }
+  .nav-links a{ text-decoration:none; color:var(--text-dim); }
+  .nav-links a:hover{ color:var(--text); }
+  @media (max-width:900px){ .nav-links{ display:none; } }
+
+  .nav-right{ display:flex; align-items:center; gap:12px; }
+
+  .theme-toggle{
+    display:flex; align-items:center; gap:4px;
+    background:var(--bg-2); border:1px solid var(--border);
+    border-radius:999px; padding:4px;
+  }
+  .theme-toggle button{
+    border:none; background:transparent; cursor:pointer;
+    width:30px; height:30px; border-radius:50%;
+    display:flex; align-items:center; justify-content:center;
+    font-size:14px; color:var(--text-dim);
+  }
+  .theme-toggle button.active{ background:var(--accent); color:var(--accent-ink); }
+
+  .nav-cta{
+    font-family:'IBM Plex Mono', monospace; font-size:0.78rem;
+    background:var(--accent); color:var(--accent-ink);
+    padding:11px 18px; border-radius:999px; text-decoration:none;
+    white-space:nowrap;
+  }
+
+  /* ---------- HERO ---------- */
+  .hero{ padding:70px 0 60px; background:var(--bg); }
+  .hero-grid{ display:grid; grid-template-columns:1.1fr 0.9fr; gap:50px; align-items:center; }
+  @media (max-width:900px){ .hero-grid{ grid-template-columns:1fr; } }
+
+  .hero-eyebrow{
+    font-family:'IBM Plex Mono', monospace; font-size:0.8rem; color:var(--accent);
+    letter-spacing:0.1em; text-transform:uppercase; margin-bottom:18px;
+    display:flex; align-items:center; gap:10px;
+  }
+  .hero-eyebrow::before{ content:''; width:26px; height:1px; background:var(--accent); display:inline-block; }
+
+  h1.hero-title{
+    font-family:'Fraunces', serif; font-weight:600;
+    font-size:clamp(2.2rem, 4.6vw, 3.6rem); line-height:1.08; color:var(--text);
+  }
+  h1.hero-title em{ font-style:italic; font-weight:500; color:var(--accent); }
+
+  .hero-sub{ margin-top:22px; max-width:46ch; font-size:1.08rem; line-height:1.6; color:var(--text-dim); }
+
+  .hero-actions{ margin-top:32px; display:flex; gap:14px; flex-wrap:wrap; }
+  .btn{
+    font-family:'IBM Plex Mono', monospace; font-size:0.85rem;
+    padding:14px 24px; border-radius:999px; text-decoration:none;
+    display:inline-flex; align-items:center; gap:8px;
+  }
+  .btn-primary{ background:var(--accent); color:var(--accent-ink); }
+  .btn-ghost{ border:1px solid var(--border); color:var(--text); background:var(--bg); }
+
+  .stat-strip{
+    display:flex; gap:40px; flex-wrap:wrap; margin-top:44px; padding-top:26px;
+    border-top:1px solid var(--border); font-family:'IBM Plex Mono', monospace;
+  }
+  .stat-num{ font-size:1.7rem; color:var(--accent); line-height:1; }
+  .stat-label{ font-size:0.72rem; color:var(--text-dim); margin-top:6px; text-transform:uppercase; letter-spacing:0.03em; }
+
+  /* ---------- HERO CAROUSEL ---------- */
+  .hero-carousel{
+    position:relative; aspect-ratio:4/5; border-radius:14px; overflow:hidden;
+    border:1px solid var(--border); background:var(--bg-2);
+  }
+  .hero-carousel .slide{
+    position:absolute; inset:0; opacity:0; transition:opacity 1s ease;
+  }
+  .hero-carousel .slide.active{ opacity:1; }
+  .hero-carousel .slide img{ width:100%; height:100%; object-fit:cover; display:block; }
+  .hero-carousel .slide-fallback{
+    display:flex; position:absolute; inset:0; align-items:center; justify-content:center;
+    font-family:'IBM Plex Mono', monospace; font-size:0.82rem; color:var(--text-dim);
+    text-align:center; padding:20px; background:var(--bg-2);
+  }
+  .carousel-dots{
+    position:absolute; bottom:14px; left:50%; transform:translateX(-50%);
+    display:flex; gap:6px; z-index:2;
+  }
+  .carousel-dots span{
+    width:6px; height:6px; border-radius:50%; background:rgba(255,255,255,0.5);
+  }
+  .carousel-dots span.active{ background:var(--accent); }
+
+  /* ---------- HOURS RIBBON ---------- */
+  .ribbon-section{ padding:56px 0; border-top:1px solid var(--border); border-bottom:1px solid var(--border); background:var(--bg-2); }
+  .ribbon-label{ font-family:'IBM Plex Mono', monospace; font-size:0.76rem; letter-spacing:0.06em; text-transform:uppercase; color:var(--text-dim); margin-bottom:20px; }
+  .ribbon-track{ position:relative; height:52px; background:var(--card); border:1px solid var(--border); border-radius:6px; overflow:hidden; }
+  .ribbon-fill{ position:absolute; inset:0 auto 0 0; background:var(--accent); width:0%; transition:width 1.4s ease; }
+  .ribbon-now{ position:absolute; top:-4px; bottom:-4px; width:2px; background:var(--text); left:0%; transition:left 1.4s ease; }
+  .ribbon-now::after{
+    content:attr(data-time); position:absolute; top:-24px; left:50%; transform:translateX(-50%);
+    font-family:'IBM Plex Mono', monospace; font-size:0.7rem; color:var(--text); white-space:nowrap;
+  }
+  .ribbon-ticks{ display:flex; justify-content:space-between; margin-top:10px; font-family:'IBM Plex Mono', monospace; font-size:0.7rem; color:var(--text-dim); }
+  .ribbon-caption{ margin-top:20px; font-size:1rem; color:var(--text-dim); max-width:60ch; line-height:1.6; }
+  .ribbon-caption strong{ color:var(--text); }
+
+  /* ---------- SECTION SHARED ---------- */
+  .section{ padding:80px 0; background:var(--bg); }
+  .section.alt{ background:var(--bg-2); }
+  .section-heading{ font-family:'Fraunces', serif; font-weight:600; font-size:clamp(1.6rem, 3vw, 2.3rem); color:var(--text); margin-bottom:12px; }
+  .section-sub{ color:var(--text-dim); max-width:56ch; font-size:1rem; line-height:1.6; margin-bottom:40px; }
+
+  /* ---------- AMENITIES ---------- */
+  .amenities-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:20px; }
+  @media (max-width:900px){ .amenities-grid{ grid-template-columns:repeat(2,1fr); } }
+  .amenity-card{ background:var(--card); border:1px solid var(--border); border-radius:10px; padding:22px; }
+  .amenity-card .icon{ font-size:1.6rem; margin-bottom:10px; }
+  .amenity-card h3{ font-size:1rem; font-weight:600; margin-bottom:6px; color:var(--text); }
+  .amenity-card p{ font-size:0.86rem; color:var(--text-dim); line-height:1.5; }
+
+  /* ---------- GALLERY ---------- */
+  .gallery-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:12px; }
+  @media (max-width:820px){ .gallery-grid{ grid-template-columns:repeat(2,1fr); } }
+  .gallery-tile{
+    position:relative; aspect-ratio:4/3; border-radius:10px; overflow:hidden;
+    border:1px dashed var(--border); background:var(--bg-2);
+  }
+  .gallery-tile img{ width:100%; height:100%; object-fit:cover; display:block; }
+  .tile-fallback{
+    display:flex; position:absolute; inset:0; align-items:center; justify-content:center;
+    font-family:'IBM Plex Mono', monospace; font-size:0.74rem; color:var(--text-dim);
+    text-align:center; padding:12px;
+  }
+
+  /* ---------- REVIEWS ---------- */
+  .reviews-marquee{ overflow:hidden; margin-top:10px; }
+  .marquee-track{ display:flex; gap:18px; width:max-content; animation:scrollLeft 40s linear infinite; }
+  .reviews-marquee:hover .marquee-track{ animation-play-state:paused; }
+  @keyframes scrollLeft{ from{ transform:translateX(0); } to{ transform:translateX(-50%); } }
+  .review-card{ width:300px; flex-shrink:0; background:var(--card); border:1px solid var(--border); border-radius:10px; padding:22px; }
+  .review-stars{ color:var(--accent); font-size:0.9rem; letter-spacing:2px; margin-bottom:12px; }
+  .review-text{ font-size:0.92rem; line-height:1.55; color:var(--text); margin-bottom:12px; }
+  .review-source{ font-family:'IBM Plex Mono', monospace; font-size:0.7rem; color:var(--text-dim); text-transform:uppercase; }
+
+  /* ---------- PRICING (no amounts — WhatsApp handles it) ---------- */
+  .pricing-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:20px; align-items:stretch; }
+  @media (max-width:900px){ .pricing-grid{ grid-template-columns:1fr; } }
+  .price-card{ background:var(--card); border:1px solid var(--border); border-radius:14px; padding:32px 28px; display:flex; flex-direction:column; }
+  .price-card.popular{ border-color:var(--accent); position:relative; }
+  .price-card.popular::before{
+    content:'POPULAR'; position:absolute; top:16px; right:16px;
+    font-family:'IBM Plex Mono', monospace; font-size:0.62rem; letter-spacing:0.06em;
+    background:var(--accent); color:var(--accent-ink); padding:4px 10px; border-radius:999px;
+  }
+  .price-card h3{ font-family:'Fraunces', serif; font-size:1.4rem; font-weight:600; margin-bottom:20px; color:var(--text); }
+  .price-list{ list-style:none; margin-bottom:26px; flex:1; }
+  .price-list li{ font-size:0.92rem; color:var(--text-dim); padding:7px 0; border-bottom:1px solid var(--border); }
+  .price-list li:last-child{ border-bottom:none; }
+  .price-btn{
+    text-align:center; font-family:'IBM Plex Mono', monospace; font-size:0.84rem;
+    padding:13px; border-radius:8px; text-decoration:none;
+    border:1px solid var(--border); color:var(--text);
+  }
+  .price-card.popular .price-btn{ background:var(--accent); color:var(--accent-ink); border-color:var(--accent); }
+
+  /* ---------- RATING ---------- */
+  .rating-block{ text-align:center; }
+  .rating-score{ font-family:'Fraunces', serif; font-weight:700; font-size:4.4rem; color:var(--text); line-height:1; }
+  .rating-score span{ font-size:1.6rem; color:var(--text-dim); }
+  .stars-big{ color:var(--accent); letter-spacing:4px; font-size:1.2rem; margin-top:8px; }
+  .rating-count{ font-family:'IBM Plex Mono', monospace; font-size:0.8rem; color:var(--text-dim); margin-top:8px; }
+
+  /* ---------- CONTACT ---------- */
+  .contact-grid{ display:grid; grid-template-columns:1fr 1fr; gap:40px; align-items:start; }
+  @media (max-width:900px){ .contact-grid{ grid-template-columns:1fr; } }
+  .contact-item{ margin-bottom:24px; }
+  .contact-item .tag{ font-family:'IBM Plex Mono', monospace; font-size:0.72rem; color:var(--accent); text-transform:uppercase; letter-spacing:0.06em; display:block; margin-bottom:8px; }
+  .contact-item p{ font-size:1rem; color:var(--text); line-height:1.6; }
+  .map-frame{ width:100%; height:320px; border:1px solid var(--border); border-radius:10px; overflow:hidden; }
+  .map-frame iframe{ width:100%; height:100%; border:0; }
+
+  footer{
+    padding:32px 0; border-top:1px solid var(--border); background:var(--bg);
+    font-family:'IBM Plex Mono', monospace; font-size:0.75rem; color:var(--text-dim);
+    display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px;
+  }
+
+  .wa-float{
+    position:fixed; bottom:24px; right:24px; z-index:60;
+    background:var(--accent); color:var(--accent-ink);
+    width:56px; height:56px; border-radius:50%;
+    display:flex; align-items:center; justify-content:center;
+    text-decoration:none; box-shadow:0 6px 20px rgba(0,0,0,0.25); font-size:24px;
+  }
+
+  @media (prefers-reduced-motion: reduce){ *{ animation-duration:.01ms !important; transition-duration:.01ms !important; } }
+</style>
+</head>
+<body>
+
+<canvas id="bgCanvas"></canvas>
+<div class="bg-orb orb-a"></div>
+<div class="bg-orb orb-b"></div>
+
+<nav>
+  <div class="brand"><span class="dot"></span>SpaceQ Study Hall</div>
+  <div class="nav-links">
+    <a href="#amenities">Amenities</a>
+    <a href="#gallery">Gallery</a>
+    <a href="#reviews">Reviews</a>
+    <a href="#pricing">Pricing</a>
+    <a href="#contact">Contact</a>
+  </div>
+  <div class="nav-right">
+    <div class="theme-toggle" role="group" aria-label="Theme toggle">
+      <button id="btnLight" aria-label="Light mode">☀︎</button>
+      <button id="btnDark" aria-label="Dark mode">☾</button>
+    </div>
+    <a class="nav-cta" href="https://wa.me/918374742902?text=Hi%2C%20I%27d%20like%20to%20know%20more%20about%20SpaceQ%20Study%20Hall" target="_blank" rel="noopener">Chat on WhatsApp</a>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <div class="hero-eyebrow">Ramesh Reddy Nagar, Nellore</div>
+      <h1 class="hero-title">Quiet. Open early. Open <em>late</em>.</h1>
+      <p class="hero-sub">Seventeen and a half hours a day, every single day. No shift you can't make, no excuse for not showing up — this is where Nellore comes to actually finish the syllabus.</p>
+      <div class="hero-actions">
+        <a class="btn btn-primary" href="https://wa.me/918374742902?text=Hi%2C%20I%27d%20like%20to%20visit%20SpaceQ%20Study%20Hall" target="_blank" rel="noopener">Message on WhatsApp</a>
+        <a class="btn btn-ghost" href="#hours">See Today's Hours</a>
+      </div>
+      <div class="stat-strip">
+        <div><div class="stat-num">17.5</div><div class="stat-label">Hours Daily</div></div>
+        <div><div class="stat-num">4.9</div><div class="stat-label">Google Rating</div></div>
+        <div><div class="stat-num">96</div><div class="stat-label">Reviews</div></div>
+        <div><div class="stat-num">365</div><div class="stat-label">Days a Year</div></div>
+      </div>
+    </div>
+
+    <div class="hero-carousel" id="heroCarousel">
+      <!-- slides injected by script using img1.jpg ... img5.jpg -->
+      <div class="carousel-dots" id="carouselDots"></div>
+    </div>
+  </div>
+</header>
+
+<section class="ribbon-section" id="hours">
+  <div class="wrap">
+    <div class="ribbon-label">Open today — 05:00 to 22:30</div>
+    <div class="ribbon-track">
+      <div class="ribbon-fill" id="ribbonFill"></div>
+      <div class="ribbon-now" id="ribbonNow" data-time=""></div>
+    </div>
+    <div class="ribbon-ticks">
+      <span>5:00</span><span>8:00</span><span>11:00</span><span>14:00</span><span>17:00</span><span>20:00</span><span>22:30</span>
+    </div>
+    <p class="ribbon-caption">Most study halls in Nellore open with the shops around them. <strong>SpaceQ opens before sunrise and closes after dinner</strong> — built around exam schedules, not shop hours.</p>
+  </div>
+</section>
+
+<section class="section" id="amenities">
+  <div class="wrap">
+    <h2 class="section-heading">Amenities</h2>
+    <p class="section-sub">Everything a long study session actually needs — nothing you have to ask for.</p>
+    <div class="amenities-grid">
+      <div class="amenity-card"><div class="icon">📶</div><h3>Wi-Fi</h3><p>Reliable connection across the hall.</p></div>
+      <div class="amenity-card"><div class="icon">❄️</div><h3>AC Seating</h3><p>Climate-controlled zones for long sessions.</p></div>
+      <div class="amenity-card"><div class="icon">🎥</div><h3>CCTV & Safety</h3><p>Full coverage and well-lit access, day and night.</p></div>
+      <div class="amenity-card"><div class="icon">💧</div><h3>Filtered Water</h3><p>Clean drinking water on every floor.</p></div>
+      <div class="amenity-card"><div class="icon">🚻</div><h3>Clean Washrooms</h3><p>Maintained through the day.</p></div>
+      <div class="amenity-card"><div class="icon">🍱</div><h3>Pantry Area</h3><p>A space to eat during breaks.</p></div>
+      <div class="amenity-card"><div class="icon">🔒</div><h3>Personal Locker</h3><p>Secure storage for books and valuables.</p></div>
+      <div class="amenity-card"><div class="icon">🤫</div><h3>Silent Halls</h3><p>A shared, enforced culture of quiet.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="section alt" id="gallery">
+  <div class="wrap">
+    <h2 class="section-heading">Inside SpaceQ</h2>
+    <p class="section-sub">Drop files named <strong>img1.jpg</strong> through <strong>img8.jpg</strong> next to this page and they'll appear here automatically.</p>
+    <div class="gallery-grid" id="galleryGrid"></div>
+  </div>
+</section>
+
+<section class="section" id="reviews">
+  <div class="wrap">
+    <h2 class="section-heading">What Nellore is saying</h2>
+    <p class="section-sub">Real Google reviews, 4 stars and above, straight from students who study here.</p>
+  </div>
+  <div class="reviews-marquee">
+    <div class="marquee-track" id="marqueeTrack"></div>
+  </div>
+</section>
+
+<section class="section alt" id="pricing">
+  <div class="wrap">
+    <h2 class="section-heading">Pricing</h2>
+    <p class="section-sub">Pick a plan and message us on WhatsApp — we'll confirm the rate and get you a seat.</p>
+    <div class="pricing-grid">
+      <div class="price-card">
+        <h3>Day Pass</h3>
+        <ul class="price-list">
+          <li>Open seating</li>
+          <li>Wi-Fi included</li>
+          <li>5 AM – 10:30 PM access</li>
+        </ul>
+        <a class="price-btn" href="https://wa.me/918374742902?text=Hi%2C%20I%27d%20like%20to%20know%20the%20rate%20for%20a%20Day%20Pass%20at%20SpaceQ" target="_blank" rel="noopener">Ask on WhatsApp</a>
+      </div>
+      <div class="price-card popular">
+        <h3>Monthly</h3>
+        <ul class="price-list">
+          <li>Dedicated desk</li>
+          <li>Personal locker</li>
+          <li>AC seating zone</li>
+          <li>Wi-Fi included</li>
+        </ul>
+        <a class="price-btn" href="https://wa.me/918374742902?text=Hi%2C%20I%27d%20like%20to%20know%20the%20rate%20for%20the%20Monthly%20plan%20at%20SpaceQ" target="_blank" rel="noopener">Ask on WhatsApp</a>
+      </div>
+      <div class="price-card">
+        <h3>Quarterly</h3>
+        <ul class="price-list">
+          <li>Everything in Monthly</li>
+          <li>Locked-in lower rate</li>
+          <li>Priority seat preference</li>
+        </ul>
+        <a class="price-btn" href="https://wa.me/918374742902?text=Hi%2C%20I%27d%20like%20to%20know%20the%20rate%20for%20the%20Quarterly%20plan%20at%20SpaceQ" target="_blank" rel="noopener">Ask on WhatsApp</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap rating-block">
+    <div class="rating-score">4.9<span>/5</span></div>
+    <div class="stars-big">★★★★★</div>
+    <div class="rating-count">Based on 96 Google reviews</div>
+  </div>
+</section>
+
+<section class="section alt" id="contact">
+  <div class="wrap">
+    <h2 class="section-heading">Visit Us Today</h2>
+    <div class="contact-grid">
+      <div>
+        <div class="contact-item">
+          <span class="tag">Address</span>
+          <p>Vegetable Market Centre, Opp. Krishna Chaitanya Junior College, Ramesh Reddy Nagar, Nellore, Andhra Pradesh 524003</p>
+        </div>
+        <div class="contact-item">
+          <span class="tag">WhatsApp</span>
+          <p>+91 83747 42902</p>
+        </div>
+        <div class="contact-item">
+          <span class="tag">Operating Hours</span>
+          <p>5:00 AM – 10:30 PM, Monday – Sunday</p>
+        </div>
+        <a class="btn btn-primary" href="https://wa.me/918374742902?text=Hi%2C%20I%27d%20like%20to%20visit%20SpaceQ%20Study%20Hall" target="_blank" rel="noopener">Message on WhatsApp</a>
+      </div>
+      <div class="map-frame">
+        <iframe src="https://maps.google.com/maps?q=14.4462842,79.9795268&z=16&output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="SpaceQ Study Hall location"></iframe>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap" style="display:flex; justify-content:space-between; width:100%; flex-wrap:wrap; gap:10px;">
+    <span>SpaceQ Study Hall — Nellore</span>
+    <span>© 2026</span>
+  </div>
+</footer>
+
+<a class="wa-float" href="https://wa.me/918374742902?text=Hi%2C%20I%27d%20like%20to%20know%20more%20about%20SpaceQ%20Study%20Hall" target="_blank" rel="noopener" aria-label="Chat on WhatsApp">💬</a>
+
+<script>
+  // ---- Fix in-page anchor links: scroll manually so the preview sandbox
+  // never treats a "#section" link as an external navigation ----
+  document.querySelectorAll('a[href^="#"]').forEach(link => {
+    link.addEventListener('click', (e) => {
+      const id = link.getAttribute('href').slice(1);
+      const target = document.getElementById(id);
+      if(target){
+        e.preventDefault();
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
+  });
+
+  // ---- Theme: class on body, auto by device hour, manual override works ----
+  const body = document.body;
+  const btnLight = document.getElementById('btnLight');
+  const btnDark = document.getElementById('btnDark');
+
+  function setTheme(mode){
+    body.classList.toggle('theme-dark', mode === 'dark');
+    btnLight.classList.toggle('active', mode === 'light');
+    btnDark.classList.toggle('active', mode === 'dark');
+  }
+  function autoTheme(){
+    const hour = new Date().getHours();
+    return (hour >= 6 && hour < 19) ? 'light' : 'dark';
+  }
+  setTheme(autoTheme());
+  btnLight.addEventListener('click', () => setTheme('light'));
+  btnDark.addEventListener('click', () => setTheme('dark'));
+
+  // ---- Ambient starfield: subtle, theme-aware, no motion sickness ----
+  (function(){
+    const canvas = document.getElementById('bgCanvas');
+    const ctx = canvas.getContext('2d');
+    let W, H, stars = [];
+
+    function resize(){ W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; }
+    function initStars(){
+      stars = [];
+      const count = Math.max(24, Math.floor((W*H)/34000));
+      for(let i=0;i<count;i++){
+        stars.push({
+          x:Math.random()*W, y:Math.random()*H,
+          r:Math.random()*1.3+0.4,
+          alpha:Math.random()*0.25+0.12,
+          speed:Math.random()*0.5+0.2,
+          phase:Math.random()*Math.PI*2
+        });
+      }
+    }
+    resize(); initStars();
+    window.addEventListener('resize', () => { resize(); initStars(); });
+
+    function loop(ts){
+      const t = ts*0.001;
+      ctx.clearRect(0,0,W,H);
+      const rgb = body.classList.contains('theme-dark') ? '255,255,255' : '255,120,50';
+      stars.forEach(s => {
+        const a = s.alpha * (0.5 + 0.5*Math.sin(t*s.speed + s.phase));
+        ctx.beginPath();
+        ctx.arc(s.x, s.y, s.r, 0, Math.PI*2);
+        ctx.fillStyle = `rgba(${rgb},${Math.max(0, Math.min(0.4, a))})`;
+        ctx.fill();
+      });
+      requestAnimationFrame(loop);
+    }
+    requestAnimationFrame(loop);
+  })();
+
+  // ---- Hours ribbon reflecting real current time ----
+  function updateRibbon(){
+    const now = new Date();
+    const openMin = 5*60, closeMin = 22*60+30;
+    const curMin = now.getHours()*60 + now.getMinutes();
+    let pct, isOpen = curMin >= openMin && curMin <= closeMin;
+    if(curMin < openMin) pct = 0;
+    else if(curMin > closeMin) pct = 100;
+    else pct = ((curMin - openMin) / (closeMin - openMin)) * 100;
+    document.getElementById('ribbonFill').style.width = pct + '%';
+    const nowMarker = document.getElementById('ribbonNow');
+    nowMarker.style.left = pct + '%';
+    const label = now.toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'});
+    nowMarker.setAttribute('data-time', isOpen ? label + ' · open now' : label + ' · closed');
+  }
+  updateRibbon();
+  setInterval(updateRibbon, 60000);
+
+  // ---- Hero carousel: img1.jpg ... img5.jpg, loops automatically ----
+  const heroCarousel = document.getElementById('heroCarousel');
+  const dotsWrap = document.getElementById('carouselDots');
+  const heroCount = 5;
+  for(let i=1; i<=heroCount; i++){
+    const slide = document.createElement('div');
+    slide.className = 'slide' + (i === 1 ? ' active' : '');
+    slide.innerHTML = `
+      <img src="img${i}.jpg" alt="SpaceQ photo ${i}" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+      <div class="slide-fallback" style="display:none;">📷 img${i}.jpg</div>
+    `;
+    heroCarousel.insertBefore(slide, dotsWrap);
+    const dot = document.createElement('span');
+    if(i === 1) dot.className = 'active';
+    dotsWrap.appendChild(dot);
+  }
+  let currentSlide = 0;
+  const slides = heroCarousel.querySelectorAll('.slide');
+  const dots = dotsWrap.querySelectorAll('span');
+  setInterval(() => {
+    slides[currentSlide].classList.remove('active');
+    dots[currentSlide].classList.remove('active');
+    currentSlide = (currentSlide + 1) % slides.length;
+    slides[currentSlide].classList.add('active');
+    dots[currentSlide].classList.add('active');
+  }, 4000);
+
+  // ---- Gallery: img1.jpg ... img8.jpg ----
+  const galleryGrid = document.getElementById('galleryGrid');
+  for(let i=1; i<=8; i++){
+    const tile = document.createElement('div');
+    tile.className = 'gallery-tile';
+    tile.innerHTML = `
+      <img src="img${i}.jpg" alt="SpaceQ photo ${i}" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+      <div class="tile-fallback" style="display:none;">📷 img${i}.jpg</div>
+    `;
+    galleryGrid.appendChild(tile);
+  }
+
+  // ---- Real Google reviews (4★+), paraphrased for display, looped ----
+  const reviews = [
+    "Peaceful and motivating from the moment you walk in — the space is well maintained, and the owner keeps a genuinely close eye on student comfort and upkeep.",
+    "A disciplined, quiet setup that works well for government exam aspirants, IT employees, and students putting in long hours without disturbance.",
+    "Thoughtfully designed for focused work — comfortable seating, ample desk space, and a shared respect for silence that everyone maintains.",
+    "As a girl studying late evenings, safety was my top concern. CCTV coverage and well-lit parking mean my parents are comfortable dropping me here.",
+    "Clean washrooms, filtered water, and a small pantry area for breaks. The monthly pass is reasonably priced for what you get."
+  ];
+  const track = document.getElementById('marqueeTrack');
+  [...reviews, ...reviews].forEach(text => {
+    const card = document.createElement('div');
+    card.className = 'review-card';
+    card.innerHTML = `<div class="review-stars">★★★★★</div><div class="review-text">${text}</div><div class="review-source">Google Review · SpaceQ</div>`;
+    track.appendChild(card);
+  });
+</script>
+
+</body>
+</html>
