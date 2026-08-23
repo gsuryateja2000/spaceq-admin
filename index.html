@@ -12,7 +12,7 @@
 <meta property="og:title" content="SpaceQ Study Hall — Open 5:30 AM to 10 PM, Nellore">
 <meta property="og:description" content="Study hall in VRC Centre, Ramesh Reddy Nagar, Nellore. Rated 4.9★ on Google across 100+ reviews. Message us on WhatsApp to book a seat.">
 <meta property="og:url" content="https://yourdomain.com/">
-<meta property="og:image" content="images/img1.jpg">
+<meta property="og:image" content="images/img1.jpeg">
 <meta property="og:locale" content="en_IN">
 <meta property="og:site_name" content="SpaceQ Study Hall">
 
@@ -20,7 +20,7 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="SpaceQ Study Hall — Nellore">
 <meta name="twitter:description" content="Open 5:30 AM – 10 PM daily. Rated 4.9★ on Google. Message us on WhatsApp.">
-<meta name="twitter:image" content="images/img1.jpg">
+<meta name="twitter:image" content="images/img1.jpeg">
 
 <!-- Local Business schema -->
 <script type="application/ld+json">
@@ -28,7 +28,7 @@
   "@context": "https://schema.org",
   "@type": "StudySpace",
   "name": "SpaceQ Study Hall",
-  "image": "images/img1.jpg",
+  "image": "images/img1.jpeg",
   "url": "https://spaceq.co.in/",
   "telephone": "+918374242902",
   "priceRange": "\u20b9\u20b9",
@@ -392,7 +392,7 @@
     </div>
 
     <div class="hero-carousel" id="heroCarousel">
-      <!-- slides injected by script using images/img1.jpg ... images/img5.jpg -->
+      <!-- slides injected by script using images/img1.jpeg ... images/img5.jpeg -->
       <div class="carousel-dots" id="carouselDots"></div>
     </div>
   </div>
@@ -408,7 +408,7 @@
     <div class="ribbon-ticks">
       <span>5:30</span><span>8:00</span><span>11:00</span><span>14:00</span><span>17:00</span><span>20:00</span><span>22:00</span>
     </div>
-    <p class="ribbon-caption">Most study halls in Nellore open with the shops around them. <strong>SpaceQ opens before sunrise and closes after dinner</strong> — built around exam schedules, not shopping schedules.</p>
+    <p class="ribbon-caption">Most study halls in Nellore open with the shops around them. <strong>SpaceQ opens before sunrise and closes after dinner</strong> — built around exam schedules, not shop hours.</p>
   </div>
 </section>
 
@@ -622,7 +622,7 @@
   updateRibbon();
   setInterval(updateRibbon, 60000);
 
-  // ---- Hero carousel: images/img1.jpg ... images/img5.jpg, loops automatically ----
+  // ---- Hero carousel: images/img1.jpeg ... images/img5.jpeg, loops automatically ----
   const heroCarousel = document.getElementById('heroCarousel');
   const dotsWrap = document.getElementById('carouselDots');
   const heroCount = 5;
@@ -630,8 +630,8 @@
     const slide = document.createElement('div');
     slide.className = 'slide' + (i === 1 ? ' active' : '');
     slide.innerHTML = `
-      <img src="images/img${i}.jpg" alt="SpaceQ photo ${i}" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-      <div class="slide-fallback" style="display:none;">📷 images/img${i}.jpg</div>
+      <img src="images/img${i}.jpeg" alt="SpaceQ photo ${i}" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+      <div class="slide-fallback" style="display:none;">📷 images/img${i}.jpeg</div>
     `;
     heroCarousel.insertBefore(slide, dotsWrap);
     const dot = document.createElement('span');
@@ -649,14 +649,14 @@
     dots[currentSlide].classList.add('active');
   }, 4000);
 
-  // ---- Gallery: images/img1.jpg ... images/img8.jpg ----
+  // ---- Gallery: images/img1.jpeg ... images/img8.jpeg ----
   const galleryGrid = document.getElementById('galleryGrid');
   for(let i=1; i<=8; i++){
     const tile = document.createElement('div');
     tile.className = 'gallery-tile';
     tile.innerHTML = `
-      <img src="images/img${i}.jpg" alt="SpaceQ photo ${i}" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-      <div class="tile-fallback" style="display:none;">📷 images/img${i}.jpg</div>
+      <img src="images/img${i}.jpeg" alt="SpaceQ photo ${i}" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+      <div class="tile-fallback" style="display:none;">📷 images/img${i}.jpeg</div>
     `;
     galleryGrid.appendChild(tile);
   }
